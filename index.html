@@ -1,21 +1,49 @@
 
 <!DOCTYPE html>
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
+
+<link href="https://fonts.googleapis.com/css?family=Bree+Serif|Open+Sans:300,300i,700&display=swap" rel="stylesheet"> 
 <style>
 
 body{
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0px auto;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+/*  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+  font-family: "Open Sans", Arial, sans-serif;
+  font-weight: 300;
 }
 
 h1{
   margin: 50px;
 }
 
-h1{
+h1, h2, h3 {
+  color: #2980b9;
+}
+
+div.header h1, div.header h2 {
   text-align: center;
+  font-family: "Bree Serif", Times New Roman, serif;  
+  text-transform: uppercase;
+}
+
+div.header h1 {
+  margin-top: 0px;
+  font-size: 160px;
+}
+
+div.header h2.above {
+  margin-top: 200px;
+  margin-bottom: -40px;
+  font-size: 30px;
+}
+
+div.header h2.beyond {
+  margin-top: -70px;
+  margin-bottom: 300px;
+  font-size: 30px;
 }
 
 
@@ -24,7 +52,9 @@ h1{
 }
 
 #sections{
-  width: 340px;
+  width: 600px;
+  font-size: 24px;
+  text-align: justify;
 }
 
 #sections > div{
@@ -44,7 +74,7 @@ h1{
   width: 500px;
   position: -webkit-sticky;
   position: sticky;
-  top: 0px;
+  top: 100px;
   float: right;
 }
 
@@ -92,9 +122,13 @@ svg{
 }
 
 </style>
+</head>
 
-<h1><a href='https://github.com/1wheel/graph-scroll'>graph-scroll.js</a></h1>
-<h1>Simple scrolling events for d3 graphics</h1>
+<div class="header">
+<h2 class="above">An interactive introduction to</h2>
+<h1>Box plots</h1>
+<h2 class="beyond">and what they're good for</h2>
+</div>
 
 <div id='container' class='container-1'>
   <div id='graph'></div>
@@ -249,11 +283,14 @@ d3.graphScroll()
 <script src="graph-scroll.js"></script>
 <script>
 
-// PCP
+// BOXPLOT 
+
 // set the dimensions and margins of the graph
-var margin = {top: 30, right: 50, bottom: 10, left: 50},
-  width = 460 - margin.left - margin.right,
+var margin = {top: 10, right: 30, bottom: 30, left: 40},
+  width = 400 - margin.left - margin.right,
   height = 400 - margin.top - margin.bottom;
+
+// END BOXPLOT
 
 var oldWidth = 0
 function render(){
@@ -303,107 +340,68 @@ function render(){
       // .attrs({width: width, height: height})
 
 
-// PCP
+// BOXPLOT
 
-// append the svg object to the body of the page
-// var svg = d3.select("#my_dataviz")
-// .append("svg")
-  .attr("width", width + margin.left + margin.right)
+.attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
 .append("g")
   .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")");
 
-// Parse the Data
-d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/iris.csv", function(data) {
+// create dummy data
+var data = [12,19,11,13,12,22,13,4,15,16,18,19,20,12,11,9]
 
-  // Color scale: give me a specie name, I return a color
-  var color = d3.scaleOrdinal()
-    .domain(["setosa", "versicolor", "virginica" ])
-    .range([ "#440154ff", "#21908dff", "#fde725ff"])
+// Compute summary statistics used for the box:
+var data_sorted = data.sort(d3.ascending)
+var q1 = d3.quantile(data_sorted, .25)
+var median = d3.quantile(data_sorted, .5)
+var q3 = d3.quantile(data_sorted, .75)
+var interQuantileRange = q3 - q1
+var min = q1 - 1.5 * interQuantileRange
+var max = q1 + 1.5 * interQuantileRange
 
-  // Here I set the list of dimension manually to control the order of axis:
-  dimensions = ["Petal_Length", "Petal_Width", "Sepal_Length", "Sepal_Width"]
+// Show the Y scale
+var y = d3.scaleLinear()
+  .domain([0,24])
+  .range([height, 0]);
+svg2.call(d3.axisLeft(y))
 
-  // For each dimension, I build a linear scale. I store all in a y object
-  var y = {}
-  for (i in dimensions) {
-    name = dimensions[i]
-    y[name] = d3.scaleLinear()
-      .domain( [0,8] ) // --> Same axis range for each group
-      // --> different axis range for each group --> .domain( [d3.extent(data, function(d) { return +d[name]; })] )
-      .range([height, 0])
-  }
+// a few features for the box
+var center = 200
+var width = 100
 
-  // Build the X scale -> it find the best position for each Y axis
-  x = d3.scalePoint()
-    .range([0, width])
-    .domain(dimensions);
+// Show the main vertical line
+svg2
+.append("line")
+  .attr("x1", center)
+  .attr("x2", center)
+  .attr("y1", y(min) )
+  .attr("y2", y(max) )
+  .attr("stroke", "black")
 
-  // Highlight the specie that is hovered
-  var highlight = function(d){
+// Show the box
+svg2
+.append("rect")
+  .attr("x", center - width/2)
+  .attr("y", y(q3) )
+  .attr("height", (y(q1)-y(q3)) )
+  .attr("width", width )
+  .attr("stroke", "black")
+  .style("fill", "#69b3a2")
 
-    selected_specie = d.Species
+// show median, min and max horizontal lines
+svg2
+.selectAll("toto")
+.data([min, median, max])
+.enter()
+.append("line")
+  .attr("x1", center-width/2)
+  .attr("x2", center+width/2)
+  .attr("y1", function(d){ return(y(d))} )
+  .attr("y2", function(d){ return(y(d))} )
+  .attr("stroke", "black")
 
-    // first every group turns grey
-    d3.selectAll(".line")
-      .transition().duration(200)
-      .style("stroke", "lightgrey")
-      .style("opacity", "0.2")
-    // Second the hovered specie takes its color
-    d3.selectAll("." + selected_specie)
-      .transition().duration(200)
-      .style("stroke", color(selected_specie))
-      .style("opacity", "1")
-  }
-
-  // Unhighlight
-  var doNotHighlight = function(d){
-    d3.selectAll(".line")
-      .transition().duration(200).delay(1000)
-      .style("stroke", function(d){ return( color(d.Species))} )
-      .style("opacity", "1")
-  }
-
-  // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
-  function path(d) {
-      return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
-  }
-
-  // Draw the lines
-  svg2
-    .selectAll("myPath")
-    .data(data)
-    .enter()
-    .append("path")
-      .attr("class", function (d) { return "line " + d.Species } ) // 2 class for each line: 'line' and the group name
-      .attr("d",  path)
-      .style("fill", "none" )
-      .style("stroke", function(d){ return( color(d.Species))} )
-      .style("opacity", 0.5)
-      .on("mouseover", highlight)
-      .on("mouseleave", doNotHighlight )
-
-  // Draw the axis:
-  svg2.selectAll("myAxis")
-    // For each dimension of the dataset I add a 'g' element:
-    .data(dimensions).enter()
-    .append("g")
-    .attr("class", "axis")
-    // I translate this element to its right position on the x axis
-    .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
-    // And I build the axis with the call function
-    .each(function(d) { d3.select(this).call(d3.axisLeft().ticks(5).scale(y[d])); })
-    // Add axis title
-    .append("text")
-      .style("text-anchor", "middle")
-      .attr("y", -9)
-      .text(function(d) { return d; })
-      .style("fill", "black")
-
-})
-
-//end of graph generation
+// END BOXPLOT
 
 
 
