@@ -28,7 +28,7 @@
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 40},
   width = 400 - margin.left - margin.right,
-  height = 400 - margin.top - margin.bottom;
+  height = 300 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")
@@ -52,32 +52,44 @@ var min = q1 - 1.5 * interQuantileRange
 var max = q1 + 1.5 * interQuantileRange
 
 // Show the Y scale
-var y = d3.scaleLinear()
+// var y = d3.scaleLinear()
+//   .domain([0,24])
+//   .range([height, 0]);
+// svg.call(d3.axisLeft(y))
+
+// Show the X scale
+var x = d3.scaleLinear()
   .domain([0,24])
-  .range([height, 0]);
-svg.call(d3.axisLeft(y))
+  .range([0, width])
+svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
 
 // a few features for the box
 var center = 200
-var width = 100
+var height = 50
 
 // Show the main vertical line
 svg
 .append("line")
   .attr("class", "vert-line")
-  .attr("x1", center)
-  .attr("x2", center)
-  .attr("y1", y(min) )
-  .attr("y2", y(max) )
+  .attr("x1", x(min))
+  .attr("x2", x(max))
+  .attr("y1", center )
+  .attr("y2", center )
   .attr("stroke", "black")
 
+console.log(center - width/2)
+console.log(x(q3))
+console.log((x(q1)-x(q3)))
+console.log(width)
 // Show the box
 svg
 .append("rect")
-  .attr("x", center - width/2)
-  .attr("y", y(q3) )
-  .attr("height", (y(q1)-y(q3)) )
-  .attr("width", width )
+  .attr("x", x(q1) )
+  .attr("y",  center - height/2)
+  .attr("height", height)
+  .attr("width", (x(q3)-x(q1)))
   .attr("stroke", "black")
   .style("fill", "#69b3a2")
 
@@ -87,10 +99,10 @@ svg
 .data([min, median, max])
 .enter()
 .append("line")
-  .attr("x1", center-width/2)
-  .attr("x2", center+width/2)
-  .attr("y1", function(d){ return(y(d))} )
-  .attr("y2", function(d){ return(y(d))} )
+  .attr("x1", function(d){ return(x(d))})
+  .attr("x2", function(d){ return(x(d))})
+  .attr("y1", center-height/2 )
+  .attr("y2", center+height/2)
   .attr("stroke", "black")
 
 
@@ -102,7 +114,7 @@ d3.select("#nRadius").on("input", function() {
 });
 
 // Initial starting radius of the circle 
-update(y(q3));
+update(x(q3));
 
 // update the elements
 function update(nRadius) {
@@ -113,7 +125,7 @@ function update(nRadius) {
 
   // update the circle radius
   svg.selectAll("rect") 
-    .attr("y", nRadius);
+    .attr("x", nRadius);
 }
 
 
@@ -136,8 +148,8 @@ function update_line(nLine) {
 
   // update the circle radius
   svg.select("line.vert-line")
-    .attr("y1", y(min) - nLine)
-    .attr("y2", y(max) - nLine)
+    .attr("x1", x(min) - nLine)
+    .attr("x2", x(max) - nLine)
 }
 
 </script>
