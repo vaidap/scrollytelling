@@ -5,7 +5,7 @@
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-<p>
+<!-- <p>
   <label for="nRadius" 
          style="display: inline-block; width: 240px; text-align: right">
          radius = <span id="nRadius-value">…</span>
@@ -19,7 +19,7 @@
          radius = <span id="nLine-value">…</span>
   </label>
   <input type="range" min="1" max="150" id="nLine">
-</p>
+</p> -->
 
 <p>Min: <span id="min-stat"></span></p>
 <p>Max: <span id="max-stat"></span></p>
@@ -154,7 +154,8 @@ var svg = d3.select("#my_dataviz")
         "translate(" + margin.left + "," + margin.top + ")");
 
 // create dummy data
-var data = [12,19,11,13,12,22,13,4,15,16,18,19,20,12,11,9]
+var data =  [ 4, 5, 11, 12, 12, 13, 15, 16, 19, 22 ]
+var data_sorted = data;
 
 // Compute summary statistics used for the box:
 var data_sorted = data.sort(d3.ascending)
@@ -264,12 +265,16 @@ var update_datavis = function() {
   median = d3.quantile(data_sorted, .5);
   q3 = d3.quantile(data_sorted, .75);
   interQuantileRange = q3 - q1;
-  min = q1 - 1.5 * interQuantileRange;
-  max = q1 + 1.5 * interQuantileRange;
+  // min = q1 - 1.5 * interQuantileRange;
+  // max = q1 + 1.5 * interQuantileRange;
+  min = Math.min(...data);
+  max = Math.max(...data);
 
   //reupdate range & ticks
-  x.domain([Math.min(...data), Math.max(...data)]);
+  x.domain([min, max]);
   svg.select("g")
+    .transition()
+    .duration(1000)
     .call(d3.axisBottom(x))
 
   // update displayed statistics
@@ -282,6 +287,8 @@ var update_datavis = function() {
 
   // update visualisation
   svg.select("rect")
+    .transition()
+    .duration(1000)
     .attr("x", x(q1))
     .attr("y",  center - height/2)
     .attr("height", height)
@@ -290,18 +297,26 @@ var update_datavis = function() {
     .style("fill", "#69b3a2")
 
   svg.select("line.vert-line")
+    .transition()
+    .duration(1000)
     .attr("x1", x(min))
     .attr("x2", x(max))
 
   svg.select("line.min-line")
+    .transition()
+    .duration(1000)
     .attr("x1", x(min))
     .attr("x2", x(min))
 
   svg.select("line.median-line")
+    .transition()
+    .duration(1000)
     .attr("x1", x(median))
     .attr("x2", x(median))
 
   svg.select("line.max-line")
+    .transition()
+    .duration(1000)
     .attr("x1", x(max))
     .attr("x2", x(max))
 
@@ -310,7 +325,6 @@ var update_datavis = function() {
 for (var i = 0; i < elements.length; i++) {
     elements[i].addEventListener('input', update_datavis , false);
 }
-
 
 // BOX UPDATE
 
@@ -358,5 +372,8 @@ function update_line(nLine) {
     .attr("x1", x(min) - nLine)
     .attr("x2", x(max) - nLine)
 }
+
+// initialise the datavis to data table
+update_datavis();
 
 </script>
