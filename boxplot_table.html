@@ -21,9 +21,12 @@
   <input type="range" min="1" max="150" id="nLine">
 </p>
 
-<p>
-
-</p>
+<p>Min: <span id="min-stat"></span></p>
+<p>Max: <span id="max-stat"></span></p>
+<p>Median: <span id="median-stat"></span></p>
+<p>Q1: <span id="q1-stat"></span></p>
+<p>Interquartile Range: <span id="inter-stat"></span></p>
+<p>Q3: <span id="q3-stat"></span></p>
 
  <table id= "test-table">
   <tr>
@@ -31,32 +34,102 @@
     <th>Snowfall</th>
   </tr>
   <tr>
-    <td>2011</td>
+    <td>2020</td>
     <td>      
       <label for="data-1" 
          style="display: inline-block; width: 240px; text-align: right">
          <span id="data-1-value"></span>
       </label>
-      <input type="number" min="0" max="360" value="50" id="data-1" class="dataval"></td>
+      <input type="number" min="0" max="360" value="12" id="data-1" class="dataval"></td>
   </tr>
   <tr>
-    <td>2012</td>
+    <td>2019</td>
     <td>
       <label for="data-2" 
          style="display: inline-block; width: 240px; text-align: right">
          <span id="data-2-value"></span>
       </label>
-      <input type="number" min="0" max="360" value="100" id="data-2" class="dataval"></td>
+      <input type="number" min="0" max="360" value="19" id="data-2" class="dataval"></td>
     </td>
   </tr>
   <tr>
-    <td>2013</td>
+    <td>2018</td>
     <td>
       <label for="data-3" 
          style="display: inline-block; width: 240px; text-align: right">
          <span id="data-3-value"></span>
       </label>
-      <input type="number" min="0" max="360" value="120" id="data-3" class="dataval"></td>
+      <input type="number" min="0" max="360" value="12" id="data-3" class="dataval"></td>
+    </td>
+  </tr>
+  <tr>
+    <td>2017</td>
+    <td>
+      <label for="data-4" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-4-value"></span>
+      </label>
+      <input type="number" min="0" max="360" value="11" id="data-4" class="dataval"></td>
+    </td>
+  </tr>
+  <tr>
+    <td>2016</td>
+    <td>
+      <label for="data-5" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-5-value"></span>
+      </label>
+      <input type="number" min="0" max="360" value="22" id="data-5" class="dataval"></td>
+    </td>
+  </tr>
+  <tr>
+    <td>2015</td>
+    <td>
+      <label for="data-6" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-6-value"></span>
+      </label>
+      <input type="number" min="0" max="360" value="13" id="data-6" class="dataval"></td>
+    </td>
+  </tr>
+  <tr>
+    <td>2014</td>
+    <td>
+      <label for="data-7" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-7-value"></span>
+      </label>
+      <input type="number" min="0" max="360" value="4" id="data-7" class="dataval"></td>
+    </td>
+  </tr>
+  <tr>
+    <td>2013</td>
+    <td>
+      <label for="data-8" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-8-alue"></span>
+      </label>
+      <input type="number" min="0" max="360" value="5" id="data-8" class="dataval"></td>
+    </td>
+  </tr>
+  <tr>
+    <td>2019</td>
+    <td>
+      <label for="data-9" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-9-alue"></span>
+      </label>
+      <input type="number" min="0" max="360" value="15" id="data-9" class="dataval"></td>
+    </td>
+  </tr>
+  <tr>
+    <td>2012</td>
+    <td>
+      <label for="data-10" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-10-alue"></span>
+      </label>
+      <input type="number" min="0" max="360" value="16" id="data-10" class="dataval"></td>
     </td>
   </tr>
 </table> 
@@ -135,36 +208,103 @@ svg
   .style("fill", "#69b3a2")
 
 // show median, min and max horizontal lines
-svg
-.selectAll("toto")
-.data([min, median, max])
-.enter()
-.append("line")
-  .attr("x1", function(d){ return(x(d))})
-  .attr("x2", function(d){ return(x(d))})
-  .attr("y1", center-height/2 )
+// svg
+// .selectAll("toto")
+// .data([min, median, max])
+// .enter()
+// .append("line")
+//   .attr("x1", function(d){ return(x(d))})
+//   .attr("x2", function(d){ return(x(d))})
+//   .attr("y1", center-height/2 )
+//   .attr("y2", center+height/2)
+//   .attr("stroke", "black")
+
+svg.append("line")
+  .attr("class", "min-line")
+  .attr("x1", x(min))
+  .attr("x2", x(min))
+  .attr("y1", center-height/2)
+  .attr("y2", center+height/2)
+  .attr("stroke", "black")
+
+svg.append("line")
+  .attr("class", "median-line")
+  .attr("x1", x(median))
+  .attr("x2", x(median))
+  .attr("y1", center-height/2)
+  .attr("y2", center+height/2)
+  .attr("stroke", "black")
+
+svg.append("line")
+  .attr("class", "max-line")
+  .attr("x1", x(max))
+  .attr("x2", x(max))
+  .attr("y1", center-height/2)
   .attr("y2", center+height/2)
   .attr("stroke", "black")
 
 
 // TABLE UPDATE
-// d3.select("#data-1").on("oninput", function() {
-//   console.log("changed");
-// });
-
-// const input = document.querySelector('#data-1');
-
-// input.addEventListener('input', updateValue);
-
-// function updateValue(e) {
-//   console.log("updated value");
-// }
 
 var elements = document.getElementsByClassName("dataval");
 
 var update_datavis = function() {
-  console.log("updated!")
+
+  data = [];
+
+  $("table#test-table tr td input.dataval").each(function() {  
+    data.push(Number($(this).val()));
+});
   console.log(data);
+
+  // recalculate stats
+  data_sorted = data.sort(d3.ascending);
+  console.log(data_sorted)
+  q1 = d3.quantile(data_sorted, .25);
+  median = d3.quantile(data_sorted, .5);
+  q3 = d3.quantile(data_sorted, .75);
+  interQuantileRange = q3 - q1;
+  min = q1 - 1.5 * interQuantileRange;
+  max = q1 + 1.5 * interQuantileRange;
+
+  //reupdate range & ticks
+  x.domain([Math.min(...data), Math.max(...data)]);
+  svg.select("g")
+    .call(d3.axisBottom(x))
+
+  // update displayed statistics
+  d3.select("#q1-stat").text(q1);
+  d3.select("#q3-stat").text(q3);
+  d3.select("#median-stat").text(median);
+  d3.select("#inter-stat").text(interQuantileRange);
+  d3.select("#min-stat").text(min);
+  d3.select("#max-stat").text(max);
+
+  // update visualisation
+  svg.select("rect")
+    .attr("x", x(q1))
+    .attr("y",  center - height/2)
+    .attr("height", height)
+    .attr("width", (x(q3)-x(q1)))
+    .attr("stroke", "black")
+    .style("fill", "#69b3a2")
+
+  svg.select("line.vert-line")
+    .attr("x1", x(min))
+    .attr("x2", x(max))
+
+  svg.select("line.min-line")
+    .attr("x1", x(min))
+    .attr("x2", x(min))
+
+  svg.select("line.median-line")
+    .attr("x1", x(median))
+    .attr("x2", x(median))
+
+  svg.select("line.max-line")
+    .attr("x1", x(max))
+    .attr("x2", x(max))
+
 };
 
 for (var i = 0; i < elements.length; i++) {
