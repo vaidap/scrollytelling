@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<p>
+  <label for="nRadius" 
+         style="display: inline-block; width: 240px; text-align: right">
+         radius = <span id="nRadius-value">…</span>
+  </label>
+  <input type="range" min="1" max="150" id="nRadius">
+</p>
+
+<p>
+  <label for="nLine" 
+         style="display: inline-block; width: 240px; text-align: right">
+         radius = <span id="nLine-value">…</span>
+  </label>
+  <input type="range" min="1" max="150" id="nLine">
+</p>
+
+<p>
+
+</p>
+
+ <table id= "test-table">
+  <tr>
+    <th>Year</th>
+    <th>Snowfall</th>
+  </tr>
+  <tr>
+    <td>2011</td>
+    <td>      
+      <label for="data-1" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-1-value"></span>
+      </label>
+      <input type="number" min="0" max="360" value="50" id="data-1" class="dataval"></td>
+  </tr>
+  <tr>
+    <td>2012</td>
+    <td>
+      <label for="data-2" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-2-value"></span>
+      </label>
+      <input type="number" min="0" max="360" value="100" id="data-2" class="dataval"></td>
+    </td>
+  </tr>
+  <tr>
+    <td>2013</td>
+    <td>
+      <label for="data-3" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-3-value"></span>
+      </label>
+      <input type="number" min="0" max="360" value="120" id="data-3" class="dataval"></td>
+    </td>
+  </tr>
+</table> 
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+<script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 30, left: 40},
+  width = 400 - margin.left - margin.right,
+  height = 300 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+.append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+.append("g")
+  .attr("transform",
+        "translate(" + margin.left + "," + margin.top + ")");
+
+// create dummy data
+var data = [12,19,11,13,12,22,13,4,15,16,18,19,20,12,11,9]
+
+// Compute summary statistics used for the box:
+var data_sorted = data.sort(d3.ascending)
+var q1 = d3.quantile(data_sorted, .25)
+var median = d3.quantile(data_sorted, .5)
+var q3 = d3.quantile(data_sorted, .75)
+var interQuantileRange = q3 - q1
+var min = q1 - 1.5 * interQuantileRange
+var max = q1 + 1.5 * interQuantileRange
+
+// Show the Y scale
+// var y = d3.scaleLinear()
+//   .domain([0,24])
+//   .range([height, 0]);
+// svg.call(d3.axisLeft(y))
+
+// Show the X scale
+var x = d3.scaleLinear()
+  .domain([0,24])
+  .range([0, width])
+svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+
+// a few features for the box
+var center = 200
+var height = 50
+
+// Show the main vertical line
+svg
+.append("line")
+  .attr("class", "vert-line")
+  .attr("x1", x(min))
+  .attr("x2", x(max))
+  .attr("y1", center )
+  .attr("y2", center )
+  .attr("stroke", "black")
+
+console.log(center - width/2)
+console.log(x(q3))
+console.log((x(q1)-x(q3)))
+console.log(width)
+// Show the box
+svg
+.append("rect")
+  .attr("x", x(q1) )
+  .attr("y",  center - height/2)
+  .attr("height", height)
+  .attr("width", (x(q3)-x(q1)))
+  .attr("stroke", "black")
+  .style("fill", "#69b3a2")
+
+// show median, min and max horizontal lines
+svg
+.selectAll("toto")
+.data([min, median, max])
+.enter()
+.append("line")
+  .attr("x1", function(d){ return(x(d))})
+  .attr("x2", function(d){ return(x(d))})
+  .attr("y1", center-height/2 )
+  .attr("y2", center+height/2)
+  .attr("stroke", "black")
+
+
+// TABLE UPDATE
+// d3.select("#data-1").on("oninput", function() {
+//   console.log("changed");
+// });
+
+// const input = document.querySelector('#data-1');
+
+// input.addEventListener('input', updateValue);
+
+// function updateValue(e) {
+//   console.log("updated value");
+// }
+
+var elements = document.getElementsByClassName("dataval");
+
+var update_datavis = function() {
+  console.log("updated!")
+  console.log(data);
+};
+
+for (var i = 0; i < elements.length; i++) {
+    elements[i].addEventListener('input', update_datavis , false);
+}
+
+
+// BOX UPDATE
+
+// when the input range changes update the circle 
+d3.select("#nRadius").on("input", function() {
+  console.log("basic change");
+  update_box(+this.value);
+});
+
+// Initial starting radius of the circle 
+update_box(x(q3));
+
+// update the elements
+function update_box(nRadius) {
+
+  // adjust the text on the range slider
+  d3.select("#nRadius-value").text(nRadius);
+  d3.select("#nRadius").property("value", nRadius);
+
+  // update the circle radius
+  svg.selectAll("rect") 
+    .attr("x", nRadius);
+}
+
+
+// LINE UPDATE
+
+// when the input range changes update the circle 
+d3.select("#nLine").on("input", function() {
+  update_line(+this.value);
+});
+
+// Initial starting radius of the circle 
+update_line(0);
+
+// update the elements
+function update_line(nLine) {
+
+  // adjust the text on the range slider
+  d3.select("#nLine-value").text(nLine);
+  d3.select("#nLine").property("value", nLine);
+
+  // update the circle radius
+  svg.select("line.vert-line")
+    .attr("x1", x(min) - nLine)
+    .attr("x2", x(max) - nLine)
+}
+
+</script>
