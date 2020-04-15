@@ -20,6 +20,46 @@
   <input type="range" min="1" max="150" id="nLine">
 </p>
 
+<p>
+
+</p>
+
+ <table id= "test-table">
+  <tr>
+    <th>Year</th>
+    <th>Snowfall</th>
+  </tr>
+  <tr>
+    <td>2011</td>
+    <td>      
+      <label for="data-1" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-1-value"></span>
+      </label>
+      <input type="number" min="0" max="360" value="50" id="data-1"></td>
+  </tr>
+  <tr>
+    <td>2012</td>
+    <td>
+      <label for="data-2" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-2-value"></span>
+      </label>
+      <input type="number" min="0" max="360" value="100" id="data-2"></td>
+    </td>
+  </tr>
+  <tr>
+    <td>2013</td>
+    <td>
+      <label for="data-3" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="data-3-value"></span>
+      </label>
+      <input type="number" min="0" max="360" value="120" id="data-3"></td>
+    </td>
+  </tr>
+</table> 
+
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
 
@@ -110,14 +150,14 @@ svg
 
 // when the input range changes update the circle 
 d3.select("#nRadius").on("input", function() {
-  update(+this.value);
+  update_box(+this.value);
 });
 
 // Initial starting radius of the circle 
-update(x(q3));
+update_box(x(q3));
 
 // update the elements
-function update(nRadius) {
+function update_box(nRadius) {
 
   // adjust the text on the range slider
   d3.select("#nRadius-value").text(nRadius);

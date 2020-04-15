@@ -55,16 +55,16 @@ div.header h2.beyond {
 
 /* sections & graph styling */
 
-div.container-0 div#sections {
+/*div.container-0 div#sections {
   font-size: 30px;
 }
 
 div.container-0 div#sections > div {
   margin-bottom: 50px;
 }
-
+*/
 div#sections div {
-  min-height: 100px;
+  min-height: 80px;
 }
 
 /*div#sections div.one-liner {
@@ -72,7 +72,7 @@ div#sections div {
 }*/
 
 div#sections div.last-div {
-  min-height: 400px;
+  min-height: 300px;
 }
 
 /*div#sections div div.buffer {
@@ -89,14 +89,14 @@ div.separator {
 
 #sections{
   width: 600px;
-  font-size: 24px;
+  font-size: 28px;
   text-align: justify;
 }
 
 #sections > div{
   background: white;
   opacity: .2;
-  margin-bottom: 200px;
+  margin-bottom: 50px;
 }
 #sections > div:last-child{
   margin-bottom: 30px;
@@ -157,6 +157,20 @@ svg{
   background-color: #eee;
 }
 
+.hl-word {
+	border: 1px solid blue;
+	border-radius: 5px;
+	padding: 1px 3px 1px 3px;
+}
+
+.hl-word:hover {
+	background-color:blue;
+	color: white;
+	-webkit-transition: background-color 500ms ease;
+	-moz-transition: background-color 500ms ease;
+	-o-transition: background-color 500ms ease;
+	transition: background-color 500ms ease;
+
 </style>
 </head>
 
@@ -171,21 +185,19 @@ svg{
   <div id='sections'>
     <div class="one-liner">
       <div class="buffer"></div>
+      <h3>Introduction</h3>
       [restaurant noises]
     </div>
 
     <div>
-      <div class="buffer"></div>
       Do you have any plans for the coming Easter holiday?
     </div>
 
     <div>
-      <div class="buffer"></div>
       Let's go skiing!
     </div>
 
         <div>
-          <div class="buffer"></div>
       That's a good idea! But we don't know which mountain will have snow, and it's too early to see the weather forecast.
     </div>
 
@@ -204,78 +216,27 @@ svg{
   <div id='graph'></div>
   <div id='sections'>
     <div>
-      <h3>Connect text and graphics</h3>
-      <span class='mono'>graph-scroll</span> 
-      takes a selection of explanatory text sections and dispatches <span class='mono'>active</span> events as different sections are scrolled into to view. These active events are used to update a graph's state.
-      <pre>
-d3.graphScroll()
-  .sections(d3.selectAll('#sections > div'))
-  .on('active', function(i){
-    console.log(i + 'th section active') })
+      <h3>Construction</h3>
+      	Let's start with one set of data. As a first step, we can order the values by ascending order.
       </pre>
 
     </div>
 
     <div>
-      <h3>Highlight active text</h3>
-      The top most text section scrolled into view is classed <span class='mono'>graph-scroll-active</span>. This makes it easy to highlight the active section with css: 
-<pre>
-#sections > div{
-  opacity: .3
-} 
-
-#sections div.graph-scroll-active{
-  opacity: 1;
-}
-</pre>
+      By splitting the data into two equal groups, we obtain the middle value, called the <span class="hl-word">median</span>.
     </div>
 
 
     <div>
-      <h3>Headers and footers</h3>
-      To support headers and intro images/text, the explanatory text and graphic are wrapped with a container element:    
-<pre>
-&lt;h1&gt;Page Title&lt;/div&gt;
-&lt;div id='container'&gt;
-  &lt;div id='graph'&gt;&lt;/div&gt;
-  &lt;div id='sections'&gt;
-    &lt;div&gt;Section 0&lt;/div&gt;
-    &lt;div&gt;Section 1&lt;/div&gt;
-    &lt;div&gt;Section 2&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;h1&gt;Footer&lt;/h1&gt;
-</pre>
-
-    and passed to <span class='mono'>graphScroll</span>
-
-<pre>
-d3.graphScroll()
-  .graph(d3.select('#graph'))
-  .container(d3.select('#container'))
-<pre>
+      The median values obtained by splitting the lower and higher halves are called the <span class="hl-word">lower quartile</span> and <span class="hl-word">higher quartile</span>.
     </div>
 
     <div>
-      <h3>Sticky graph</h3>
-      When the graph starts to scroll out of view, <span class='mono'>postiion: sticky</span> keeps the graph element stuck to the top of the page while the text scrolls by.
-<pre>
-#container{
-  position: relative;
-}
+      We link these three values with a box.
+    </div>
 
-#sections{
-  width: 340px;
-}
-
-#graph{
-  margin-left: 40px;
-  width: 500px;
-  position: sticky;
-  top: 0px;
-  float: right;
-}
-</pre>
+    <div class="last-div">
+      Finally, we plot the <span class="hl-word">minimum</span> and <span class="hl-word">maximum</span>, which make the "whiskers" of our graph.
     </div>
 
   </div>
@@ -291,26 +252,6 @@ d3.graphScroll()
 <!--   <div id="my_dataviz"></div> -->
 
   <div id='sections'>
-    <div>
-      <h3>Mobile</h3>
-
-      On mobile centering the graph and sections while adding a some padding for the first slide is a good option: 
-<pre>
-@media (max-width: 925px)  {
-  #graph{
-    width: 100%;
-    transform: translate(-50%, 0);
-    margin-left: 50%;
-  }
-
-  #sections{
-    position: relative;
-    margin: 0px auto;
-    padding-top: 400px;
-  }
-}
-</pre>
-    </div>
 
     <div>
       <h3>Examples</h3>
@@ -334,13 +275,6 @@ d3.graphScroll()
       <p><a href='http://www.nytimes.com/interactive/2015/10/27/world/greenland-is-melting-away.html'>Greenland Is Melting Away</a></p>
       <p><a href='http://www.theguardian.com/us-news/ng-interactive/2015/oct/19/homan-square-chicago-police-detainees'>Homan Square</a></p>
    </div>
-
-    <div>
-      <h3>Todos</h3>
-      <p>- Simple examples
-      <p>- Self explanatory graphics
-      <p>- Swiper 
-    </div>
   </div>
 
 
@@ -401,6 +335,7 @@ function render(){
  
   var comic_squares = ["comic_1", "comic_2", "comic_3", "comic_4", "comic_5"]
   var gs0 = d3.graphScroll()
+  	  .offset(300) // sets the offset overall
       .container(d3.select('.container-0'))
       .graph(d3.selectAll('.container-0 #graph'))
       .eventId('uniqueId0')  // namespace for scroll and resize events
@@ -421,31 +356,75 @@ function render(){
 
 // example circle --------------------------------------------------
 
-  var svg = d3.select('.container-1 #graph').html('')
+  // var svg = d3.select('.container-1 #graph').html('')
+  //   .append('svg')
+  //     .attrs({width: width, height: height})
+
+  // var circle = svg.append('circle')
+  //     .attrs({cx: 0, cy: 0, r: r})
+
+  // var colors = ['orange', 'purple', 'steelblue', 'pink', 'black']
+  // var gs = d3.graphScroll()
+  //     .container(d3.select('.container-1'))
+  //     .graph(d3.selectAll('container-1 #graph'))
+  //     .eventId('uniqueId1')  // namespace for scroll and resize events
+  //     .sections(d3.selectAll('.container-1 #sections > div'))
+  //     // .offset(innerWidth < 900 ? innerHeight - 30 : 200)
+  //     .on('active', function(i){
+  //       var pos = [ {cx: width - r, cy: r},
+  //                   {cx: r,         cy: r},
+  //                   {cx: width - r, cy: height - r},
+  //                   {cx: width/2,   cy: height/2} ][i]
+        
+  //       circle.transition().duration(1000)
+  //           .attrs(pos)
+  //         .transition()
+  //           .style('fill', colors[i])
+  //     })
+// END -----------------------------------------------------------
+
+
+// CONSTRUCTION MOCKUP -------------------------------------------
+
+  var svg1 = d3.select('.container-1 #graph').html('')
     .append('svg')
-      .attrs({width: width, height: height})
+    .attrs({width: width, height: height});
 
-  var circle = svg.append('circle')
-      .attrs({cx: 0, cy: 0, r: r})
+    svg1.append("rect")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("fill", "white");
 
-  var colors = ['orange', 'purple', 'steelblue', 'pink', 'black']
-  var gs = d3.graphScroll()
+    // svg0.append("svg:image")
+    // .attr('x', -9)
+    // .attr('y', -12)
+    // .attr('width', width)
+    // .attr('height', height)
+    // .attr("xlink:href", "images/comic_1.png")
+ 
+  var const_squares = ["const1", "const2", "const3", "const3", "const4"]
+  var box_squares = ["box_0", "box_1", "box_2", "box_3", "box_4"]
+  var gs1 = d3.graphScroll()
       .container(d3.select('.container-1'))
-      .graph(d3.selectAll('container-1 #graph'))
+      .graph(d3.selectAll('.container-1 #graph'))
       .eventId('uniqueId1')  // namespace for scroll and resize events
       .sections(d3.selectAll('.container-1 #sections > div'))
-      // .offset(innerWidth < 900 ? innerHeight - 30 : 200)
       .on('active', function(i){
-        var pos = [ {cx: width - r, cy: r},
-                    {cx: r,         cy: r},
-                    {cx: width - r, cy: height - r},
-                    {cx: width/2,   cy: height/2} ][i]
-        
-        circle.transition().duration(1000)
-            .attrs(pos)
-          .transition()
-            .style('fill', colors[i])
+        // transitions
+        svg1.append("svg:image")
+        .attr('x', -9)
+        .attr('y', -130)
+        .attr('width', 500)
+        .attr('height', 500)
+        .attr("xlink:href", "images/" + const_squares[i] + ".png")
+        svg1.append("svg:image")
+        .attr('x', -9)
+        .attr('y', 120)
+        .attr('width', 500)
+        .attr('height', 500)
+        .attr("xlink:href", "images/" + box_squares[i] + ".png")
       })
+
 // END -----------------------------------------------------------
 
 
