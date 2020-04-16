@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width">
 
 <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Open+Sans:300,300i,700&display=swap" rel="stylesheet"> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
 
 body{
@@ -63,6 +64,11 @@ div.container-0 div#sections > div {
   margin-bottom: 50px;
 }
 */
+
+div.container-3 div#sections {
+  font-size: 18px;
+}
+
 div#sections div {
   min-height: 80px;
 }
@@ -98,9 +104,9 @@ div.separator {
   opacity: .2;
   margin-bottom: 50px;
 }
-#sections > div:last-child{
+/*#sections > div:last-child{
   margin-bottom: 30px;
-}
+}*/
 #sections > div.graph-scroll-active{
   opacity: 1;
 }
@@ -197,12 +203,12 @@ svg{
       Let's go skiing!
     </div>
 
-        <div>
+    <div>
       That's a good idea! But we don't know which mountain will have snow, and it's too early to see the weather forecast.
     </div>
 
 
-        <div class="last-div">
+    <div class="last-div">
       It seems we need to find a place with a high chance of snow.
     </div>
 
@@ -244,8 +250,137 @@ svg{
 </div>
 
 <h1>
-  Multiple graphs work too!
+  Try it out yourself!
 </h1>
+
+
+<div id='container' class='container-3'>
+  <div id='graph'></div>
+
+  <div id='sections'>
+
+    <div style="min-height: 800px;">
+       <h3>Try it out yourself!</h3>
+       <table id= "test-table" style="border: 1px solid blue; border-radius: 5px; padding:10px;">
+        <tr>
+          <th>Year</th>
+          <th>Snowfall</th>
+        </tr>
+        <tr>
+          <td>2020</td>
+          <td>      
+            <label for="data-1" 
+               style="display: inline-block; width: 240px; text-align: right">
+               <span id="data-1-value"></span>
+            </label>
+            <input type="number" min="0" max="360" value="12" id="data-1" class="dataval"></td>
+        </tr>
+        <tr>
+          <td>2019</td>
+          <td>
+            <label for="data-2" 
+               style="display: inline-block; width: 240px; text-align: right">
+               <span id="data-2-value"></span>
+            </label>
+            <input type="number" min="0" max="360" value="19" id="data-2" class="dataval"></td>
+          </td>
+        </tr>
+        <tr>
+          <td>2018</td>
+          <td>
+            <label for="data-3" 
+               style="display: inline-block; width: 240px; text-align: right">
+               <span id="data-3-value"></span>
+            </label>
+            <input type="number" min="0" max="360" value="12" id="data-3" class="dataval"></td>
+          </td>
+        </tr>
+        <tr>
+          <td>2017</td>
+          <td>
+            <label for="data-4" 
+               style="display: inline-block; width: 240px; text-align: right">
+               <span id="data-4-value"></span>
+            </label>
+            <input type="number" min="0" max="360" value="11" id="data-4" class="dataval"></td>
+          </td>
+        </tr>
+        <tr>
+          <td>2016</td>
+          <td>
+            <label for="data-5" 
+               style="display: inline-block; width: 240px; text-align: right">
+               <span id="data-5-value"></span>
+            </label>
+            <input type="number" min="0" max="360" value="22" id="data-5" class="dataval"></td>
+          </td>
+        </tr>
+        <tr>
+          <td>2015</td>
+          <td>
+            <label for="data-6" 
+               style="display: inline-block; width: 240px; text-align: right">
+               <span id="data-6-value"></span>
+            </label>
+            <input type="number" min="0" max="360" value="13" id="data-6" class="dataval"></td>
+          </td>
+        </tr>
+        <tr>
+          <td>2014</td>
+          <td>
+            <label for="data-7" 
+               style="display: inline-block; width: 240px; text-align: right">
+               <span id="data-7-value"></span>
+            </label>
+            <input type="number" min="0" max="360" value="4" id="data-7" class="dataval"></td>
+          </td>
+        </tr>
+        <tr>
+          <td>2013</td>
+          <td>
+            <label for="data-8" 
+               style="display: inline-block; width: 240px; text-align: right">
+               <span id="data-8-alue"></span>
+            </label>
+            <input type="number" min="0" max="360" value="5" id="data-8" class="dataval"></td>
+          </td>
+        </tr>
+        <tr>
+          <td>2012</td>
+          <td>
+            <label for="data-9" 
+               style="display: inline-block; width: 240px; text-align: right">
+               <span id="data-9-alue"></span>
+            </label>
+            <input type="number" min="0" max="360" value="15" id="data-9" class="dataval"></td>
+          </td>
+        </tr>
+        <tr>
+          <td>2011</td>
+          <td>
+            <label for="data-10" 
+               style="display: inline-block; width: 240px; text-align: right">
+               <span id="data-10-alue"></span>
+            </label>
+            <input type="number" min="0" max="360" value="16" id="data-10" class="dataval"></td>
+          </td>
+        </tr>
+      </table> 
+
+      <p>
+        <span class="hl-word">Min: <span id="min-stat"></span></span>
+        <span class="hl-word">Max: <span id="max-stat"></span></span>
+        <span class="hl-word">Median: <span id="median-stat"></span></span>
+      </p>
+      <p>
+        <span class="hl-word">Q1: <span id="q1-stat"></span></span>
+        <span class="hl-word">Interquartile Range: <span id="inter-stat"></span></span>
+        <span class="hl-word">Q3: <span id="q3-stat"></span></span>
+      </p>
+
+    </div>
+  </div>
+</div>
 
 <div id='container' class='container-2'>
   <div id='graph'></div>
@@ -496,6 +631,248 @@ svg2
 
 
 
+// sandbox boxplot ----------------------------------------------
+
+// set the dimensions and margins of the graph
+var margin_2 = {top: 10, right: 30, bottom: 30, left: 40},
+  width = 500 - margin.left - margin.right,
+  height = 300 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg3 = d3.select(".container-3 #graph").html('')
+.append("svg")
+  .attr("width", width + margin_2.left + margin_2.right)
+  .attr("height", height + margin_2.top + margin_2.bottom)
+.append("g")
+  .attr("transform",
+        "translate(" + margin_2.left + "," + margin_2.top + ")");
+
+// create dummy data
+var data =  [ 4, 5, 11, 12, 12, 13, 15, 16, 19, 22 ]
+var data_sorted = data;
+
+// Compute summary statistics used for the box:
+var data_sorted = data.sort(d3.ascending)
+var q1 = d3.quantile(data_sorted, .25)
+var median = d3.quantile(data_sorted, .5)
+var q3 = d3.quantile(data_sorted, .75)
+var interQuantileRange = q3 - q1
+var min = q1 - 1.5 * interQuantileRange
+var max = q1 + 1.5 * interQuantileRange
+
+// Show the Y scale
+// var y = d3.scaleLinear()
+//   .domain([0,24])
+//   .range([height, 0]);
+// svg.call(d3.axisLeft(y))
+
+// Show the X scale
+var x = d3.scaleLinear()
+  .domain([0,24])
+  .range([0, width])
+svg3.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+
+// a few features for the box
+var center = 200
+var height = 50
+
+// Show the main vertical line
+svg3
+.append("line")
+  .attr("class", "vert-line")
+  .attr("x1", x(min))
+  .attr("x2", x(max))
+  .attr("y1", center )
+  .attr("y2", center )
+  .attr("stroke", "black")
+
+console.log(center - width/2)
+console.log(x(q3))
+console.log((x(q1)-x(q3)))
+console.log(width)
+// Show the box
+svg3
+.append("rect")
+  .attr("x", x(q1) )
+  .attr("y",  center - height/2)
+  .attr("height", height)
+  .attr("width", (x(q3)-x(q1)))
+  .attr("stroke", "black")
+  .style("fill", "#69b3a2")
+
+// show median, min and max horizontal lines
+// svg
+// .selectAll("toto")
+// .data([min, median, max])
+// .enter()
+// .append("line")
+//   .attr("x1", function(d){ return(x(d))})
+//   .attr("x2", function(d){ return(x(d))})
+//   .attr("y1", center-height/2 )
+//   .attr("y2", center+height/2)
+//   .attr("stroke", "black")
+
+svg3.append("line")
+  .attr("class", "min-line")
+  .attr("x1", x(min))
+  .attr("x2", x(min))
+  .attr("y1", center-height/2)
+  .attr("y2", center+height/2)
+  .attr("stroke", "black")
+
+svg3.append("line")
+  .attr("class", "median-line")
+  .attr("x1", x(median))
+  .attr("x2", x(median))
+  .attr("y1", center-height/2)
+  .attr("y2", center+height/2)
+  .attr("stroke", "black")
+
+svg3.append("line")
+  .attr("class", "max-line")
+  .attr("x1", x(max))
+  .attr("x2", x(max))
+  .attr("y1", center-height/2)
+  .attr("y2", center+height/2)
+  .attr("stroke", "black")
+
+
+// TABLE UPDATE
+
+var elements = document.getElementsByClassName("dataval");
+
+var update_datavis = function() {
+
+  data = [];
+
+  $("table#test-table tr td input.dataval").each(function() {  
+    data.push(Number($(this).val()));
+});
+  console.log(data);
+
+  // recalculate stats
+  data_sorted = data.sort(d3.ascending);
+  console.log(data_sorted)
+  q1 = d3.quantile(data_sorted, .25);
+  median = d3.quantile(data_sorted, .5);
+  q3 = d3.quantile(data_sorted, .75);
+  interQuantileRange = q3 - q1;
+  // min = q1 - 1.5 * interQuantileRange;
+  // max = q1 + 1.5 * interQuantileRange;
+  min = Math.min(...data);
+  max = Math.max(...data);
+
+  //reupdate range & ticks
+  x.domain([min, max]);
+  svg3.select("g")
+    .transition()
+    .duration(1000)
+    .call(d3.axisBottom(x))
+
+  // update displayed statistics
+  d3.select("#q1-stat").text(q1);
+  d3.select("#q3-stat").text(q3);
+  d3.select("#median-stat").text(median);
+  d3.select("#inter-stat").text(interQuantileRange);
+  d3.select("#min-stat").text(min);
+  d3.select("#max-stat").text(max);
+
+  // update visualisation
+  svg3.select("rect")
+    .transition()
+    .duration(1000)
+    .attr("x", x(q1))
+    .attr("y",  center - height/2)
+    .attr("height", height)
+    .attr("width", (x(q3)-x(q1)))
+    .attr("stroke", "black")
+    .style("fill", "#69b3a2")
+
+  svg3.select("line.vert-line")
+    .transition()
+    .duration(1000)
+    .attr("x1", x(min))
+    .attr("x2", x(max))
+
+  svg3.select("line.min-line")
+    .transition()
+    .duration(1000)
+    .attr("x1", x(min))
+    .attr("x2", x(min))
+
+  svg3.select("line.median-line")
+    .transition()
+    .duration(1000)
+    .attr("x1", x(median))
+    .attr("x2", x(median))
+
+  svg3.select("line.max-line")
+    .transition()
+    .duration(1000)
+    .attr("x1", x(max))
+    .attr("x2", x(max))
+
+};
+
+for (var i = 0; i < elements.length; i++) {
+    elements[i].addEventListener('input', update_datavis , false);
+}
+
+// BOX UPDATE
+
+// when the input range changes update the circle 
+d3.select("#nRadius").on("input", function() {
+  console.log("basic change");
+  update_box(+this.value);
+});
+
+// Initial starting radius of the circle 
+update_box(x(q3));
+
+// update the elements
+function update_box(nRadius) {
+
+  // adjust the text on the range slider
+  d3.select("#nRadius-value").text(nRadius);
+  d3.select("#nRadius").property("value", nRadius);
+
+  // update the circle radius
+  svg3.selectAll("rect") 
+    .attr("x", nRadius);
+}
+
+
+// LINE UPDATE
+
+// when the input range changes update the circle 
+d3.select("#nLine").on("input", function() {
+  update_line(+this.value);
+});
+
+// Initial starting radius of the circle 
+update_line(0);
+
+// update the elements
+function update_line(nLine) {
+
+  // adjust the text on the range slider
+  d3.select("#nLine-value").text(nLine);
+  d3.select("#nLine").property("value", nLine);
+
+  // update the circle radius
+  svg3.select("line.vert-line")
+    .attr("x1", x(min) - nLine)
+    .attr("x2", x(max) - nLine)
+}
+
+// initialise the datavis to data table
+update_datavis();
+
+// END ----------------------------------------------------------
+
+
 
 // second viz scroll setup --------------------------------------
 
@@ -526,6 +903,22 @@ svg2
         // path.transition().duration(1000)
         //     .attr('d', dArray[i])
         //     .style('fill', colors[i])
+      })
+// END ----------------------------------------------------------
+
+// sandbox scroll setup --------------------------------------
+
+
+
+  var path = svg3.append('path')
+
+  var gs3 = d3.graphScroll()
+      .container(d3.select('.container-3'))
+      .graph(d3.selectAll('.container-3 #graph'))
+      .eventId('uniqueId3')  // namespace for scroll and resize events
+      .sections(d3.selectAll('.container-3 #sections > div'))
+      .on('active', function(i){
+        // code to affect while scrolling
       })
 // END ----------------------------------------------------------
 
