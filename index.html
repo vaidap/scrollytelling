@@ -368,14 +368,14 @@ svg{
       </table> 
 
       <p>
-        <span class="hl-word">Min: <span id="min-stat"></span></span>
-        <span class="hl-word">Max: <span id="max-stat"></span></span>
-        <span class="hl-word">Median: <span id="median-stat"></span></span>
+        <span class="hl-word min-hl">Min: <span id="min-stat"></span></span>
+        <span class="hl-word max-hl">Max: <span id="max-stat"></span></span>
+        <span class="hl-word median-hl">Median: <span id="median-stat"></span></span>
       </p>
       <p>
-        <span class="hl-word">Q1: <span id="q1-stat"></span></span>
-        <span class="hl-word">Interquartile Range: <span id="inter-stat"></span></span>
-        <span class="hl-word">Q3: <span id="q3-stat"></span></span>
+        <span class="hl-word q1-hl">Q1: <span id="q1-stat"></span></span>
+        <span class="hl-word iqr-hl">Interquartile Range: <span id="inter-stat"></span></span>
+        <span class="hl-word q3-hl">Q3: <span id="q3-stat"></span></span>
       </p>
 
     </div>
@@ -784,6 +784,23 @@ svg3.append("line")
   .attr("stroke", "black")
 
 
+svg3.append("line")
+  .attr("class", "q1-line")
+  .attr("x1", x(q1))
+  .attr("x2", x(q3))
+  .attr("y1", center-height/2)
+  .attr("y2", center+height/2)
+
+svg3.append("line")
+  .attr("class", "q3-line")
+  .attr("x1", x(q1))
+  .attr("x2", x(q3))
+  .attr("y1", center-height/2)
+  .attr("y2", center+height/2)
+  .attr("stroke", "black")
+  .attr("stroke", "black")
+
+
 // TABLE UPDATE
 
 var elements = document.getElementsByClassName("dataval");
@@ -859,6 +876,18 @@ var update_datavis = function() {
     .attr("x1", x(max))
     .attr("x2", x(max))
 
+  svg3.select("line.q1-line")
+    .transition()
+    .duration(1000)
+    .attr("x1", x(q1))
+    .attr("x2", x(q1))
+
+  svg3.select("line.q3-line")
+    .transition()
+    .duration(1000)
+    .attr("x1", x(q3))
+    .attr("x2", x(q3))
+
 };
 
 for (var i = 0; i < elements.length; i++) {
@@ -915,6 +944,135 @@ function update_line(nLine) {
 // initialise the datavis to data table
 update_datavis();
 
+// hover effects -------------------------------------------------
+
+let min_hl = document.getElementsByClassName("min-hl");
+  
+min_hl[0].addEventListener("mouseenter", function( event ) {   
+
+  svg3.select("line.min-line")
+    .attr("stroke", "blue")
+    .style("stroke-width", 5)
+
+}, false);
+
+min_hl[0].addEventListener("mouseleave", function( event ) {   
+
+  svg3.select("line.min-line")
+    .attr("stroke", "black")
+    .style("stroke-width", 1)
+
+}, false);
+
+let max_hl = document.getElementsByClassName("max-hl");
+  
+max_hl[0].addEventListener("mouseenter", function( event ) {   
+
+  svg3.select("line.max-line")
+    .attr("stroke", "blue")
+    .style("stroke-width", 5)
+
+}, false);
+
+max_hl[0].addEventListener("mouseleave", function( event ) {   
+
+  svg3.select("line.max-line")
+    .attr("stroke", "black")
+    .style("stroke-width", 1)
+
+}, false);
+
+let median_hl = document.getElementsByClassName("median-hl");
+  
+median_hl[0].addEventListener("mouseenter", function( event ) {   
+
+  svg3.select("line.median-line")
+    .attr("stroke", "blue")
+    .style("stroke-width", 5)
+
+}, false);
+
+median_hl[0].addEventListener("mouseleave", function( event ) {   
+
+  svg3.select("line.median-line")
+    .attr("stroke", "black")
+    .style("stroke-width", 1)
+
+}, false);
+
+
+let iqr_hl = document.getElementsByClassName("iqr-hl");
+  
+iqr_hl[0].addEventListener("mouseenter", function( event ) {   
+
+  svg3.select("rect")
+    .attr("stroke", "blue")
+    .style("stroke-width", 5)
+
+}, false);
+
+iqr_hl[0].addEventListener("mouseleave", function( event ) {   
+
+  svg3.select("rect")
+    .attr("stroke", "black")
+    .style("stroke-width", 1)
+
+}, false);
+
+let q1_hl = document.getElementsByClassName("q1-hl");
+  
+q1_hl[0].addEventListener("mouseenter", function( event ) {   
+
+  svg3.select("line.q1-line")
+    .attr("stroke", "blue")
+    .style("stroke-width", 5)
+
+  svg3.select("line.median-line")
+    .attr("stroke", "blue")
+    .style("stroke-width", 5)
+
+}, false);
+
+q1_hl[0].addEventListener("mouseleave", function( event ) {   
+
+  svg3.select("line.q1-line")
+    .attr("stroke", "black")
+    .style("stroke-width", 1)
+
+  svg3.select("line.median-line")
+    .attr("stroke", "black")
+    .style("stroke-width", 1)
+
+}, false);
+
+let q3_hl = document.getElementsByClassName("q3-hl");
+  
+q3_hl[0].addEventListener("mouseenter", function( event ) {   
+
+  svg3.select("line.q3-line")
+    .attr("stroke", "blue")
+    .style("stroke-width", 5)
+
+  svg3.select("line.median-line")
+    .attr("stroke", "blue")
+    .style("stroke-width", 5)
+
+}, false);
+
+q3_hl[0].addEventListener("mouseleave", function( event ) {   
+
+  svg3.select("line.q3-line")
+    .attr("stroke", "black")
+    .style("stroke-width", 1)
+
+  svg3.select("line.median-line")
+    .attr("stroke", "black")
+    .style("stroke-width", 1)
+
+}, false);
+
+
+
 // END ----------------------------------------------------------
 
 
@@ -947,15 +1105,19 @@ update_datavis();
           .attr("transform", "translate(0," + height_2 + ")")
           .call(d3.axisBottom(x_2))
 
-        svg2.select("line.median-line").remove()
-
-        if (i == 1) {
+        if (i == 0) {
+          svg2.selectAll("line.median-line").remove()
+        }
+    
+        else if (i == 1) {
 
           svg2.selectAll("line.q1-line").remove()
           svg2.selectAll("line.q3-line").remove()
           svg2.selectAll("rect").remove()
 
           svg2.append("line")
+            .transition()
+            .duration(1000)
             .attr("class", "median-line")
             .attr("x1", x_2(195))
             .attr("x2", x_2(195))
@@ -971,14 +1133,8 @@ update_datavis();
           svg2.selectAll("rect").remove()
 
           svg2.append("line")
-            .attr("class", "median-line")
-            .attr("x1", x_2(195))
-            .attr("x2", x_2(195))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
-
-          svg2.append("line")
+            .transition()
+            .duration(1000)
             .attr("class", "q1-line")
             .attr("x1", x_2(125))
             .attr("x2", x_2(125))
@@ -987,6 +1143,8 @@ update_datavis();
             .attr("stroke", "black")
 
           svg2.append("line")
+            .transition()
+            .duration(1000)
             .attr("class", "q3-line")
             .attr("x1", x_2(260))
             .attr("x2", x_2(260))
@@ -1003,6 +1161,8 @@ update_datavis();
           svg2.selectAll("line.vert-line").remove()
 
           svg2.append("rect")
+            .transition()
+            .duration(1000)
             .attr("x", x_2(125) )
             .attr("y",  center - height/2)
             .attr("height", height)
@@ -1046,6 +1206,8 @@ update_datavis();
 
           // Show the main vertical line
           svg2.append("line")
+            .transition()
+            .duration(1000)
             .attr("class", "vert-line")
             .attr("x1", x_2(45))
             .attr("x2", x_2(380))
@@ -1071,6 +1233,8 @@ update_datavis();
             .attr("stroke", "black")
 
           svg2.append("line")
+            .transition()
+            .duration(1000)
             .attr("class", "min-line")
             .attr("x1", x_2(45))
             .attr("x2", x_2(45))
@@ -1079,6 +1243,8 @@ update_datavis();
             .attr("stroke", "black")
 
           svg2.append("line")
+            .transition()
+            .duration(1000)
             .attr("class", "max-line")
             .attr("x1", x_2(380))
             .attr("x2", x_2(380))
