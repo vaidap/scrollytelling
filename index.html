@@ -216,16 +216,15 @@ svg{
 
 </div>
 
-<div class="separator"></div>
-
-<div id='container' class='container-1'>
+<div id='container' class='container-2'>
   <div id='graph'></div>
+<!--   <div id="my_dataviz"></div> -->
+
   <div id='sections'>
+
     <div>
       <h3>Construction</h3>
-      	Let's start with one set of data. As a first step, we can order the values by ascending order.
-      </pre>
-
+        Let's start with one set of data. As a first step, we can order the values by ascending order.
     </div>
 
     <div>
@@ -244,10 +243,12 @@ svg{
     <div class="last-div">
       Finally, we plot the <span class="hl-word">minimum</span> and <span class="hl-word">maximum</span>, which make the "whiskers" of our graph.
     </div>
-
   </div>
 
+
 </div>
+
+<div class="separator"></div>
 
 <h1>
   Try it out yourself!
@@ -260,7 +261,6 @@ svg{
   <div id='sections'>
 
     <div style="min-height: 800px;">
-       <h3>Try it out yourself!</h3>
        <table id= "test-table" style="border: 1px solid blue; border-radius: 5px; padding:10px;">
         <tr>
           <th>Year</th>
@@ -382,36 +382,56 @@ svg{
   </div>
 </div>
 
-<div id='container' class='container-2'>
+<div id='container' class='test-container'>
   <div id='graph'></div>
 <!--   <div id="my_dataviz"></div> -->
 
   <div id='sections'>
 
     <div>
-      <h3>Examples</h3>
-      <p><a href='http://www.bloomberg.com/graphics/2015-auto-sales/'>Auto Sales</a></p>
-      <p><a href='http://www.bloomberg.com/graphics/2015-measles-outbreaks/'>Measles</a></p>
-      <p><a href='http://roadtolarissa.com/blog/2015/01/04/coloring-maps-with-d3/'>Coloring Maps</a></p>
-      <!--<p><a href='http://www.bloomberg.com/graphics/2015-fifa-scandal/'>FIFA Scandal</a></p>-->
-      <p><a href='http://www.bloomberg.com/graphics/2015-whats-warming-the-world/'>Global Warming</a></p>
-      <p><a href='http://www.bloomberg.com/politics/graphics/2015-hillary-womens-movement-timeline/'>Hillary Clinton’s Debt to Feminism
-</a></p>
-      <p><a href='http://www.bloomberg.com/graphics/year-ahead-2016/'>The Year Ahead</a></p>
-      <p><a href='http://www.bloomberg.com/graphics/2015-pace-of-social-change/'>Pace of Social Change</a></p>
-      <p><a href='http://www.bloomberg.com/graphics/2015-red-meat-cancer/'>Red Meat</a></p>
+      Section 1
     </div>
 
     <div>
-      <h3>More reading</h3>
-      <p><a href='http://bost.ocks.org/mike/scroll/'>How To Scroll</a></p>
-      <p><a href='http://vallandingham.me/scroller.html/'>So You Want to Build A Scroller</a></p>
-      <p><a href='https://source.opennews.org/en-US/articles/behind-scenes-fewer-helmets-more-deaths/'>Making “Fewer Helmets, More Deaths”</a></p>
-      <p><a href='http://www.nytimes.com/interactive/2015/10/27/world/greenland-is-melting-away.html'>Greenland Is Melting Away</a></p>
-      <p><a href='http://www.theguardian.com/us-news/ng-interactive/2015/oct/19/homan-square-chicago-police-detainees'>Homan Square</a></p>
+      Section 2
+   </div>
+    <div>
+      Section 3
+   </div>
+    <div>
+      Section 4
    </div>
   </div>
 
+
+</div>
+
+<div id='container' class='container-1'>
+  <div id='graph'></div>
+  <div id='sections'>
+    <div>
+      <h3>Construction</h3>
+        Let's start with one set of data. As a first step, we can order the values by ascending order.
+    </div>
+
+    <div>
+      By splitting the data into two equal groups, we obtain the middle value, called the <span class="hl-word">median</span>.
+    </div>
+
+
+    <div>
+      The median values obtained by splitting the lower and higher halves are called the <span class="hl-word">lower quartile</span> and <span class="hl-word">higher quartile</span>.
+    </div>
+
+    <div>
+      We link these three values with a box.
+    </div>
+
+    <div class="last-div">
+      Finally, we plot the <span class="hl-word">minimum</span> and <span class="hl-word">maximum</span>, which make the "whiskers" of our graph.
+    </div>
+
+  </div>
 
 </div>
 
@@ -563,69 +583,94 @@ function render(){
 // END -----------------------------------------------------------
 
 
-// BOXPLOT -------------------------------------------------------
+// BOXPLOT CONSTRUCTION FROM MOCKUP --------------------------------------- JUMP
 
-  var svg2 = d3.select('.container-2 #graph').html('')
-    .append('svg')
-      // .attrs({width: width, height: height})
-.attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
+// set the dimensions and margins of the graph
+var margin_2 = {top: 10, right: 30, bottom: 30, left: 40},
+  width_2 = 500 - margin_2.left - margin_2.right,
+  height_2 = 300 - margin_2.top - margin_2.bottom;
+
+// Show the X scale
+var x_2 = d3.scaleLinear()
+  .domain([0,400])
+  .range([0, width_2])
+
+// append the svg object to the body of the page
+var svg2 = d3.select(".container-2 #graph").html('')
+.append("svg")
+  .attr("width", width_2 + margin_2.left + margin_2.right)
+  .attr("height", height_2 + margin_2.top + margin_2.bottom)
 .append("g")
   .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")");
+        "translate(" + margin_2.left + "," + margin_2.top + ")");
 
-// create dummy data
-var data = [12,19,11,13,12,22,13,4,15,16,18,19,20,12,11,9]
 
-// Compute summary statistics used for the box:
-var data_sorted = data.sort(d3.ascending)
-var q1 = d3.quantile(data_sorted, .25)
-var median = d3.quantile(data_sorted, .5)
-var q3 = d3.quantile(data_sorted, .75)
-var interQuantileRange = q3 - q1
-var min = q1 - 1.5 * interQuantileRange
-var max = q1 + 1.5 * interQuantileRange
+// END -------------------------------------------------------------------
 
-// Show the Y scale
-var y = d3.scaleLinear()
-  .domain([0,24])
-  .range([height, 0]);
-svg2.call(d3.axisLeft(y))
 
-// a few features for the box
-var center = 200
-var width = 100
+// BASIC VERTICAL BOXPLOT -------------------------------------------------
 
-// Show the main vertical line
-svg2
-.append("line")
-  .attr("x1", center)
-  .attr("x2", center)
-  .attr("y1", y(min) )
-  .attr("y2", y(max) )
-  .attr("stroke", "black")
+//   var svg2 = d3.select('.container-2 #graph').html('')
+//     .append('svg')
+//       // .attrs({width: width, height: height})
+// .attr("width", width + margin.left + margin.right)
+//   .attr("height", height + margin.top + margin.bottom)
+// .append("g")
+//   .attr("transform",
+//         "translate(" + margin.left + "," + margin.top + ")");
 
-// Show the box
-svg2
-.append("rect")
-  .attr("x", center - width/2)
-  .attr("y", y(q3) )
-  .attr("height", (y(q1)-y(q3)) )
-  .attr("width", width )
-  .attr("stroke", "black")
-  .style("fill", "#69b3a2")
+// // create dummy data
+// var data = [12,19,11,13,12,22,13,4,15,16,18,19,20,12,11,9]
 
-// show median, min and max horizontal lines
-svg2
-.selectAll("toto")
-.data([min, median, max])
-.enter()
-.append("line")
-  .attr("x1", center-width/2)
-  .attr("x2", center+width/2)
-  .attr("y1", function(d){ return(y(d))} )
-  .attr("y2", function(d){ return(y(d))} )
-  .attr("stroke", "black")
+// // Compute summary statistics used for the box:
+// var data_sorted = data.sort(d3.ascending)
+// var q1 = d3.quantile(data_sorted, .25)
+// var median = d3.quantile(data_sorted, .5)
+// var q3 = d3.quantile(data_sorted, .75)
+// var interQuantileRange = q3 - q1
+// var min = q1 - 1.5 * interQuantileRange
+// var max = q1 + 1.5 * interQuantileRange
+
+// // Show the Y scale
+// var y = d3.scaleLinear()
+//   .domain([0,24])
+//   .range([height, 0]);
+// svg2.call(d3.axisLeft(y))
+
+// // a few features for the box
+// var center = 200
+// var width = 100
+
+// // Show the main vertical line
+// svg2
+// .append("line")
+//   .attr("x1", center)
+//   .attr("x2", center)
+//   .attr("y1", y(min) )
+//   .attr("y2", y(max) )
+//   .attr("stroke", "black")
+
+// // Show the box
+// svg2
+// .append("rect")
+//   .attr("x", center - width/2)
+//   .attr("y", y(q3) )
+//   .attr("height", (y(q1)-y(q3)) )
+//   .attr("width", width )
+//   .attr("stroke", "black")
+//   .style("fill", "#69b3a2")
+
+// // show median, min and max horizontal lines
+// svg2
+// .selectAll("toto")
+// .data([min, median, max])
+// .enter()
+// .append("line")
+//   .attr("x1", center-width/2)
+//   .attr("x2", center+width/2)
+//   .attr("y1", function(d){ return(y(d))} )
+//   .attr("y2", function(d){ return(y(d))} )
+//   .attr("stroke", "black")
 
 // END ----------------------------------------------------------
 
@@ -885,24 +930,181 @@ update_datavis();
       .graph(d3.selectAll('.container-2 #graph'))
       .eventId('uniqueId2')  // namespace for scroll and resize events
       .sections(d3.selectAll('.container-2 #sections > div'))
-      .on('active', function(i){
-        // code to affect while scrolling
+      .on('active', function(i){ // JUMP
+        console.log("Active:" + i);
 
-        // var h = height
-        // var w = width
-        // var dArray = [
-        //   [[w/4, h/4], [w*3/4, h/4],  [w*3/4, h*3/4], [w/4, h*3/4]],
-        //   [[0, 0],     [w*3/4, h/4],  [w*3/4, h*3/4], [w/4, h*3/4]],
-        //   [[w/2, h/2], [w, h/4],      [w, h],         [w/4, h]],
-        //   [[w/2, h/2], [w, h/4],      [w, h],         [w/4, h]],
-        //   [[w/2, h/2], [w, h/2],      [0, 0],         [w/4, h/2]],
-        //   [[w/2, h/2], [0, h/4],      [0, h/2],         [w/4, 0]],
-        // ].map(function(d){ return 'M' + d.join(' L ') })
+        var const_squares_2 = ["const_1", "const_2", "const_3", "const_3", "const_4"]
+
+        svg2.append("svg:image")
+          .attr('x', -40)
+          .attr('y', 0)
+          .attr('width', 500)
+          .attr('height', 96)
+          .attr("xlink:href", "images/" + const_squares_2[i] + ".jpg")
+
+        // show the x scale
+        svg2.append("g")
+          .attr("transform", "translate(0," + height_2 + ")")
+          .call(d3.axisBottom(x_2))
+
+        svg2.select("line.median-line").remove()
+
+        if (i == 1) {
+
+          svg2.selectAll("line.q1-line").remove()
+          svg2.selectAll("line.q3-line").remove()
+          svg2.selectAll("rect").remove()
+
+          svg2.append("line")
+            .attr("class", "median-line")
+            .attr("x1", x_2(195))
+            .attr("x2", x_2(195))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
 
 
-        // path.transition().duration(1000)
-        //     .attr('d', dArray[i])
-        //     .style('fill', colors[i])
+        }
+
+        else if (i == 2) {
+
+          svg2.selectAll("rect").remove()
+
+          svg2.append("line")
+            .attr("class", "median-line")
+            .attr("x1", x_2(195))
+            .attr("x2", x_2(195))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
+
+          svg2.append("line")
+            .attr("class", "q1-line")
+            .attr("x1", x_2(125))
+            .attr("x2", x_2(125))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
+
+          svg2.append("line")
+            .attr("class", "q3-line")
+            .attr("x1", x_2(260))
+            .attr("x2", x_2(260))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
+
+        }
+
+        else if (i == 3) {
+
+          svg2.selectAll("line.min-line").remove()
+          svg2.selectAll("line.max-line").remove()
+          svg2.selectAll("line.vert-line").remove()
+
+          svg2.append("rect")
+            .attr("x", x_2(125) )
+            .attr("y",  center - height/2)
+            .attr("height", height)
+            .attr("width", (x_2(260)-x_2(125)))
+            .attr("stroke", "black")
+            .style("fill", "#69b3a2")
+
+          // re-drawing as rectangle draws on top
+          // svg2.selectAll("line").remove()
+
+          svg2.append("line")
+            .attr("class", "median-line")
+            .attr("x1", x_2(195))
+            .attr("x2", x_2(195))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
+
+          svg2.append("line")
+            .attr("class", "q1-line")
+            .attr("x1", x_2(125))
+            .attr("x2", x_2(125))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
+
+          svg2.append("line")
+            .attr("class", "q3-line")
+            .attr("x1", x_2(260))
+            .attr("x2", x_2(260))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
+        }
+
+        else if (i == 4) {
+
+          //couldn't be bothered to delete all lines except vertical
+          // will do this if duplicates end up being an issue
+          svg2.select("rect").remove()
+
+          // Show the main vertical line
+          svg2.append("line")
+            .attr("class", "vert-line")
+            .attr("x1", x_2(45))
+            .attr("x2", x_2(380))
+            .attr("y1", center )
+            .attr("y2", center )
+            .attr("stroke", "black")
+
+
+          svg2.append("rect")
+            .attr("x", x_2(125) )
+            .attr("y",  center - height/2)
+            .attr("height", height)
+            .attr("width", (x_2(260)-x_2(125)))
+            .attr("stroke", "black")
+            .style("fill", "#69b3a2")
+
+          svg2.append("line")
+            .attr("class", "median-line")
+            .attr("x1", x_2(195))
+            .attr("x2", x_2(195))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
+
+          svg2.append("line")
+            .attr("class", "min-line")
+            .attr("x1", x_2(45))
+            .attr("x2", x_2(45))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
+
+          svg2.append("line")
+            .attr("class", "max-line")
+            .attr("x1", x_2(380))
+            .attr("x2", x_2(380))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
+
+          svg2.append("line")
+            .attr("class", "q1-line")
+            .attr("x1", x_2(125))
+            .attr("x2", x_2(125))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
+
+          svg2.append("line")
+            .attr("class", "q3-line")
+            .attr("x1", x_2(260))
+            .attr("x2", x_2(260))
+            .attr("y1", center-height/2)
+            .attr("y2", center+height/2)
+            .attr("stroke", "black")
+
+        }
+
+
       })
 // END ----------------------------------------------------------
 

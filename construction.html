@@ -1,0 +1,340 @@
+<!-- jumps from section 1 to section 4 because the viz is too large! -->
+
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+<link href="https://fonts.googleapis.com/css?family=Bree+Serif|Open+Sans:300,300i,700&display=swap" rel="stylesheet"> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+
+body{
+  max-width: 1200px;
+  margin: 0px auto;
+/*  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+  font-family: "Open Sans", Arial, sans-serif;
+  font-weight: 300;
+}
+
+/* header styling */
+
+h1{
+  margin: 50px;
+}
+
+h1, h2, h3 {
+  color: #2980b9;
+}
+
+div.header h1, div.header h2 {
+  text-align: center;
+  font-family: "Bree Serif", Times New Roman, serif;  
+  text-transform: uppercase;
+}
+
+div.header h1 {
+  margin-top: 0px;
+  font-size: 150px;
+}
+
+div.header h2.above {
+  margin-top: 200px;
+  margin-bottom: -40px;
+  font-size: 30px;
+}
+
+div.header h2.beyond {
+  margin-top: -70px;
+  margin-bottom: 150px;
+  font-size: 30px;
+}
+
+.box-plot-header {
+  border: 2px solid black;
+  height: 50px;
+}
+
+/* sections & graph styling */
+
+/*div.container-0 div#sections {
+  font-size: 30px;
+}
+
+div.container-0 div#sections > div {
+  margin-bottom: 50px;
+}
+*/
+
+div.container-3 div#sections {
+  font-size: 18px;
+}
+
+div#sections div {
+  min-height: 80px;
+}
+
+/*div#sections div.one-liner {
+  line-height:200px;
+}*/
+
+div#sections div.last-div {
+  min-height: 300px;
+}
+
+/*div#sections div div.buffer {
+  max-height:200px;
+}*/
+
+div.separator {
+  height: 100px;
+}
+
+#container{
+  position: relative;
+}
+
+#sections{
+  width: 600px;
+  font-size: 28px;
+  text-align: justify;
+}
+
+#sections > div{
+  background: white;
+  opacity: .2;
+  margin-bottom: 50px;
+}
+/*#sections > div:last-child{
+  margin-bottom: 30px;
+}*/
+#sections > div.graph-scroll-active{
+  opacity: 1;
+}
+
+#graph{
+  margin-left: 40px;
+  width: 500px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 100px;
+  float: right;
+}
+
+@media (max-width: 925px)  {
+  #graph{
+    width: 100%;
+    margin-left: 0px;
+    float: none;
+  }
+
+  #sections{
+    width: auto;
+    position: relative;
+    margin: 0px auto;
+  }
+
+  #sections > div{
+    background: rgba(255,255,255,.5);
+    padding: 10px;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    margin-bottom: 80vh;
+  }
+
+  pre{
+    overflow: hidden;
+  }
+
+  h1{
+    margin: 10px;
+  }
+}
+
+
+circle{
+  fill: steelblue;
+}
+
+.mono{
+  font-family: monospace;
+}
+
+svg{
+  background-color: #eee;
+}
+
+.hl-word {
+	border: 1px solid blue;
+	border-radius: 5px;
+	padding: 1px 3px 1px 3px;
+}
+
+.hl-word:hover {
+	background-color:blue;
+	color: white;
+	-webkit-transition: background-color 500ms ease;
+	-moz-transition: background-color 500ms ease;
+	-o-transition: background-color 500ms ease;
+	transition: background-color 500ms ease;
+
+</style>
+</head>
+
+<div class="header">
+<h2 class="above">An interactive introduction to</h2>
+<h1>Box plots</h1>
+<h2 class="beyond">and what they're good for</h2>
+</div>
+
+
+
+
+<div id='container' class='container-2'>
+  <div id='graph'></div>
+<!--   <div id="my_dataviz"></div> -->
+
+  <div id='sections'>
+
+    <div>
+      Section 1
+    </div>
+
+    <div>
+      Section 2
+   </div>
+    <div>
+      Section 3
+   </div>
+    <div>
+      Section 4
+   </div>
+  </div>
+
+
+</div>
+
+<div id='container' class='container-3'>
+  <div id='graph'></div>
+<!--   <div id="my_dataviz"></div> -->
+
+  <div id='sections'>
+
+    <div>
+      Section 1
+    </div>
+
+	<div>
+		Section 2
+	</div>
+  </div>
+
+
+</div>
+
+
+
+<script src="d3v4+jetpack.js"></script>
+<script src="graph-scroll.js"></script>
+<script>
+
+// BOXPLOT SETUP ----------------------------------------------------
+
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 30, left: 40},
+  width = 400 - margin.left - margin.right,
+  height = 400 - margin.top - margin.bottom;
+// END --------------------------------------------------------------
+
+
+// graph-scroll setup -----------------------------------------------
+
+var oldWidth = 0
+function render(){
+  if (oldWidth == innerWidth) return
+  oldWidth = innerWidth
+
+  var width = height = d3.select('#graph').node().offsetWidth
+  var r = 40
+
+
+  if (innerWidth <= 925){
+    width = innerWidth
+    height = innerHeight*.7
+  }
+
+  // return console.log(width, height)
+// END -------------------------------------------------------------
+
+
+
+// BOXPLOT CONSTRUCTION FROM MOCKUP --------------------------------------- JUMP
+
+// set the dimensions and margins of the graph
+var margin_2 = {top: 10, right: 30, bottom: 30, left: 40},
+width_2 = 500 - margin_2.left - margin_2.right,
+height_2 = 300 - margin_2.top - margin_2.bottom;
+
+// Show the X scale
+var x_2 = d3.scaleLinear()
+  .domain([0,400])
+  .range([0, width_2])
+
+// append the svg object to the body of the page
+var svg2 = d3.select(".container-2 #graph").html('')
+.append("svg")
+  .attr("width", width + margin_2.left + margin_2.right)
+  .attr("height", height + margin_2.top + margin_2.bottom)
+.append("g")
+  .attr("transform",
+        "translate(" + margin_2.left + "," + margin_2.top + ")");
+
+
+// END -------------------------------------------------------------------
+
+
+// second viz scroll setup --------------------------------------
+
+
+
+  var path = svg2.append('path')
+
+  var gs2 = d3.graphScroll()
+      .container(d3.select('.container-2'))
+      .graph(d3.selectAll('.container-2 #graph'))
+      .eventId('uniqueId2')  // namespace for scroll and resize events
+      .sections(d3.selectAll('.container-2 #sections > div'))
+      .on('active', function(i){ // JUMP
+      	console.log("Active:" + i);
+        // if (i == 1) {
+
+        //   // show the x scale
+        //   svg2.append("g")
+        //     .attr("transform", "translate(0," + height_2 + ")")
+        //     .call(d3.axisBottom(x))
+
+        // }
+
+        // else if (i == 2) {
+        //   svg2.append("line")
+        //     .attr("class", "min-line")
+        //     .attr("x1", x_2(45))
+        //     .attr("x2", x_2(45))
+        //     .attr("y1", center-height/2)
+        //     .attr("y2", center+height/2)
+        //     .attr("stroke", "black")
+        // }
+      })
+// END ----------------------------------------------------------
+
+  d3.select('#source')
+      .styles({'margin-bottom': window.innerHeight - 450 + 'px', padding: '100px'})
+}
+render()
+d3.select(window).on('resize', render)
+
+
+
+
+
+</script>
