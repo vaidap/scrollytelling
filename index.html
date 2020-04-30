@@ -434,25 +434,63 @@ svg{
   </div>
 </div>
 
-<div id='container' class='test-container'>
+<div id='container' class='container-4'>
   <div id='graph'></div>
 <!--   <div id="my_dataviz"></div> -->
 
   <div id='sections'>
 
     <div>
-      Section 1
+      Great! But how do we use boxplots to make a decision?
     </div>
 
     <div>
-      Section 2
+      First, we need to plot data from another mountain. Then we can compare.
    </div>
     <div>
-      Section 3
+      Here's our mountain 1 data...
    </div>
     <div>
-      Section 4
+      And here's some data from mountain 2. 
    </div>
+   <div>
+      Note that the <span class="bolded">scale</span> should be the same for them to be comparable!
+   </div>
+   <div>
+      The extreme values give us information on the minimum, maximum and <span class="bolded">variance</span>: the spread of data.
+   </div>
+   <div>
+      Mountain 1 has greater variance: this means the annual snowfall data is more spread out.
+   </div>
+   <div>
+    Meanwhile, Mountain 2 has smaller variance, which means that snowfall doesn't vary as much year to year.
+   </div>
+  </div>
+
+
+</div>
+
+<div id='container' class='container-5'>
+  <div id='graph'></div>
+<!--   <div id="my_dataviz"></div> -->
+
+  <div id='sections'>
+
+  <div>
+    Test 1
+  </div>
+    <div>
+    Test 1
+  </div>
+    <div>
+    Test 1
+  </div>
+    <div>
+    Test 1
+  </div>
+    <div>
+    Test 1
+  </div>
   </div>
 
 
@@ -460,7 +498,7 @@ svg{
 
 <!-- OLD MOCKUP CONSTRUCTION -->
 
-<div id='container' class='container-1'>
+<!-- <div id='container' class='container-1'>
   <div id='graph'></div>
   <div id='sections'>
     <div>
@@ -487,9 +525,9 @@ svg{
 
   </div>
 
-</div>
+</div> -->
 
-<h1 id='source'><a href='https://github.com/1wheel/graph-scroll'>contribute/view source on github</a></h1>
+<!-- <h1 id='source'><a href='https://github.com/1wheel/graph-scroll'>contribute/view source on github</a></h1> -->
 
 
 <script src="d3v4+jetpack.js"></script>
@@ -595,44 +633,44 @@ function render(){
 
 // CONSTRUCTION MOCKUP -------------------------------------------
 
-  var svg1 = d3.select('.container-1 #graph').html('')
-    .append('svg')
-    .attrs({width: width, height: height});
+  // var svg1 = d3.select('.container-1 #graph').html('')
+  //   .append('svg')
+  //   .attrs({width: width, height: height});
 
-    svg1.append("rect")
-    .attr("width", "100%")
-    .attr("height", "100%")
-    .attr("fill", "white");
+  //   svg1.append("rect")
+  //   .attr("width", "100%")
+  //   .attr("height", "100%")
+  //   .attr("fill", "white");
 
-    // svg0.append("svg:image")
-    // .attr('x', -9)
-    // .attr('y', -12)
-    // .attr('width', width)
-    // .attr('height', height)
-    // .attr("xlink:href", "images/comic_1.png")
+  //   // svg0.append("svg:image")
+  //   // .attr('x', -9)
+  //   // .attr('y', -12)
+  //   // .attr('width', width)
+  //   // .attr('height', height)
+  //   // .attr("xlink:href", "images/comic_1.png")
  
-  var const_squares = ["const1", "const2", "const3", "const3", "const4"]
-  var box_squares = ["box_0", "box_1", "box_2", "box_3", "box_4"]
-  var gs1 = d3.graphScroll()
-      .container(d3.select('.container-1'))
-      .graph(d3.selectAll('.container-1 #graph'))
-      .eventId('uniqueId1')  // namespace for scroll and resize events
-      .sections(d3.selectAll('.container-1 #sections > div'))
-      .on('active', function(i){
-        // transitions
-        svg1.append("svg:image")
-        .attr('x', -9)
-        .attr('y', -130)
-        .attr('width', 500)
-        .attr('height', 500)
-        .attr("xlink:href", "images/" + const_squares[i] + ".png")
-        svg1.append("svg:image")
-        .attr('x', -9)
-        .attr('y', 120)
-        .attr('width', 500)
-        .attr('height', 500)
-        .attr("xlink:href", "images/" + box_squares[i] + ".png")
-      })
+  // var const_squares = ["const1", "const2", "const3", "const3", "const4"]
+  // var box_squares = ["box_0", "box_1", "box_2", "box_3", "box_4"]
+  // var gs1 = d3.graphScroll()
+  //     .container(d3.select('.container-1'))
+  //     .graph(d3.selectAll('.container-1 #graph'))
+  //     .eventId('uniqueId1')  // namespace for scroll and resize events
+  //     .sections(d3.selectAll('.container-1 #sections > div'))
+  //     .on('active', function(i){
+  //       // transitions
+  //       svg1.append("svg:image")
+  //       .attr('x', -9)
+  //       .attr('y', -130)
+  //       .attr('width', 500)
+  //       .attr('height', 500)
+  //       .attr("xlink:href", "images/" + const_squares[i] + ".png")
+  //       svg1.append("svg:image")
+  //       .attr('x', -9)
+  //       .attr('y', 120)
+  //       .attr('width', 500)
+  //       .attr('height', 500)
+  //       .attr("xlink:href", "images/" + box_squares[i] + ".png")
+  //     })
 
 // END -----------------------------------------------------------
 
@@ -1427,6 +1465,210 @@ svg2.selectAll("line.median-line").remove()
 
       })
 // END ----------------------------------------------------------
+
+// answering questions section  -------------------------------------------
+
+// set the dimensions and margins of the graph
+var margin_4 = {top: 10, right: 30, bottom: 30, left: 40},
+  width_2 = 500 - margin_4.left - margin_4.right,
+  height_2 = 300 - margin_4.top - margin_4.bottom;
+
+// append the svg object to the body of the page
+var svg4 = d3.select(".container-4 #graph").html('')
+.append("svg")
+  .attr("width", width_2 + margin_4.left + margin_4.right)
+  .attr("height", height_2 + margin_4.top + margin_4.bottom)
+.append("g")
+  .attr("transform",
+        "translate(" + margin_4.left + "," + margin_4.top + ")");
+
+  // a few features for the box
+var center_draw = 200
+var height_draw = 50
+
+
+var mountain_1 = [ 52, 85, 120, 125, 154, 140, 186, 206, 395, 420]; // NEEDS TO BE ORDERED
+var mountain_2 = [ 135, 145, 154, 162, 185, 252, 275, 278, 344, 382 ]; // NEEDS TO BE ORDERED
+
+// Compute summary statistics used for the box:
+var q1_1 = d3.quantile(mountain_1, .25)
+var median_1 = d3.quantile(mountain_1, .5)
+var q3_1 = d3.quantile(mountain_1, .75)
+var interQuantileRange_1 = q3_1 - q1_1
+var min_1 = Math.min(...mountain_1);
+var max_1 = Math.max(...mountain_1);
+
+var q1_2 = d3.quantile(mountain_2, .25)
+var median_2 = d3.quantile(mountain_2, .5)
+var q3_2 = d3.quantile(mountain_2, .75)
+var interQuantileRange_2 = q3_2 - q1_2
+var min_2 = Math.min(...mountain_2);
+var max_2 = Math.max(...mountain_2);
+
+// Show the X scale
+var x_4 = d3.scaleLinear()
+  .domain([0,450])
+  .range([0, width_2])
+
+// // a few features for the box
+// var center_2 = 200
+ 
+  var gs4 = d3.graphScroll()
+      .offset(300) // sets the offset overall
+      .container(d3.select('.container-4'))
+      .graph(d3.selectAll('.container-4 #graph'))
+      .eventId('uniqueId4')  // namespace for scroll and resize events
+      .sections(d3.selectAll('.container-4 #sections > div'))
+      .on('active', function(i){
+        console.log(i);
+
+        if (i == 0) {
+
+          svg4.append("svg:image")
+          .attr('x', -40)
+          .attr('y', -100)
+          .attr('width', 500)
+          .attr('height', 500)
+          .attr("xlink:href", "images/comic_2.png")
+        }
+        else if (i == 1) {
+          svg4.append("svg:image")
+          .attr('x', -40)
+          .attr('y', -100)
+          .attr('width', 500)
+          .attr('height', 500)
+          .attr("xlink:href", "images/comic_5.png")
+        }
+
+        else if (i == 2) {
+
+          svg4.append("rect")
+            .attr('x', -40)
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("fill", "#ececed");
+
+          // Show the X scale
+
+          svg4.append("g")
+            .attr("class", "scale")
+            .attr("transform", "translate(0," + height_2 + ")")
+            .call(d3.axisBottom(x_4))
+
+
+          // Show the main vertical line
+          svg4
+          .append("line")
+            .attr("class", "vert-line")
+            .attr("x1", x_4(min_1))
+            .attr("x2", x_4(max_1))
+            .attr("y1", center_draw - 100)
+            .attr("y2", center_draw - 100)
+            .attr("stroke", "black")
+
+          // Show the box
+          svg4
+          .append("rect")
+            .attr("x", x_4(q1_1) )
+            .attr("y",  center - height_draw/2 - 100)
+            .attr("height", height_draw)
+            .attr("width", (x_4(q3_1)-x_4(q1_1)))
+            .attr("stroke", "black")
+            .style("fill", "#69b3a2")
+
+            svg4.append("line")
+              .attr("class", "min-line")
+              .attr("x1", x_4(min_1))
+              .attr("x2", x_4(min_1))
+              .attr("y1", center-height/2 - 100)
+              .attr("y2", center+height/2 - 100)
+              .attr("stroke", "black")
+
+            svg4.append("line")
+              .attr("class", "median-line")
+              .attr("x1", x_4(median_1))
+              .attr("x2", x_4(median_1))
+              .attr("y1", center-height/2 - 100)
+              .attr("y2", center+height/2 - 100)
+              .attr("stroke", "black")
+
+            svg4.append("line")
+              .attr("class", "max-line")
+              .attr("x1", x_4(max_1))
+              .attr("x2", x_4(max_1))
+              .attr("y1", center-height/2 - 100)
+              .attr("y2", center+height/2 - 100)
+              .attr("stroke", "black")
+
+        }
+
+        else if (i == 3) {
+
+          // Show the main vertical line
+          svg4
+          .append("line")
+            .attr("class", "vert-line")
+            .attr("x1", x_4(min_2))
+            .attr("x2", x_4(max_2))
+            .attr("y1", center_draw )
+            .attr("y2", center_draw )
+            .attr("stroke", "black")
+
+          // Show the box
+          svg4
+          .append("rect")
+            .attr("x", x_4(q1_2) )
+            .attr("y",  center - height_draw/2)
+            .attr("height", height_draw)
+            .attr("width", (x_4(q3_2)-x_4(q1_2)))
+            .attr("stroke", "black")
+            .style("fill", "#69b3a2")
+
+            svg4.append("line")
+              .attr("class", "min-line")
+              .attr("x1", x_4(min_2))
+              .attr("x2", x_4(min_2))
+              .attr("y1", center-height/2)
+              .attr("y2", center+height/2)
+              .attr("stroke", "black")
+
+            svg4.append("line")
+              .attr("class", "median-line")
+              .attr("x1", x_4(median_2))
+              .attr("x2", x_4(median_2))
+              .attr("y1", center-height/2)
+              .attr("y2", center+height/2)
+              .attr("stroke", "black")
+
+            svg4.append("line")
+              .attr("class", "max-line")
+              .attr("x1", x_4(max_2))
+              .attr("x2", x_4(max_2))
+              .attr("y1", center-height/2)
+              .attr("y2", center+height/2)
+              .attr("stroke", "black")
+        }
+
+        else if (i == 4) {
+            svg4.select("g.scale")
+              .attr("fill", "blue")
+        }
+
+        else if (i == 5) {
+            svg4.select("g.scale")
+              .attr("fill", "none")
+
+            svg4.selectAll("line.vert-line")
+              .attr("stroke", "blue")
+              .style("stroke-width", 5)
+
+              
+        }
+        
+      })
+
+
+// END -------------------------------------------------------------
 
 // sandbox scroll setup --------------------------------------
 
