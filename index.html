@@ -460,19 +460,27 @@ svg{
       The extreme values give us information on the minimum, maximum and <span class="bolded">variance</span>: the spread of data.
    </div>
    <div>
-      Mountain 1 has greater variance: this means the annual snowfall data is more spread out.
+      Mountain 1 has <span class="bolded">greater variance</span>: this means the annual snowfall data is more spread out.
    </div>
    <div>
-    Meanwhile, Mountain 2 has smaller variance, which means that snowfall doesn't vary as much year to year.
+    Meanwhile, Mountain 2 has <span class="bolded">smaller variance</span>, which means that snowfall doesn't vary as much year to year.
+   </div>
+    <div>
+    We can look for the mountain with a <span class="bolded">smaller variance</span>, and a <span class ="bolded">greatest chance</span> to receive snowfall more than a certain value, say, <span class="bolded">200cm</span>.
+   </div>
+    <div>
+    That would be mountain 2!
+   </div>
+   <div style="min-height: 500px;">
+    Amazing! I can't wait for the Easter Holidays!
    </div>
   </div>
 
 
 </div>
 
-<div id='container' class='container-5'>
+<!-- <div id='container' class='container-5'>
   <div id='graph'></div>
-<!--   <div id="my_dataviz"></div> -->
 
   <div id='sections'>
 
@@ -494,7 +502,7 @@ svg{
   </div>
 
 
-</div>
+</div> -->
 
 <!-- OLD MOCKUP CONSTRUCTION -->
 
@@ -1524,6 +1532,13 @@ var x_4 = d3.scaleLinear()
 
         if (i == 0) {
 
+          svg4.append("rect")
+            .attr('x', -40)
+            .attr('y', -50)
+            .attr("width", "100%")
+            .attr("height", "140%")
+            .attr("fill", "white")
+
           svg4.append("svg:image")
           .attr('x', -40)
           .attr('y', -100)
@@ -1532,6 +1547,14 @@ var x_4 = d3.scaleLinear()
           .attr("xlink:href", "images/comic_2.png")
         }
         else if (i == 1) {
+
+          svg4.append("rect")
+            .attr('x', -40)
+            .attr('y', -50)
+            .attr("width", "100%")
+            .attr("height", "140%")
+            .attr("fill", "white")
+
           svg4.append("svg:image")
           .attr('x', -40)
           .attr('y', -100)
@@ -1559,7 +1582,10 @@ var x_4 = d3.scaleLinear()
           // Show the main vertical line
           svg4
           .append("line")
+            .transition()
+            .duration(1000)
             .attr("class", "vert-line")
+            .attr("class", "vert-line-1")
             .attr("x1", x_4(min_1))
             .attr("x2", x_4(max_1))
             .attr("y1", center_draw - 100)
@@ -1569,6 +1595,8 @@ var x_4 = d3.scaleLinear()
           // Show the box
           svg4
           .append("rect")
+            .transition()
+            .duration(1000)
             .attr("x", x_4(q1_1) )
             .attr("y",  center - height_draw/2 - 100)
             .attr("height", height_draw)
@@ -1577,6 +1605,8 @@ var x_4 = d3.scaleLinear()
             .style("fill", "#69b3a2")
 
             svg4.append("line")
+              .transition()
+              .duration(1000)
               .attr("class", "min-line")
               .attr("x1", x_4(min_1))
               .attr("x2", x_4(min_1))
@@ -1585,6 +1615,8 @@ var x_4 = d3.scaleLinear()
               .attr("stroke", "black")
 
             svg4.append("line")
+              .transition()
+              .duration(1000)
               .attr("class", "median-line")
               .attr("x1", x_4(median_1))
               .attr("x2", x_4(median_1))
@@ -1593,6 +1625,8 @@ var x_4 = d3.scaleLinear()
               .attr("stroke", "black")
 
             svg4.append("line")
+              .transition()
+              .duration(1000)
               .attr("class", "max-line")
               .attr("x1", x_4(max_1))
               .attr("x2", x_4(max_1))
@@ -1607,7 +1641,10 @@ var x_4 = d3.scaleLinear()
           // Show the main vertical line
           svg4
           .append("line")
+            .transition()
+            .duration(1000)
             .attr("class", "vert-line")
+            .attr("class", "vert-line-2")
             .attr("x1", x_4(min_2))
             .attr("x2", x_4(max_2))
             .attr("y1", center_draw )
@@ -1617,6 +1654,8 @@ var x_4 = d3.scaleLinear()
           // Show the box
           svg4
           .append("rect")
+            .transition()
+            .duration(1000)
             .attr("x", x_4(q1_2) )
             .attr("y",  center - height_draw/2)
             .attr("height", height_draw)
@@ -1625,6 +1664,8 @@ var x_4 = d3.scaleLinear()
             .style("fill", "#69b3a2")
 
             svg4.append("line")
+              .transition()
+              .duration(1000)
               .attr("class", "min-line")
               .attr("x1", x_4(min_2))
               .attr("x2", x_4(min_2))
@@ -1633,6 +1674,8 @@ var x_4 = d3.scaleLinear()
               .attr("stroke", "black")
 
             svg4.append("line")
+              .transition()
+              .duration(1000)
               .attr("class", "median-line")
               .attr("x1", x_4(median_2))
               .attr("x2", x_4(median_2))
@@ -1641,6 +1684,8 @@ var x_4 = d3.scaleLinear()
               .attr("stroke", "black")
 
             svg4.append("line")
+              .transition()
+              .duration(1000)
               .attr("class", "max-line")
               .attr("x1", x_4(max_2))
               .attr("x2", x_4(max_2))
@@ -1651,18 +1696,88 @@ var x_4 = d3.scaleLinear()
 
         else if (i == 4) {
             svg4.select("g.scale")
-              .attr("fill", "blue")
+              .style("fill", "blue")
         }
 
         else if (i == 5) {
             svg4.select("g.scale")
-              .attr("fill", "none")
+              .style("fill", "none")
 
-            svg4.selectAll("line.vert-line")
-              .attr("stroke", "blue")
+            svg4.select("line.vert-line-1")
+              .style("stroke", "blue")
+              .style("stroke-width", 5)
+
+
+            svg4.select("line.vert-line-2")
+              .style("stroke", "blue")
               .style("stroke-width", 5)
 
               
+        }
+
+        else if (i == 6) {
+            svg4.select("line.vert-line-2")
+              .style("stroke", "black")
+              .style("stroke-width", 1)
+        }
+
+        else if (i == 7) {
+            svg4.select("line.vert-line-1")
+              .style("stroke", "black")
+              .style("stroke-width", 1)
+
+            svg4.select("line.vert-line-2")
+              .style("stroke", "blue")
+              .style("stroke-width", 5)
+        }
+
+        else if (i == 8) {
+            svg4.select("line.vert-line-2")
+              .style("stroke", "black")
+              .style("stroke-width", 1)
+
+          svg4
+          .append("line")
+            .transition()
+            .duration(1000)
+            .attr("class", "snowfall")
+            .attr("x1", x_4(200))
+            .attr("x2", x_4(200))
+            .attr("y1", center_draw - 180)
+            .attr("y2", center_draw + 50)
+            .style("stroke", "red")
+            .style("stroke-width", 10)
+        }
+
+        else if (i == 9) {
+
+          svg4
+          .append("rect")
+            .transition()
+            .duration(1000)
+            .attr("x", x_4(200) )
+            .attr("y",  center - height_draw/2)
+            .attr("height", 50)
+            .attr("width", 175)
+            .style("opacity", 0.2)
+            .attr("stroke", "red")
+            .style("fill", "red")
+
+        }
+        else if (i == 10) {
+          svg4.append("rect")
+            .attr('x', -40)
+            .attr('y', -50)
+            .attr("width", "100%")
+            .attr("height", "140%")
+            .attr("fill", "white")
+
+          svg4.append("svg:image")
+          .attr('x', -40)
+          .attr('y', -100)
+          .attr('width', 500)
+          .attr('height', 500)
+          .attr("xlink:href", "images/comic_3.png")
         }
         
       })
