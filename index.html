@@ -864,6 +864,7 @@ console.log(width)
 // Show the box
 svg3
 .append("rect")
+  .attr("id", "svg3-rect")
   .attr("x", x(q1) )
   .attr("y",  center - height/2)
   .attr("height", height)
@@ -924,6 +925,62 @@ svg3.append("line")
   .attr("stroke", "black")
   .attr("stroke", "black")
 
+
+
+  // create a tooltip
+// var tooltip = d3.select(".container-3 #graph").append("div")
+//     .style("position", "absolute")
+//     .style("visibility", "hidden")
+//     .text("I'm a circle!");
+//
+// d3.select("#svg3-rect")
+//   .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+//   .on("mousemove", function(){return tooltip.style("top", d3.select(this).attr("cy") + "px").style("left", d3.select(this).attr("cx") + "px")})
+//   .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+
+// from heatmap: https://www.d3-graph-gallery.com/graph/interactivity_tooltip.html#mostbasic
+
+  // create a tooltip
+  var Tooltip = d3.select(".container-3 #graph")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+
+
+    var mouseover = function(d) {
+    Tooltip
+      .style("opacity", 1)
+    d3.select(this)
+	  .attr("stroke", "blue")
+	  .style("stroke-width", 5)
+  }
+  var mousemove = function(d) {
+    Tooltip
+      .html("That's the interquartile range.")
+      .style("left", (d3.mouse(this)[0]+70) + "px")
+      .style("top", (d3.mouse(this)[1]) + "px")
+  }
+  var mouseleave = function(d) {
+    Tooltip
+      .style("opacity", 0)
+    d3.select(this)
+	  .attr("stroke", "black")
+	  .style("stroke-width", 1)
+  }
+
+  svg3.select("#svg3-rect").on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave)
+
+
+// tooltip.style("top", (event.pageY)+"px").style("left",(event.pageX)+"px")
+// tooltip.style("top", d3.select(this).attr("cy") + "px").style("left", d3.select(this).attr("cx") + "px")
+// tooltip.style("top",  (d3.mouse(this)[1]) + "px").style("left", (d3.mouse(this)[0]) + "px")
 
 // TABLE UPDATE
 

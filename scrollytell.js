@@ -1,3 +1,5 @@
+// requires d3.js
+
 var scrollytell = {
 
 	// class_name: class added to text
@@ -28,6 +30,12 @@ var scrollytell = {
 
 		}, false);
 	}
+
+	// refactor using this?
+	// d3.select("#circleBasicTooltip")
+	 //  .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+	 //  .on("mousemove", function(){return tooltip.style("top", (event.pageY-800)+"px").style("left",(event.pageX-800)+"px");})
+	 //  .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 
 	// TODO components
 	// data comic
