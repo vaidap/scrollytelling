@@ -6,6 +6,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Open+Sans:300,300i,700&display=swap" rel="stylesheet"> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="scrollytell.js"></script>
 <style>
 
 body{
@@ -1070,230 +1071,25 @@ update_datavis();
 
 // hover effects construction -------------------------------
 
-// sometimes shows it as stroke 5 black-- might be due the deletion/recreation and duplicates?
+// BUG sometimes shows it as stroke 5 black-- might be due the deletion/recreation and duplicates?
 
-let const_median_hl = document.getElementsByClassName("const-median-hl");
-  
-const_median_hl[0].addEventListener("mouseenter", function( event ) {   
-
-  svg2.select("line.median-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-}, false);
-
-const_median_hl[0].addEventListener("mouseleave", function( event ) {   
-
-  svg2.select("line.median-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-}, false);
-
-let const_q1_hl = document.getElementsByClassName("const-q1-hl");
-  
-const_q1_hl[0].addEventListener("mouseenter", function( event ) {   
-
-  svg2.select("line.q1-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-}, false);
-
-const_q1_hl[0].addEventListener("mouseleave", function( event ) {   
-
-  svg2.select("line.q1-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-}, false);
-
-let const_q3_hl = document.getElementsByClassName("const-q3-hl");
-  
-const_q3_hl[0].addEventListener("mouseenter", function( event ) {   
-
-  svg2.select("line.q3-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-}, false);
-
-const_q3_hl[0].addEventListener("mouseleave", function( event ) {   
-
-  svg2.select("line.q3-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-}, false);
-
-let const_min_hl = document.getElementsByClassName("const-min-hl");
-
-const_min_hl[0].addEventListener("mouseenter", function( event ) {   
-
-  svg2.select("line.min-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-}, false);
-
-const_min_hl[0].addEventListener("mouseleave", function( event ) {   
-
-  svg2.select("line.min-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-}, false);
-
-let const_max_hl = document.getElementsByClassName("const-max-hl");
-
-const_max_hl[0].addEventListener("mouseenter", function( event ) {   
-
-  svg2.select("line.max-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-}, false);
-
-const_max_hl[0].addEventListener("mouseleave", function( event ) {   
-
-  svg2.select("line.max-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-}, false);
-
+scrollytell.hover_text("const-median-hl", svg2, "line.median-line");
+scrollytell.hover_text("const-q1-hl", svg2, "line.q1-line");
+scrollytell.hover_text("const-q3-hl", svg2, "line.q3-line");
+scrollytell.hover_text("const-min-hl", svg2, "line.min-line");
+scrollytell.hover_text("const-max-hl", svg2, "line.max-line");
 
 // END ------------------------------------------------------
 
 
 // hover effects sandbox ------------------------------------
 
-let min_hl = document.getElementsByClassName("min-hl");
-  
-min_hl[0].addEventListener("mouseenter", function( event ) {   
-
-  svg3.select("line.min-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-}, false);
-
-min_hl[0].addEventListener("mouseleave", function( event ) {   
-
-  svg3.select("line.min-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-}, false);
-
-let max_hl = document.getElementsByClassName("max-hl");
-  
-max_hl[0].addEventListener("mouseenter", function( event ) {   
-
-  svg3.select("line.max-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-}, false);
-
-max_hl[0].addEventListener("mouseleave", function( event ) {   
-
-  svg3.select("line.max-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-}, false);
-
-let median_hl = document.getElementsByClassName("median-hl");
-  
-median_hl[0].addEventListener("mouseenter", function( event ) {   
-
-  svg3.select("line.median-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-}, false);
-
-median_hl[0].addEventListener("mouseleave", function( event ) {   
-
-  svg3.select("line.median-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-}, false);
-
-
-let iqr_hl = document.getElementsByClassName("iqr-hl");
-  
-iqr_hl[0].addEventListener("mouseenter", function( event ) {   
-
-  svg3.select("rect")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-}, false);
-
-iqr_hl[0].addEventListener("mouseleave", function( event ) {   
-
-  svg3.select("rect")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-}, false);
-
-let q1_hl = document.getElementsByClassName("q1-hl");
-  
-q1_hl[0].addEventListener("mouseenter", function( event ) {   
-
-  svg3.select("line.q1-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-  svg3.select("line.median-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-}, false);
-
-q1_hl[0].addEventListener("mouseleave", function( event ) {   
-
-  svg3.select("line.q1-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-  svg3.select("line.median-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-}, false);
-
-let q3_hl = document.getElementsByClassName("q3-hl");
-  
-q3_hl[0].addEventListener("mouseenter", function( event ) {   
-
-  svg3.select("line.q3-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-  svg3.select("line.median-line")
-    .attr("stroke", "blue")
-    .style("stroke-width", 5)
-
-}, false);
-
-q3_hl[0].addEventListener("mouseleave", function( event ) {   
-
-  svg3.select("line.q3-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-  svg3.select("line.median-line")
-    .attr("stroke", "black")
-    .style("stroke-width", 1)
-
-}, false);
-
-
+scrollytell.hover_text("min-hl", svg3, "line.min-line");
+scrollytell.hover_text("max-hl", svg3, "line.max-line");
+scrollytell.hover_text("median-hl", svg3, "line.median-line");
+scrollytell.hover_text("iqr-hl", svg3, "rect");
+scrollytell.hover_text("q1-hl", svg3, "line.q1-line");
+scrollytell.hover_text("q3-hl", svg3, "line.q3-line");
 
 // END ----------------------------------------------------------
 
