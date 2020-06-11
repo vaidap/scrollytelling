@@ -855,7 +855,7 @@ svg3
   .attr("x2", x(max))
   .attr("y1", center )
   .attr("y2", center )
-  .attr("stroke", "black")
+  .attr("stroke", "grey")
   .attr("stroke-width", 3)
 
 console.log(center - width/2)
@@ -870,7 +870,7 @@ svg3
   .attr("y",  center - height/2)
   .attr("height", height)
   .attr("width", (x(q3)-x(q1)))
-  .attr("stroke", "black")
+  .attr("stroke", "grey")
   .attr("stroke-width", 3)
   .style("fill", "#69b3a2")
 
@@ -893,7 +893,7 @@ svg3.append("line")
   .attr("x2", x(min))
   .attr("y1", center-height/2)
   .attr("y2", center+height/2)
-  .attr("stroke", "black")
+  .attr("stroke", "grey")
   .attr("stroke-width", 3)
 
 svg3.append("line")
@@ -903,7 +903,7 @@ svg3.append("line")
   .attr("x2", x(median))
   .attr("y1", center-height/2)
   .attr("y2", center+height/2)
-  .attr("stroke", "black")
+  .attr("stroke", "grey")
   .attr("stroke-width", 3)
 
 svg3.append("line")
@@ -913,7 +913,7 @@ svg3.append("line")
   .attr("x2", x(max))
   .attr("y1", center-height/2)
   .attr("y2", center+height/2)
-  .attr("stroke", "black")
+  .attr("stroke", "grey")
   .attr("stroke-width", 3)
 
 
@@ -923,7 +923,7 @@ svg3.append("line")
   .attr("x2", x(q3))
   .attr("y1", center-height/2)
   .attr("y2", center+height/2)
-  .attr("stroke", "black")
+  .attr("stroke", "grey")
   .attr("stroke-width", 3)
 
 svg3.append("line")
@@ -932,7 +932,7 @@ svg3.append("line")
   .attr("x2", x(q3))
   .attr("y1", center-height/2)
   .attr("y2", center+height/2)
-  .attr("stroke", "black")
+  .attr("stroke", "grey")
   .attr("stroke-width", 3)
 
 
@@ -966,13 +966,13 @@ var mouseover = function(d) {
 	  .style("stroke-width", 5)
 
 	if (this.id == "svg3-rect") {
-		tooltip.text("Interquartile Range")
+		tooltip.text("Interquartile Range: " + interQuantileRange + " (" + q1 + " to " + q3 + ")")
 	}
 	else if (this.id == "svg3-min") {
-		tooltip.text("Minimum")
+		tooltip.text("Minimum: " + min)
 	}
 	else if (this.id == "svg3-max") {
-		tooltip.text("Maximum")
+		tooltip.text("Maximum: " + max)
 	}
   }
 
@@ -985,7 +985,7 @@ var mouseleave = function(d) {
 	tooltip
 	  .style("visibility", "hidden");
     d3.select(this)
-	  .attr("stroke", "black")
+	  .attr("stroke", "grey")
 	  .style("stroke-width", 3)
   }
 
@@ -1006,11 +1006,8 @@ svg3.select("#svg3-max")
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave)
 
-
-// d3.select("#svg3-rect")
-// 	.on("mouseover", function(){return tooltip.style("visibility", "visible");})
-// 	.on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
-// 	.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+// TODO refactor visualisations to create all elements at the same time, then toggle visibility instead of creating in steps
+// TODO make variables for colours, stroke-weight
 
 // TABLE UPDATE
 
@@ -1060,8 +1057,6 @@ var update_datavis = function() {
     .attr("y",  center - height/2)
     .attr("height", height)
     .attr("width", (x(q3)-x(q1)))
-    .attr("stroke", "black")
-    .style("fill", "#69b3a2")
 
   svg3.select("line.vert-line")
     .transition()
