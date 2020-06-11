@@ -856,6 +856,7 @@ svg3
   .attr("y1", center )
   .attr("y2", center )
   .attr("stroke", "black")
+  .attr("stroke-width", 3)
 
 console.log(center - width/2)
 console.log(x(q3))
@@ -870,6 +871,7 @@ svg3
   .attr("height", height)
   .attr("width", (x(q3)-x(q1)))
   .attr("stroke", "black")
+  .attr("stroke-width", 3)
   .style("fill", "#69b3a2")
 
 // show median, min and max horizontal lines
@@ -886,27 +888,33 @@ svg3
 
 svg3.append("line")
   .attr("class", "min-line")
+  .attr("id","svg3-min")
   .attr("x1", x(min))
   .attr("x2", x(min))
   .attr("y1", center-height/2)
   .attr("y2", center+height/2)
   .attr("stroke", "black")
+  .attr("stroke-width", 3)
 
 svg3.append("line")
   .attr("class", "median-line")
+  .attr("id","svg3-med")
   .attr("x1", x(median))
   .attr("x2", x(median))
   .attr("y1", center-height/2)
   .attr("y2", center+height/2)
   .attr("stroke", "black")
+  .attr("stroke-width", 3)
 
 svg3.append("line")
   .attr("class", "max-line")
+   .attr("id","svg3-max")
   .attr("x1", x(max))
   .attr("x2", x(max))
   .attr("y1", center-height/2)
   .attr("y2", center+height/2)
   .attr("stroke", "black")
+  .attr("stroke-width", 3)
 
 
 svg3.append("line")
@@ -915,6 +923,8 @@ svg3.append("line")
   .attr("x2", x(q3))
   .attr("y1", center-height/2)
   .attr("y2", center+height/2)
+  .attr("stroke", "black")
+  .attr("stroke-width", 3)
 
 svg3.append("line")
   .attr("class", "q3-line")
@@ -923,64 +933,84 @@ svg3.append("line")
   .attr("y1", center-height/2)
   .attr("y2", center+height/2)
   .attr("stroke", "black")
-  .attr("stroke", "black")
+  .attr("stroke-width", 3)
 
 
 
-  // create a tooltip
-// var tooltip = d3.select(".container-3 #graph").append("div")
-//     .style("position", "absolute")
-//     .style("visibility", "hidden")
-//     .text("I'm a circle!");
-//
-// d3.select("#svg3-rect")
-//   .on("mouseover", function(){return tooltip.style("visibility", "visible");})
-//   .on("mousemove", function(){return tooltip.style("top", d3.select(this).attr("cy") + "px").style("left", d3.select(this).attr("cx") + "px")})
-//   .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+// create tooltips
+// TODO refactor this into scrollytell.js
+// TODO handle overlapping elements, by writing a function that gives priority for tooltip https://www.sitepoint.com/community/t/determine-if-mouse-is-over-an-element/4239/2
+// TODO handle z-index sorting for highlighting
 
-// from heatmap: https://www.d3-graph-gallery.com/graph/interactivity_tooltip.html#mostbasic
 
-  // create a tooltip
-  var Tooltip = d3.select(".container-3 #graph")
-    .append("div")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "white")
+var tooltip = d3.select("body")
+	.append("div")
+	.style("position", "absolute")
+	.style("z-index", "10")
+	.style("visibility", "hidden")
+	.style("color","blue")
+	.style("font-size", "18px")
+	.style("background-color", "white")
     .style("border", "solid")
+    .style("border-color","blue")
     .style("border-width", "2px")
     .style("border-radius", "5px")
     .style("padding", "5px")
+    .text("a simple tooltip");
 
-
-    var mouseover = function(d) {
-    Tooltip
-      .style("opacity", 1)
+var mouseover = function(d) {
+	tooltip
+	  .style("visibility", "visible");
     d3.select(this)
 	  .attr("stroke", "blue")
 	  .style("stroke-width", 5)
-  }
-  var mousemove = function(d) {
-    Tooltip
-      .html("That's the interquartile range.")
-      .style("left", (d3.mouse(this)[0]+70) + "px")
-      .style("top", (d3.mouse(this)[1]) + "px")
-  }
-  var mouseleave = function(d) {
-    Tooltip
-      .style("opacity", 0)
-    d3.select(this)
-	  .attr("stroke", "black")
-	  .style("stroke-width", 1)
+
+	if (this.id == "svg3-rect") {
+		tooltip.text("Interquartile Range")
+	}
+	else if (this.id == "svg3-min") {
+		tooltip.text("Minimum")
+	}
+	else if (this.id == "svg3-max") {
+		tooltip.text("Maximum")
+	}
   }
 
-  svg3.select("#svg3-rect").on("mouseover", mouseover)
+var mousemove = function(d) {
+	tooltip
+	  .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
+	}
+
+var mouseleave = function(d) {
+	tooltip
+	  .style("visibility", "hidden");
+    d3.select(this)
+	  .attr("stroke", "black")
+	  .style("stroke-width", 3)
+  }
+
+
+svg3.select("#svg3-rect")
+	.on("mouseover", mouseover)
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave)
 
 
-// tooltip.style("top", (event.pageY)+"px").style("left",(event.pageX)+"px")
-// tooltip.style("top", d3.select(this).attr("cy") + "px").style("left", d3.select(this).attr("cx") + "px")
-// tooltip.style("top",  (d3.mouse(this)[1]) + "px").style("left", (d3.mouse(this)[0]) + "px")
+svg3.select("#svg3-min")
+	.on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave)
+
+svg3.select("#svg3-max")
+	.on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave)
+
+
+// d3.select("#svg3-rect")
+// 	.on("mouseover", function(){return tooltip.style("visibility", "visible");})
+// 	.on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+// 	.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 
 // TABLE UPDATE
 
