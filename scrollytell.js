@@ -29,7 +29,7 @@ var scrollytell = {
 			.style("stroke-width", 1)
 
 		}, false);
-	}
+	},
 
 	// refactor using this?
 	// d3.select("#circleBasicTooltip")
@@ -41,4 +41,15 @@ var scrollytell = {
 	// data comic
 	// data table
 	// construction
+
+	//TODO sections not highlighted if you click on links
+	// scrolling back up, sandbox is not highlighted
+
+	// section_id: id of the part of the timeline we are now at
+	set_timeline_section: function(section_id) {
+ 		
+ 		document.getElementsByClassName("part-current")[0].classList.remove("part-current");
+        var part = document.getElementById(section_id);
+        part.classList.add("part-current");
+	}
 }

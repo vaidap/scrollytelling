@@ -243,8 +243,63 @@ label {
 	text-align: center;
 }
 
+#timeline {
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	margin: 15px;
+	padding: 15px;
+	background: white;
+	border: 3px solid black;
+	border-radius: 5px;
+	font-size: 18px;
+	z-index: 999;
+}
+
+#timeline span a {
+	color: black;
+	text-decoration: none;
+}
+
+#timeline span a:hover {
+	color: blue;
+	text-decoration: underline;
+}
+
+.part-current {
+	font-weight: bold;
+}
+
+#part-intro:hover .timeline-tooltip,
+#part-const:hover .timeline-tooltip,
+#part-sand:hover .timeline-tooltip,
+#part-answer:hover .timeline-tooltip
+ {
+    display: block;
+}
+
+
+.timeline-tooltip {
+    display: none;
+    padding: 10px;
+    position: absolute;
+    z-index: 1000;
+    width:350px;
+    height:50px;
+    border: 3px solid black;
+    border-radius: 5px;
+    background-color: white;
+    top: -160%;
+	margin-left: 50px;
+}
+
 </style>
 </head>
+
+<div id="timeline">
+<span id="part-intro"><div class="timeline-tooltip">When might we need boxplots?</div><a href="#intro-link">Introduction</a></span> - <span id="part-const"><div class="timeline-tooltip">Defining maximum, minimum, median, interquartile range</div><a href="#const-link">Construction</a></span> - <span id="part-sand"><div class="timeline-tooltip">An interactive data table and visualisation</div><a href="#sandbox-link">Sandbox</a></span> - <span id="part-answer"><div class="timeline-tooltip">Scale, variance, comparing visualisations to answer questions</div><a href="#answering-questions-link">Answering questions</a></span>
+</div>
 
 <div class="header">
 <h2 class="above">An interactive introduction to</h2>
@@ -253,7 +308,7 @@ label {
 </div>
 
 <div class="intro-text">
-  <h1>Boxplots are a fairly popular visualisation type, but one needs to know how to read them in order to extract useful conclusions. This introductory explainer contains an <a href="#intro-link" class="type-orange">example scenario</a>, a <a href="#const-link" class="type-green">vis construction</a>, a <a href="#sandbox-link" class ="type-purple"> sandbox</a>, and an <a href="#answering-questions-link" class="type-red">answering questions</a> section to get you started.</h1>
+  <h1>Boxplots are a fairly popular visualisation type, but one needs to know how to read them in order to extract useful conclusions. This introductory explainer contains an <a href="#intro-link" class="type-orange part-current">example scenario</a>, a <a href="#const-link" class="type-green">vis construction</a>, a <a href="#sandbox-link" class ="type-purple"> sandbox</a>, and an <a href="#answering-questions-link" class="type-red">answering questions</a> section to get you started.</h1>
 </div>
 
 <div id='container' class='container-0'>
@@ -339,6 +394,10 @@ label {
   <div id='graph'></div>
 
   <div id='sections'>
+
+  	<div>
+  		 <span class="blue-note">Let's try an interactive example...</span>
+  	</div>
 
     <div style="min-height: 800px;">
       <h3>Sandbox</h3>
@@ -627,6 +686,8 @@ function render(){
         .attr('width', 500)
         .attr('height', 500)
         .attr("xlink:href", "images/" + comic_squares[i] + ".png")
+
+		scrollytell.set_timeline_section("part-intro");
       })
 
 
@@ -1211,6 +1272,7 @@ svg2.selectAll("line.median-line").remove()
         }
     
         else if (i == 1) {
+		  scrollytell.set_timeline_section("part-const");
 
           svg2.selectAll("line.q1-line").remove()
           svg2.selectAll("line.q3-line").remove()
@@ -1448,6 +1510,8 @@ var x_4 = d3.scaleLinear()
           .attr("xlink:href", "images/comic_2.png")
         }
         else if (i == 1) {
+
+		  scrollytell.set_timeline_section("part-answer");
 
           svg4.append("rect")
             .attr('x', -40)
@@ -1699,6 +1763,11 @@ var x_4 = d3.scaleLinear()
       .sections(d3.selectAll('.container-3 #sections > div'))
       .on('active', function(i){
         // code to affect while scrolling
+
+        if (i == 1) {
+			scrollytell.set_timeline_section("part-sand");
+        }
+
       })
 // END ----------------------------------------------------------
 
