@@ -63,7 +63,6 @@
 
 <div id='container' class='container-2'>
   <div id='graph'></div>
-<!--   <div id="my_dataviz"></div> -->
 
   <div id='sections'>
 
@@ -230,7 +229,6 @@
 
 <div id='container' class='container-4'>
   <div id='graph'></div>
-<!--   <div id="my_dataviz"></div> -->
 
   <div id='sections'>
 
@@ -306,7 +304,6 @@ function render(){
     height = innerHeight*.7
   }
 
-  // return console.log(width, height)
 // END -------------------------------------------------------------
 
 // Testing static images -------------------------------------------
@@ -319,13 +316,6 @@ function render(){
     .attr("width", "100%")
     .attr("height", "100%")
     .attr("fill", "white");
-
-    // svg0.append("svg:image")
-    // .attr('x', -9)
-    // .attr('y', -12)
-    // .attr('width', width)
-    // .attr('height', height)
-    // .attr("xlink:href", "images/comic_1.png")
  
   var comic_squares = ["comic_1", "comic_1", "comic_2", "comic_3", "comic_4", "comic_5", "comic_2"]
   var gs0 = d3.graphScroll()
@@ -348,80 +338,6 @@ function render(){
 
 
 // END -------------------------------------------------------------
-
-
-// example circle --------------------------------------------------
-
-  // var svg = d3.select('.container-1 #graph').html('')
-  //   .append('svg')
-  //     .attrs({width: width, height: height})
-
-  // var circle = svg.append('circle')
-  //     .attrs({cx: 0, cy: 0, r: r})
-
-  // var colors = ['orange', 'purple', 'steelblue', 'pink', 'black']
-  // var gs = d3.graphScroll()
-  //     .container(d3.select('.container-1'))
-  //     .graph(d3.selectAll('container-1 #graph'))
-  //     .eventId('uniqueId1')  // namespace for scroll and resize events
-  //     .sections(d3.selectAll('.container-1 #sections > div'))
-  //     // .offset(innerWidth < 900 ? innerHeight - 30 : 200)
-  //     .on('active', function(i){
-  //       var pos = [ {cx: width - r, cy: r},
-  //                   {cx: r,         cy: r},
-  //                   {cx: width - r, cy: height - r},
-  //                   {cx: width/2,   cy: height/2} ][i]
-        
-  //       circle.transition().duration(1000)
-  //           .attrs(pos)
-  //         .transition()
-  //           .style('fill', colors[i])
-  //     })
-// END -----------------------------------------------------------
-
-
-// CONSTRUCTION MOCKUP -------------------------------------------
-
-  // var svg1 = d3.select('.container-1 #graph').html('')
-  //   .append('svg')
-  //   .attrs({width: width, height: height});
-
-  //   svg1.append("rect")
-  //   .attr("width", "100%")
-  //   .attr("height", "100%")
-  //   .attr("fill", "white");
-
-  //   // svg0.append("svg:image")
-  //   // .attr('x', -9)
-  //   // .attr('y', -12)
-  //   // .attr('width', width)
-  //   // .attr('height', height)
-  //   // .attr("xlink:href", "images/comic_1.png")
- 
-  // var const_squares = ["const1", "const2", "const3", "const3", "const4"]
-  // var box_squares = ["box_0", "box_1", "box_2", "box_3", "box_4"]
-  // var gs1 = d3.graphScroll()
-  //     .container(d3.select('.container-1'))
-  //     .graph(d3.selectAll('.container-1 #graph'))
-  //     .eventId('uniqueId1')  // namespace for scroll and resize events
-  //     .sections(d3.selectAll('.container-1 #sections > div'))
-  //     .on('active', function(i){
-  //       // transitions
-  //       svg1.append("svg:image")
-  //       .attr('x', -9)
-  //       .attr('y', -130)
-  //       .attr('width', 500)
-  //       .attr('height', 500)
-  //       .attr("xlink:href", "images/" + const_squares[i] + ".png")
-  //       svg1.append("svg:image")
-  //       .attr('x', -9)
-  //       .attr('y', 120)
-  //       .attr('width', 500)
-  //       .attr('height', 500)
-  //       .attr("xlink:href", "images/" + box_squares[i] + ".png")
-  //     })
-
-// END -----------------------------------------------------------
 
 
 // BOXPLOT CONSTRUCTION FROM MOCKUP ---------------------------------------
@@ -641,7 +557,6 @@ var update_datavis = function() {
   $("table#test-table tr td input.dataval").each(function() {  
     data.push(Number($(this).val()));
 });
-  console.log(data);
 
   var svg3_stats = calculate_stats(data);
 
@@ -667,53 +582,6 @@ scrollytell.update_svg(svg3, svg3_stats, x, center, line_height);
 
 for (var i = 0; i < elements.length; i++) {
     elements[i].addEventListener('input', update_datavis , false);
-}
-
-// BOX UPDATE
-
-// when the input range changes update the circle 
-d3.select("#nRadius").on("input", function() {
-  console.log("basic change");
-  update_box(+this.value);
-});
-
-// Initial starting radius of the circle 
-update_box(x(svg3_stats.q3));
-
-// update the elements
-function update_box(nRadius) {
-
-  // adjust the text on the range slider
-  d3.select("#nRadius-value").text(nRadius);
-  d3.select("#nRadius").property("value", nRadius);
-
-  // update the circle radius
-  svg3.selectAll("rect") 
-    .attr("x", nRadius);
-}
-
-
-// LINE UPDATE
-
-// when the input range changes update the circle 
-d3.select("#nLine").on("input", function() {
-  update_line(+this.value);
-});
-
-// Initial starting radius of the circle 
-update_line(0);
-
-// update the elements
-function update_line(nLine) {
-
-  // adjust the text on the range slider
-  d3.select("#nLine-value").text(nLine);
-  d3.select("#nLine").property("value", nLine);
-
-  // update the circle radius
-  svg3.select("line.vert-line")
-    .attr("x1", x(svg3_stats.min) - nLine)
-    .attr("x2", x(svg3_stats.max) - nLine)
 }
 
 // initialise the datavis to data table
@@ -759,7 +627,6 @@ svg2.selectAll("line.median-line").remove()
       .eventId('uniqueId2')  // namespace for scroll and resize events
       .sections(d3.selectAll('.container-2 #sections > div'))
       .on('active', function(i){ // JUMP
-        console.log("Active:" + i);
 
         var const_squares_2 = ["const_1", "const_2", "const_3", "const_3", "const_4"]
 
@@ -987,7 +854,6 @@ var x_4 = d3.scaleLinear()
       .eventId('uniqueId4')  // namespace for scroll and resize events
       .sections(d3.selectAll('.container-4 #sections > div'))
       .on('active', function(i){
-        console.log(i);
 
         if (i == 0) {
 
