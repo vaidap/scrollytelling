@@ -54,19 +54,8 @@ var scrollytell = {
 	},
 
 	//TODO make margins editable as well
+	// graph_id refers to "svg3","svg4" etc
 	init_svg: function(graph_id, graph_selector, margin, width, height, line_height, center, data) {
-
-		// create dummy data
-		var data_sorted = data;
-
-		// Compute summary statistics used for the box:
-		var data_sorted = data.sort(d3.ascending)
-		var q1 = d3.quantile(data_sorted, .25)
-		var median = d3.quantile(data_sorted, .5)
-		var q3 = d3.quantile(data_sorted, .75)
-		var interQuantileRange = q3 - q1
-		var min = q1 - 1.5 * interQuantileRange
-		var max = q1 + 1.5 * interQuantileRange
 
 		// append svg object to container
 		var svg = d3.select(graph_selector).html('')
@@ -90,8 +79,8 @@ var scrollytell = {
 		.append("line")
 		  .attr("class", "vert-line")
 		  .attr("id", graph_id + "-vert-line")
-		  .attr("x1", x(min))
-		  .attr("x2", x(max))
+		  .attr("x1", x(data.min))
+		  .attr("x2", x(data.min))
 		  .attr("y1", center )
 		  .attr("y2", center )
 		  .attr("stroke", "grey")
@@ -101,10 +90,10 @@ var scrollytell = {
 		svg
 		.append("rect")
 		  .attr("id", graph_id + "-rect")
-		  .attr("x", x(q1) )
+		  .attr("x", x(data.q1) )
 		  .attr("y",  center - line_height)
 		  .attr("height", line_height)
-		  .attr("width", (x(q3)-x(q1)))
+		  .attr("width", (x(data.q3)-x(data.q1)))
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 		  .style("fill", "#69b3a2")
@@ -112,8 +101,8 @@ var scrollytell = {
 		svg.append("line")
 		  .attr("class", "min-line")
 		  .attr("id", graph_id + "-min")
-		  .attr("x1", x(min))
-		  .attr("x2", x(min))
+		  .attr("x1", x(data.min))
+		  .attr("x2", x(data.min))
 		  .attr("y1", center-line_height/2)
 		  .attr("y2", center+line_height/2)
 		  .attr("stroke", "grey")
@@ -122,8 +111,8 @@ var scrollytell = {
 		svg.append("line")
 		  .attr("class", "median-line")
 		  .attr("id", graph_id + "-med")
-		  .attr("x1", x(median))
-		  .attr("x2", x(median))
+		  .attr("x1", x(data.median))
+		  .attr("x2", x(data.median))
 		  .attr("y1", center-line_height/2)
 		  .attr("y2", center+line_height/2)
 		  .attr("stroke", "grey")
@@ -132,8 +121,8 @@ var scrollytell = {
 		svg.append("line")
 		  .attr("class", "max-line")
 		   .attr("id", graph_id + "-max")
-		  .attr("x1", x(max))
-		  .attr("x2", x(max))
+		  .attr("x1", x(data.max))
+		  .attr("x2", x(data.max))
 		  .attr("y1", center-line_height/2)
 		  .attr("y2", center+line_height/2)
 		  .attr("stroke", "grey")
@@ -143,8 +132,8 @@ var scrollytell = {
 		svg.append("line")
 		  .attr("class", "q1-line")
 		  .attr("id", graph_id + "-q1-line")
-		  .attr("x1", x(q1))
-		  .attr("x2", x(q3))
+		  .attr("x1", x(data.q1))
+		  .attr("x2", x(data.q3))
 		  .attr("y1", center-line_height/2)
 		  .attr("y2", center+line_height/2)
 		  .attr("stroke", "grey")
@@ -153,8 +142,8 @@ var scrollytell = {
 		svg.append("line")
 		  .attr("class", "q3-line")
 		  .attr("id", graph_id + "-q3-line")
-		  .attr("x1", x(q1))
-		  .attr("x2", x(q3))
+		  .attr("x1", x(data.q1))
+		  .attr("x2", x(data.q3))
 		  .attr("y1", center-line_height/2)
 		  .attr("y2", center+line_height/2)
 		  .attr("stroke", "grey")
@@ -162,5 +151,54 @@ var scrollytell = {
 
 	    return [svg, x];
 
+	},
+
+	update_svg: function(graph, data, x, center, line_height) {
+
+	  graph.select("rect")
+	    .transition()
+	    .duration(1000)
+	    .attr("x", x(data.q1))
+	    .attr("y",  center - line_height/2)
+	    .attr("height", line_height)
+	    .attr("width", (x(data.q3)-x(data.q1)))
+
+	  graph.select("line.vert-line")
+	    .transition()
+	    .duration(1000)
+	    .attr("x1", x(data.min))
+	    .attr("x2", x(data.max))
+
+	  graph.select("line.min-line")
+	    .transition()
+	    .duration(1000)
+	    .attr("x1", x(data.min))
+	    .attr("x2", x(data.min))
+
+	  graph.select("line.median-line")
+	    .transition()
+	    .duration(1000)
+	    .attr("x1", x(data.median))
+	    .attr("x2", x(data.median))
+
+	  graph.select("line.max-line")
+	    .transition()
+	    .duration(1000)
+	    .attr("x1", x(data.max))
+	    .attr("x2", x(data.max))
+
+	  graph.select("line.q1-line")
+	    .transition()
+	    .duration(1000)
+	    .attr("x1", x(data.q1))
+	    .attr("x2", x(data.q1))
+
+	  graph.select("line.q3-line")
+	    .transition()
+	    .duration(1000)
+	    .attr("x1", x(data.q3))
+	    .attr("x2", x(data.q3))
+
 	}
+
 }

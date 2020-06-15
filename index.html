@@ -866,16 +866,29 @@ var svg2 = d3.select(".container-2 #graph").html('')
 
 // create dummy data
 var data =  [ 4, 5, 11, 12, 12, 13, 15, 16, 19, 22 ]
-var data_sorted = data;
 
-// Compute summary statistics used for the box:
-var data_sorted = data.sort(d3.ascending)
-var q1 = d3.quantile(data_sorted, .25)
-var median = d3.quantile(data_sorted, .5)
-var q3 = d3.quantile(data_sorted, .75)
-var interQuantileRange = q3 - q1
-var min = q1 - 1.5 * interQuantileRange
-var max = q1 + 1.5 * interQuantileRange
+// Compute summary statistics used for the box
+function calculate_stats(data) {
+
+	var data_sorted = data.sort(d3.ascending)
+	var q1 = d3.quantile(data_sorted, .25)
+	var median = d3.quantile(data_sorted, .5)
+	var q3 = d3.quantile(data_sorted, .75)
+	var interQuantileRange = q3 - q1
+    var min = Math.min(...data)
+    var max = Math.max(...data)
+
+	return stats = {
+	  q1: q1,
+	  median: median,
+	  q3: q3,
+	  interQuantileRange: interQuantileRange,
+	  min: min,
+	  max: max
+	};
+}
+
+var svg3_stats = calculate_stats(data);
 
 // define margin of graph
 var margin_2 = {top: 10, right: 30, bottom: 30, left: 40},
@@ -887,7 +900,7 @@ var margin_2 = {top: 10, right: 30, bottom: 30, left: 40},
 var center = 200;
 var line_height = 50;
 
-var values = scrollytell.init_svg("svg3", ".container-3 #graph", margin_2, width, height, 50, center, data);
+var values = scrollytell.init_svg("svg3", ".container-3 #graph", margin_2, width, height, line_height, center, svg3_stats);
 var svg3 = values[0];
 var x = values[1];
 
@@ -922,13 +935,13 @@ var mouseover = function(d) {
 	  .style("stroke-width", 5)
 
 	if (this.id == "svg3-rect") {
-		tooltip.text("Interquartile Range: " + interQuantileRange + " (" + q1 + " to " + q3 + ")")
+		tooltip.text("Interquartile Range: " + svg3_stats.interQuantileRange + " (" + svg3_stats.q1 + " to " + svg3_stats.q3 + ")")
 	}
 	else if (this.id == "svg3-min") {
-		tooltip.text("Minimum: " + min)
+		tooltip.text("Minimum: " + svg3_stats.min)
 	}
 	else if (this.id == "svg3-max") {
-		tooltip.text("Maximum: " + max)
+		tooltip.text("Maximum: " + svg3_stats.max)
 	}
   }
 
@@ -945,22 +958,18 @@ var mouseleave = function(d) {
 	  .style("stroke-width", 3)
   }
 
+//TODO this doesn't add actual handling of tooltip, which is above
+function add_tooltip(graph, element_id) {
 
-svg3.select("#svg3-rect")
-	.on("mouseover", mouseover)
-    .on("mousemove", mousemove)
-    .on("mouseleave", mouseleave)
+	graph.select(element_id)
+		.on("mouseover", mouseover)
+	    .on("mousemove", mousemove)
+	    .on("mouseleave", mouseleave)
+}	
 
-
-svg3.select("#svg3-min")
-	.on("mouseover", mouseover)
-    .on("mousemove", mousemove)
-    .on("mouseleave", mouseleave)
-
-svg3.select("#svg3-max")
-	.on("mouseover", mouseover)
-    .on("mousemove", mousemove)
-    .on("mouseleave", mouseleave)
+add_tooltip(svg3, "#svg3-rect");
+add_tooltip(svg3, "#svg3-min");
+add_tooltip(svg3, "#svg3-max");
 
 // TODO refactor visualisations to create all elements at the same time, then toggle visibility instead of creating in steps
 // TODO make variables for colours, stroke-weight
@@ -978,77 +987,25 @@ var update_datavis = function() {
 });
   console.log(data);
 
-  // recalculate stats
-  data_sorted = data.sort(d3.ascending);
-  console.log(data_sorted)
-  q1 = d3.quantile(data_sorted, .25);
-  median = d3.quantile(data_sorted, .5);
-  q3 = d3.quantile(data_sorted, .75);
-  interQuantileRange = q3 - q1;
-  // min = q1 - 1.5 * interQuantileRange;
-  // max = q1 + 1.5 * interQuantileRange;
-  min = Math.min(...data);
-  max = Math.max(...data);
+  var svg3_stats = calculate_stats(data);
 
   //reupdate range & ticks
-  x.domain([min, max]);
+  x.domain([svg3_stats.min, svg3_stats.max]);
   svg3.select("g")
     .transition()
     .duration(1000)
     .call(d3.axisBottom(x))
 
   // update displayed statistics
-  d3.select("#q1-stat").text(q1);
-  d3.select("#q3-stat").text(q3);
-  d3.select("#median-stat").text(median);
-  d3.select("#inter-stat").text(interQuantileRange);
-  d3.select("#min-stat").text(min);
-  d3.select("#max-stat").text(max);
+  d3.select("#q1-stat").text(svg3_stats.q1);
+  d3.select("#q3-stat").text(svg3_stats.q3);
+  d3.select("#median-stat").text(svg3_stats.median);
+  d3.select("#inter-stat").text(svg3_stats.interQuantileRange);
+  d3.select("#min-stat").text(svg3_stats.min);
+  d3.select("#max-stat").text(svg3_stats.max);
 
   // update visualisation
-  svg3.select("rect")
-    .transition()
-    .duration(1000)
-    .attr("x", x(q1))
-    .attr("y",  center - height/2)
-    .attr("height", height)
-    .attr("width", (x(q3)-x(q1)))
-
-  svg3.select("line.vert-line")
-    .transition()
-    .duration(1000)
-    .attr("x1", x(min))
-    .attr("x2", x(max))
-
-  svg3.select("line.min-line")
-    .transition()
-    .duration(1000)
-    .attr("x1", x(min))
-    .attr("x2", x(min))
-
-  svg3.select("line.median-line")
-    .transition()
-    .duration(1000)
-    .attr("x1", x(median))
-    .attr("x2", x(median))
-
-  svg3.select("line.max-line")
-    .transition()
-    .duration(1000)
-    .attr("x1", x(max))
-    .attr("x2", x(max))
-
-  svg3.select("line.q1-line")
-    .transition()
-    .duration(1000)
-    .attr("x1", x(q1))
-    .attr("x2", x(q1))
-
-  svg3.select("line.q3-line")
-    .transition()
-    .duration(1000)
-    .attr("x1", x(q3))
-    .attr("x2", x(q3))
+scrollytell.update_svg(svg3, svg3_stats, x, center, line_height);
 
 };
 
@@ -1065,7 +1022,7 @@ d3.select("#nRadius").on("input", function() {
 });
 
 // Initial starting radius of the circle 
-update_box(x(q3));
+update_box(x(svg3_stats.q3));
 
 // update the elements
 function update_box(nRadius) {
@@ -1099,8 +1056,8 @@ function update_line(nLine) {
 
   // update the circle radius
   svg3.select("line.vert-line")
-    .attr("x1", x(min) - nLine)
-    .attr("x2", x(max) - nLine)
+    .attr("x1", x(svg3_stats.min) - nLine)
+    .attr("x2", x(svg3_stats.max) - nLine)
 }
 
 // initialise the datavis to data table
