@@ -6,7 +6,6 @@
 
 <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Open+Sans:300,300i,700&display=swap" rel="stylesheet"> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script type="text/javascript" src="scrollytell.js"></script>
 <style>
 
 body{
@@ -623,6 +622,7 @@ label {
 
 <script src="d3v4+jetpack.js"></script>
 <script src="graph-scroll.js"></script>
+<script type="text/javascript" src="scrollytell.js"></script>
 <script>
 
 // BOXPLOT SETUP ----------------------------------------------------
@@ -863,19 +863,6 @@ var svg2 = d3.select(".container-2 #graph").html('')
 
 // sandbox boxplot ----------------------------------------------
 
-// set the dimensions and margins of the graph
-var margin_2 = {top: 10, right: 30, bottom: 30, left: 40},
-  width = 500 - margin.left - margin.right,
-  height = 300 - margin.top - margin.bottom;
-
-// append the svg object to the body of the page
-var svg3 = d3.select(".container-3 #graph").html('')
-.append("svg")
-  .attr("width", width + margin_2.left + margin_2.right)
-  .attr("height", height + margin_2.top + margin_2.bottom)
-.append("g")
-  .attr("transform",
-        "translate(" + margin_2.left + "," + margin_2.top + ")");
 
 // create dummy data
 var data =  [ 4, 5, 11, 12, 12, 13, 15, 16, 19, 22 ]
@@ -890,113 +877,21 @@ var interQuantileRange = q3 - q1
 var min = q1 - 1.5 * interQuantileRange
 var max = q1 + 1.5 * interQuantileRange
 
-// Show the Y scale
-// var y = d3.scaleLinear()
-//   .domain([0,24])
-//   .range([height, 0]);
-// svg.call(d3.axisLeft(y))
+// define margin of graph
+var margin_2 = {top: 10, right: 30, bottom: 30, left: 40},
+  width = 500 - margin.left - margin.right,
+  height = 300 - margin.top - margin.bottom;
 
-// Show the X scale
-var x = d3.scaleLinear()
-  .domain([0,24])
-  .range([0, width])
-svg3.append("g")
-  .attr("transform", "translate(0," + height + ")")
-  .call(d3.axisBottom(x))
 
 // a few features for the box
-var center = 200
-var height = 50
+var center = 200;
+var line_height = 50;
 
-// Show the main vertical line
-svg3
-.append("line")
-  .attr("class", "vert-line")
-  .attr("x1", x(min))
-  .attr("x2", x(max))
-  .attr("y1", center )
-  .attr("y2", center )
-  .attr("stroke", "grey")
-  .attr("stroke-width", 3)
+var values = scrollytell.init_svg("svg3", ".container-3 #graph", margin_2, width, height, 50, center, data);
+var svg3 = values[0];
+var x = values[1];
 
-console.log(center - width/2)
-console.log(x(q3))
-console.log((x(q1)-x(q3)))
-console.log(width)
-// Show the box
-svg3
-.append("rect")
-  .attr("id", "svg3-rect")
-  .attr("x", x(q1) )
-  .attr("y",  center - height/2)
-  .attr("height", height)
-  .attr("width", (x(q3)-x(q1)))
-  .attr("stroke", "grey")
-  .attr("stroke-width", 3)
-  .style("fill", "#69b3a2")
-
-// show median, min and max horizontal lines
-// svg
-// .selectAll("toto")
-// .data([min, median, max])
-// .enter()
-// .append("line")
-//   .attr("x1", function(d){ return(x(d))})
-//   .attr("x2", function(d){ return(x(d))})
-//   .attr("y1", center-height/2 )
-//   .attr("y2", center+height/2)
-//   .attr("stroke", "black")
-
-svg3.append("line")
-  .attr("class", "min-line")
-  .attr("id","svg3-min")
-  .attr("x1", x(min))
-  .attr("x2", x(min))
-  .attr("y1", center-height/2)
-  .attr("y2", center+height/2)
-  .attr("stroke", "grey")
-  .attr("stroke-width", 3)
-
-svg3.append("line")
-  .attr("class", "median-line")
-  .attr("id","svg3-med")
-  .attr("x1", x(median))
-  .attr("x2", x(median))
-  .attr("y1", center-height/2)
-  .attr("y2", center+height/2)
-  .attr("stroke", "grey")
-  .attr("stroke-width", 3)
-
-svg3.append("line")
-  .attr("class", "max-line")
-   .attr("id","svg3-max")
-  .attr("x1", x(max))
-  .attr("x2", x(max))
-  .attr("y1", center-height/2)
-  .attr("y2", center+height/2)
-  .attr("stroke", "grey")
-  .attr("stroke-width", 3)
-
-
-svg3.append("line")
-  .attr("class", "q1-line")
-  .attr("x1", x(q1))
-  .attr("x2", x(q3))
-  .attr("y1", center-height/2)
-  .attr("y2", center+height/2)
-  .attr("stroke", "grey")
-  .attr("stroke-width", 3)
-
-svg3.append("line")
-  .attr("class", "q3-line")
-  .attr("x1", x(q1))
-  .attr("x2", x(q3))
-  .attr("y1", center-height/2)
-  .attr("y2", center+height/2)
-  .attr("stroke", "grey")
-  .attr("stroke-width", 3)
-
-
+var height = 50 //TODO refactor, this is used for the rectangle actually
 
 // create tooltips
 // TODO refactor this into scrollytell.js
