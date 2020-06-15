@@ -1,0 +1,284 @@
+body{
+  max-width: 1200px;
+  margin: 0px auto;
+/*  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+  font-family: "Open Sans", Arial, sans-serif;
+  font-weight: 300;
+}
+
+/* header styling */
+
+h1{
+  margin: 50px;
+}
+
+h1, h2, h3 {
+  color: #2980b9;
+}
+
+div.header h1, div.header h2 {
+  text-align: center;
+  font-family: "Bree Serif", Times New Roman, serif;  
+  text-transform: uppercase;
+}
+
+div.header h1 {
+  margin-top: 0px;
+  font-size: 150px;
+}
+
+div.header h2.above {
+  margin-top: 200px;
+  margin-bottom: -40px;
+  font-size: 30px;
+}
+
+div.header h2.beyond {
+  margin-top: -70px;
+  margin-bottom: 150px;
+  font-size: 30px;
+}
+
+.box-plot-header {
+  border: 2px solid black;
+  height: 50px;
+}
+
+/* sections & graph styling */
+
+/*div.container-0 div#sections {
+  font-size: 30px;
+}
+
+div.container-0 div#sections > div {
+  margin-bottom: 50px;
+}
+*/
+
+div.container-3 div#sections {
+  font-size: 18px;
+}
+
+div.container-3 div#sections h3 {
+  font-size: 28px;
+}
+
+div#sections div {
+  min-height: 80px;
+}
+
+/*div#sections div.one-liner {
+  line-height:200px;
+}*/
+
+div#sections div.last-div {
+  min-height: 300px;
+}
+
+/*div#sections div div.buffer {
+  max-height:200px;
+}*/
+
+div.separator {
+  height: 100px;
+}
+
+#container{
+  position: relative;
+}
+
+#sections{
+  width: 600px;
+  font-size: 28px;
+  text-align: justify;
+}
+
+#sections > div{
+  background: white;
+  opacity: .2;
+  margin-bottom: 50px;
+}
+/*#sections > div:last-child{
+  margin-bottom: 30px;
+}*/
+#sections > div.graph-scroll-active{
+  opacity: 1;
+}
+
+#graph{
+  margin-left: 40px;
+  width: 500px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 100px;
+  float: right;
+}
+
+@media (max-width: 925px)  {
+  #graph{
+    width: 100%;
+    margin-left: 0px;
+    float: none;
+  }
+
+  #sections{
+    width: auto;
+    position: relative;
+    margin: 0px auto;
+  }
+
+  #sections > div{
+    background: rgba(255,255,255,.5);
+    padding: 10px;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    margin-bottom: 80vh;
+  }
+
+  pre{
+    overflow: hidden;
+  }
+
+  h1{
+    margin: 10px;
+  }
+}
+
+
+circle{
+  fill: steelblue;
+}
+
+.mono{
+  font-family: monospace;
+}
+
+svg{
+  background-color: #eee;
+}
+
+.hl-word {
+	color: blue;
+	border: 1px solid blue;
+	border-radius: 5px;
+	padding: 1px 3px 1px 3px;
+}
+
+.hl-word:hover {
+	background-color:blue;
+	color: white;
+	-webkit-transition: all 500ms ease;
+	-moz-transition: all 500ms ease;
+	-o-transition: all 500ms ease;
+	transition: all 500ms ease;
+}
+
+.intro-text {
+  min-height: 300px;
+  text-align: justify;
+}
+
+.type-orange {
+  color: #fbc531;
+  border-bottom: 3px dashed #fbc531;
+}
+
+.type-green {
+  color: #44bd32;
+  border-bottom: 3px dashed #44bd32;
+}
+
+.type-purple {
+  color: #9c88ff;
+  border-bottom: 3px dashed #9c88ff;
+}
+
+.type-red {
+	color: #00a8ff;
+	border-bottom: 3px dashed #00a8ff;
+}
+
+.bolded {
+  font-weight: bold;
+}
+
+.intro-text a {
+  text-decoration: none;
+}
+
+.intro-text a:hover {
+  opacity: 0.5;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.blue-note {
+	color: blue;
+	font-style: italic;
+}
+
+input {
+  font-family: "Open Sans", Arial, sans-serif;
+  font-weight: 300;
+  font-size:18px;
+  max-width: 100px;
+}
+
+label {
+	display: inline-block; 
+	width: 50px;
+	text-align: center;
+}
+
+#timeline {
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	margin: 15px;
+	padding: 15px;
+	background: white;
+	border: 3px solid black;
+	border-radius: 5px;
+	font-size: 18px;
+	z-index: 999;
+}
+
+#timeline span a {
+	color: black;
+	text-decoration: none;
+}
+
+#timeline span a:hover {
+	color: blue;
+	text-decoration: underline;
+}
+
+.part-current {
+	font-weight: bold;
+}
+
+#part-intro:hover .timeline-tooltip,
+#part-const:hover .timeline-tooltip,
+#part-sand:hover .timeline-tooltip,
+#part-answer:hover .timeline-tooltip
+ {
+    display: block;
+}
+
+
+.timeline-tooltip {
+    display: none;
+    padding: 10px;
+    position: absolute;
+    z-index: 1000;
+    width:350px;
+    height:50px;
+    border: 3px solid black;
+    border-radius: 5px;
+    background-color: white;
+    top: -160%;
+	margin-left: 50px;
+}

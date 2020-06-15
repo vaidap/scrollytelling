@@ -4,296 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 
+<link rel="stylesheet" type="text/css" href="style.css">
 <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Open+Sans:300,300i,700&display=swap" rel="stylesheet"> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<style>
-
-body{
-  max-width: 1200px;
-  margin: 0px auto;
-/*  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
-  font-family: "Open Sans", Arial, sans-serif;
-  font-weight: 300;
-}
-
-/* header styling */
-
-h1{
-  margin: 50px;
-}
-
-h1, h2, h3 {
-  color: #2980b9;
-}
-
-div.header h1, div.header h2 {
-  text-align: center;
-  font-family: "Bree Serif", Times New Roman, serif;  
-  text-transform: uppercase;
-}
-
-div.header h1 {
-  margin-top: 0px;
-  font-size: 150px;
-}
-
-div.header h2.above {
-  margin-top: 200px;
-  margin-bottom: -40px;
-  font-size: 30px;
-}
-
-div.header h2.beyond {
-  margin-top: -70px;
-  margin-bottom: 150px;
-  font-size: 30px;
-}
-
-.box-plot-header {
-  border: 2px solid black;
-  height: 50px;
-}
-
-/* sections & graph styling */
-
-/*div.container-0 div#sections {
-  font-size: 30px;
-}
-
-div.container-0 div#sections > div {
-  margin-bottom: 50px;
-}
-*/
-
-div.container-3 div#sections {
-  font-size: 18px;
-}
-
-div.container-3 div#sections h3 {
-  font-size: 28px;
-}
-
-div#sections div {
-  min-height: 80px;
-}
-
-/*div#sections div.one-liner {
-  line-height:200px;
-}*/
-
-div#sections div.last-div {
-  min-height: 300px;
-}
-
-/*div#sections div div.buffer {
-  max-height:200px;
-}*/
-
-div.separator {
-  height: 100px;
-}
-
-#container{
-  position: relative;
-}
-
-#sections{
-  width: 600px;
-  font-size: 28px;
-  text-align: justify;
-}
-
-#sections > div{
-  background: white;
-  opacity: .2;
-  margin-bottom: 50px;
-}
-/*#sections > div:last-child{
-  margin-bottom: 30px;
-}*/
-#sections > div.graph-scroll-active{
-  opacity: 1;
-}
-
-#graph{
-  margin-left: 40px;
-  width: 500px;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 100px;
-  float: right;
-}
-
-@media (max-width: 925px)  {
-  #graph{
-    width: 100%;
-    margin-left: 0px;
-    float: none;
-  }
-
-  #sections{
-    width: auto;
-    position: relative;
-    margin: 0px auto;
-  }
-
-  #sections > div{
-    background: rgba(255,255,255,.5);
-    padding: 10px;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
-    margin-bottom: 80vh;
-  }
-
-  pre{
-    overflow: hidden;
-  }
-
-  h1{
-    margin: 10px;
-  }
-}
-
-
-circle{
-  fill: steelblue;
-}
-
-.mono{
-  font-family: monospace;
-}
-
-svg{
-  background-color: #eee;
-}
-
-.hl-word {
-	color: blue;
-	border: 1px solid blue;
-	border-radius: 5px;
-	padding: 1px 3px 1px 3px;
-}
-
-.hl-word:hover {
-	background-color:blue;
-	color: white;
-	-webkit-transition: all 500ms ease;
-	-moz-transition: all 500ms ease;
-	-o-transition: all 500ms ease;
-	transition: all 500ms ease;
-}
-
-.intro-text {
-  min-height: 300px;
-  text-align: justify;
-}
-
-.type-orange {
-  color: #fbc531;
-  border-bottom: 3px dashed #fbc531;
-}
-
-.type-green {
-  color: #44bd32;
-  border-bottom: 3px dashed #44bd32;
-}
-
-.type-purple {
-  color: #9c88ff;
-  border-bottom: 3px dashed #9c88ff;
-}
-
-.type-red {
-	color: #00a8ff;
-	border-bottom: 3px dashed #00a8ff;
-}
-
-.bolded {
-  font-weight: bold;
-}
-
-.intro-text a {
-  text-decoration: none;
-}
-
-.intro-text a:hover {
-  opacity: 0.5;
-  -webkit-transition: all 500ms ease;
-  -moz-transition: all 500ms ease;
-  -o-transition: all 500ms ease;
-  transition: all 500ms ease;
-}
-
-.blue-note {
-	color: blue;
-	font-style: italic;
-}
-
-input {
-  font-family: "Open Sans", Arial, sans-serif;
-  font-weight: 300;
-  font-size:18px;
-  max-width: 100px;
-}
-
-label {
-	display: inline-block; 
-	width: 50px;
-	text-align: center;
-}
-
-#timeline {
-	position: fixed;
-	bottom: 0;
-	left: 50%;
-	transform: translateX(-50%);
-	margin: 15px;
-	padding: 15px;
-	background: white;
-	border: 3px solid black;
-	border-radius: 5px;
-	font-size: 18px;
-	z-index: 999;
-}
-
-#timeline span a {
-	color: black;
-	text-decoration: none;
-}
-
-#timeline span a:hover {
-	color: blue;
-	text-decoration: underline;
-}
-
-.part-current {
-	font-weight: bold;
-}
-
-#part-intro:hover .timeline-tooltip,
-#part-const:hover .timeline-tooltip,
-#part-sand:hover .timeline-tooltip,
-#part-answer:hover .timeline-tooltip
- {
-    display: block;
-}
-
-
-.timeline-tooltip {
-    display: none;
-    padding: 10px;
-    position: absolute;
-    z-index: 1000;
-    width:350px;
-    height:50px;
-    border: 3px solid black;
-    border-radius: 5px;
-    background-color: white;
-    top: -160%;
-	margin-left: 50px;
-}
-
-</style>
 </head>
 
 <div id="timeline">
@@ -561,63 +274,6 @@ label {
 
 </div>
 
-<!-- <div id='container' class='container-5'>
-  <div id='graph'></div>
-
-  <div id='sections'>
-
-  <div>
-    Test 1
-  </div>
-    <div>
-    Test 1
-  </div>
-    <div>
-    Test 1
-  </div>
-    <div>
-    Test 1
-  </div>
-    <div>
-    Test 1
-  </div>
-  </div>
-
-
-</div> -->
-
-<!-- OLD MOCKUP CONSTRUCTION -->
-
-<!-- <div id='container' class='container-1'>
-  <div id='graph'></div>
-  <div id='sections'>
-    <div>
-      <h3>Construction</h3>
-        Let's start with one set of data. As a first step, we can order the values by ascending order.
-    </div>
-
-    <div>
-      By splitting the data into two equal groups, we obtain the middle value, called the <span class="hl-word">median</span>.
-    </div>
-
-
-    <div>
-      The median values obtained by splitting the lower and higher halves are called the <span class="hl-word">lower quartile</span> and <span class="hl-word">higher quartile</span>.
-    </div>
-
-    <div>
-      We link these three values with a box.
-    </div>
-
-    <div class="last-div">
-      Finally, we plot the <span class="hl-word">minimum</span> and <span class="hl-word">maximum</span>, which make the "whiskers" of our graph.
-    </div>
-
-  </div>
-
-</div> -->
-
-<!-- <h1 id='source'><a href='https://github.com/1wheel/graph-scroll'>contribute/view source on github</a></h1> -->
 
 
 <script src="d3v4+jetpack.js"></script>
@@ -1313,20 +969,8 @@ var height_draw = 50
 var mountain_1 = [ 52, 85, 120, 125, 154, 140, 186, 206, 395, 420]; // NEEDS TO BE ORDERED
 var mountain_2 = [ 135, 145, 154, 162, 185, 252, 275, 278, 344, 382 ]; // NEEDS TO BE ORDERED
 
-// Compute summary statistics used for the box:
-var q1_1 = d3.quantile(mountain_1, .25)
-var median_1 = d3.quantile(mountain_1, .5)
-var q3_1 = d3.quantile(mountain_1, .75)
-var interQuantileRange_1 = q3_1 - q1_1
-var min_1 = Math.min(...mountain_1);
-var max_1 = Math.max(...mountain_1);
-
-var q1_2 = d3.quantile(mountain_2, .25)
-var median_2 = d3.quantile(mountain_2, .5)
-var q3_2 = d3.quantile(mountain_2, .75)
-var interQuantileRange_2 = q3_2 - q1_2
-var min_2 = Math.min(...mountain_2);
-var max_2 = Math.max(...mountain_2);
+var mountain_1_stats = calculate_stats(mountain_1);
+var mountain_2_stats = calculate_stats(mountain_2);
 
 // Show the X scale
 var x_4 = d3.scaleLinear()
@@ -1403,8 +1047,8 @@ var x_4 = d3.scaleLinear()
             .duration(1000)
             .attr("class", "vert-line")
             .attr("class", "vert-line-1")
-            .attr("x1", x_4(min_1))
-            .attr("x2", x_4(max_1))
+            .attr("x1", x_4(mountain_1_stats.min))
+            .attr("x2", x_4(mountain_1_stats.max))
             .attr("y1", center_draw - 100)
             .attr("y2", center_draw - 100)
             .attr("stroke", "black")
@@ -1414,10 +1058,10 @@ var x_4 = d3.scaleLinear()
           .append("rect")
             .transition()
             .duration(1000)
-            .attr("x", x_4(q1_1) )
+            .attr("x", x_4(mountain_1_stats.q1) )
             .attr("y",  center - height_draw/2 - 100)
             .attr("height", height_draw)
-            .attr("width", (x_4(q3_1)-x_4(q1_1)))
+            .attr("width", (x_4(mountain_1_stats.q3)-x_4(mountain_1_stats.q1)))
             .attr("stroke", "black")
             .style("fill", "#69b3a2")
 
@@ -1425,8 +1069,8 @@ var x_4 = d3.scaleLinear()
               .transition()
               .duration(1000)
               .attr("class", "min-line")
-              .attr("x1", x_4(min_1))
-              .attr("x2", x_4(min_1))
+              .attr("x1", x_4(mountain_1_stats.min))
+              .attr("x2", x_4(mountain_1_stats.min))
               .attr("y1", center-height/2 - 100)
               .attr("y2", center+height/2 - 100)
               .attr("stroke", "black")
@@ -1435,8 +1079,8 @@ var x_4 = d3.scaleLinear()
               .transition()
               .duration(1000)
               .attr("class", "median-line")
-              .attr("x1", x_4(median_1))
-              .attr("x2", x_4(median_1))
+              .attr("x1", x_4(mountain_1_stats.median))
+              .attr("x2", x_4(mountain_1_stats.median))
               .attr("y1", center-height/2 - 100)
               .attr("y2", center+height/2 - 100)
               .attr("stroke", "black")
@@ -1445,8 +1089,8 @@ var x_4 = d3.scaleLinear()
               .transition()
               .duration(1000)
               .attr("class", "max-line")
-              .attr("x1", x_4(max_1))
-              .attr("x2", x_4(max_1))
+              .attr("x1", x_4(mountain_1_stats.max))
+              .attr("x2", x_4(mountain_1_stats.max))
               .attr("y1", center-height/2 - 100)
               .attr("y2", center+height/2 - 100)
               .attr("stroke", "black")
@@ -1462,8 +1106,8 @@ var x_4 = d3.scaleLinear()
             .duration(1000)
             .attr("class", "vert-line")
             .attr("class", "vert-line-2")
-            .attr("x1", x_4(min_2))
-            .attr("x2", x_4(max_2))
+            .attr("x1", x_4(mountain_2_stats.min))
+            .attr("x2", x_4(mountain_2_stats.max))
             .attr("y1", center_draw )
             .attr("y2", center_draw )
             .attr("stroke", "black")
@@ -1473,10 +1117,10 @@ var x_4 = d3.scaleLinear()
           .append("rect")
             .transition()
             .duration(1000)
-            .attr("x", x_4(q1_2) )
+            .attr("x", x_4(mountain_2_stats.q1) )
             .attr("y",  center - height_draw/2)
             .attr("height", height_draw)
-            .attr("width", (x_4(q3_2)-x_4(q1_2)))
+            .attr("width", (x_4(mountain_2_stats.q3)-x_4(mountain_2_stats.q1)))
             .attr("stroke", "black")
             .style("fill", "#69b3a2")
 
@@ -1484,8 +1128,8 @@ var x_4 = d3.scaleLinear()
               .transition()
               .duration(1000)
               .attr("class", "min-line")
-              .attr("x1", x_4(min_2))
-              .attr("x2", x_4(min_2))
+              .attr("x1", x_4(mountain_2_stats.min))
+              .attr("x2", x_4(mountain_2_stats.min))
               .attr("y1", center-height/2)
               .attr("y2", center+height/2)
               .attr("stroke", "black")
@@ -1494,8 +1138,8 @@ var x_4 = d3.scaleLinear()
               .transition()
               .duration(1000)
               .attr("class", "median-line")
-              .attr("x1", x_4(median_2))
-              .attr("x2", x_4(median_2))
+              .attr("x1", x_4(mountain_2_stats.median))
+              .attr("x2", x_4(mountain_2_stats.median))
               .attr("y1", center-height/2)
               .attr("y2", center+height/2)
               .attr("stroke", "black")
@@ -1504,8 +1148,8 @@ var x_4 = d3.scaleLinear()
               .transition()
               .duration(1000)
               .attr("class", "max-line")
-              .attr("x1", x_4(max_2))
-              .attr("x2", x_4(max_2))
+              .attr("x1", x_4(mountain_2_stats.max))
+              .attr("x2", x_4(mountain_2_stats.max))
               .attr("y1", center-height/2)
               .attr("y2", center+height/2)
               .attr("stroke", "black")
