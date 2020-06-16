@@ -439,6 +439,7 @@ var svg2 = d3.select(".container-2 #graph").html('')
 // create dummy data
 var data =  [ 4, 5, 11, 12, 12, 13, 15, 16, 19, 22 ]
 
+// TODO move these to scrollytelli.js
 // Compute summary statistics used for the box
 function calculate_stats(data) {
 
@@ -467,9 +468,11 @@ svg3_settings = {
 	width: 500 - margin.left - margin.right,
 	height: 300 - margin.top - margin.bottom,
 	center: 200,
-	line_height: 50
+	line_height: 50,
+	x_domain: [0, 24]
 }
 
+// TODO rename x to x_3
 var values = scrollytell.init_svg(".container-3 #graph", svg3_settings);
 var svg3 = values[0];
 var x = values[1];
@@ -815,38 +818,24 @@ svg2.selectAll("line.median-line").remove()
 
 // answering questions section  -------------------------------------------
 
-// set the dimensions and margins of the graph
-var margin_4 = {top: 10, right: 30, bottom: 30, left: 40},
-  width_2 = 500 - margin_4.left - margin_4.right,
-  height_2 = 300 - margin_4.top - margin_4.bottom;
+svg4_settings = {
+	margin: {top: 10, right: 30, bottom: 30, left: 40},
+	width: 500 - margin.left - margin.right,
+	height: 300 - margin.top - margin.bottom,
+	center: 200,
+	line_height: 50,
+	x_domain: [0, 450]
+}
 
-// append the svg object to the body of the page
-var svg4 = d3.select(".container-4 #graph").html('')
-.append("svg")
-  .attr("width", width_2 + margin_4.left + margin_4.right)
-  .attr("height", height_2 + margin_4.top + margin_4.bottom)
-.append("g")
-  .attr("transform",
-        "translate(" + margin_4.left + "," + margin_4.top + ")");
-
-  // a few features for the box
-var center_draw = 200
-var height_draw = 50
-
+var values = scrollytell.init_svg(".container-4 #graph", svg4_settings);
+var svg4 = values[0];
+var x_4 = values[1];
 
 var mountain_1 = [ 52, 85, 120, 125, 154, 140, 186, 206, 395, 420]; // NEEDS TO BE ORDERED
 var mountain_2 = [ 135, 145, 154, 162, 185, 252, 275, 278, 344, 382 ]; // NEEDS TO BE ORDERED
 
 var mountain_1_stats = calculate_stats(mountain_1);
 var mountain_2_stats = calculate_stats(mountain_2);
-
-// Show the X scale
-var x_4 = d3.scaleLinear()
-  .domain([0,450])
-  .range([0, width_2])
-
-// // a few features for the box
-// var center_2 = 200
  
   var gs4 = d3.graphScroll()
       .offset(300) // sets the offset overall
@@ -903,7 +892,7 @@ var x_4 = d3.scaleLinear()
 
           svg4.append("g")
             .attr("class", "scale")
-            .attr("transform", "translate(0," + height_2 + ")")
+            .attr("transform", "translate(0," + svg4_settings.height + ")")
             .call(d3.axisBottom(x_4))
 
 
@@ -916,8 +905,8 @@ var x_4 = d3.scaleLinear()
             .attr("class", "vert-line-1")
             .attr("x1", x_4(mountain_1_stats.min))
             .attr("x2", x_4(mountain_1_stats.max))
-            .attr("y1", center_draw - 100)
-            .attr("y2", center_draw - 100)
+            .attr("y1", svg4_settings.center - 100)
+            .attr("y2", svg4_settings.center - 100)
             .attr("stroke", "black")
 
           // Show the box
@@ -926,8 +915,8 @@ var x_4 = d3.scaleLinear()
             .transition()
             .duration(1000)
             .attr("x", x_4(mountain_1_stats.q1) )
-            .attr("y",  center - height_draw/2 - 100)
-            .attr("height", height_draw)
+            .attr("y",  svg4_settings.center - svg4_settings.line_height/2 - 100)
+            .attr("height", svg4_settings.line_height)
             .attr("width", (x_4(mountain_1_stats.q3)-x_4(mountain_1_stats.q1)))
             .attr("stroke", "black")
             .style("fill", "#69b3a2")
@@ -938,8 +927,8 @@ var x_4 = d3.scaleLinear()
               .attr("class", "min-line")
               .attr("x1", x_4(mountain_1_stats.min))
               .attr("x2", x_4(mountain_1_stats.min))
-              .attr("y1", center-height/2 - 100)
-              .attr("y2", center+height/2 - 100)
+              .attr("y1", svg4_settings.center-svg4_settings.line_height/2 - 100)
+              .attr("y2", svg4_settings.center+svg4_settings.line_height/2 - 100)
               .attr("stroke", "black")
 
             svg4.append("line")
@@ -948,8 +937,8 @@ var x_4 = d3.scaleLinear()
               .attr("class", "median-line")
               .attr("x1", x_4(mountain_1_stats.median))
               .attr("x2", x_4(mountain_1_stats.median))
-              .attr("y1", center-height/2 - 100)
-              .attr("y2", center+height/2 - 100)
+              .attr("y1", svg4_settings.center-svg4_settings.line_height/2 - 100)
+              .attr("y2", svg4_settings.center+svg4_settings.line_height/2 - 100)
               .attr("stroke", "black")
 
             svg4.append("line")
@@ -958,8 +947,8 @@ var x_4 = d3.scaleLinear()
               .attr("class", "max-line")
               .attr("x1", x_4(mountain_1_stats.max))
               .attr("x2", x_4(mountain_1_stats.max))
-              .attr("y1", center-height/2 - 100)
-              .attr("y2", center+height/2 - 100)
+              .attr("y1", svg4_settings.center-svg4_settings.line_height/2 - 100)
+              .attr("y2", svg4_settings.center+svg4_settings.line_height/2 - 100)
               .attr("stroke", "black")
 
         }
@@ -975,8 +964,8 @@ var x_4 = d3.scaleLinear()
             .attr("class", "vert-line-2")
             .attr("x1", x_4(mountain_2_stats.min))
             .attr("x2", x_4(mountain_2_stats.max))
-            .attr("y1", center_draw )
-            .attr("y2", center_draw )
+            .attr("y1", svg4_settings.center)
+            .attr("y2", svg4_settings.center)
             .attr("stroke", "black")
 
           // Show the box
@@ -985,8 +974,8 @@ var x_4 = d3.scaleLinear()
             .transition()
             .duration(1000)
             .attr("x", x_4(mountain_2_stats.q1) )
-            .attr("y",  center - height_draw/2)
-            .attr("height", height_draw)
+            .attr("y",  svg4_settings.center - svg4_settings.line_height/2)
+            .attr("height", svg4_settings.line_height)
             .attr("width", (x_4(mountain_2_stats.q3)-x_4(mountain_2_stats.q1)))
             .attr("stroke", "black")
             .style("fill", "#69b3a2")
@@ -997,8 +986,8 @@ var x_4 = d3.scaleLinear()
               .attr("class", "min-line")
               .attr("x1", x_4(mountain_2_stats.min))
               .attr("x2", x_4(mountain_2_stats.min))
-              .attr("y1", center-height/2)
-              .attr("y2", center+height/2)
+              .attr("y1", svg4_settings.center-svg4_settings.line_height/2)
+              .attr("y2", svg4_settings.center+svg4_settings.line_height/2)
               .attr("stroke", "black")
 
             svg4.append("line")
@@ -1007,8 +996,8 @@ var x_4 = d3.scaleLinear()
               .attr("class", "median-line")
               .attr("x1", x_4(mountain_2_stats.median))
               .attr("x2", x_4(mountain_2_stats.median))
-              .attr("y1", center-height/2)
-              .attr("y2", center+height/2)
+              .attr("y1", svg4_settings.center-svg4_settings.line_height/2)
+              .attr("y2", svg4_settings.center+svg4_settings.line_height/2)
               .attr("stroke", "black")
 
             svg4.append("line")
@@ -1017,8 +1006,8 @@ var x_4 = d3.scaleLinear()
               .attr("class", "max-line")
               .attr("x1", x_4(mountain_2_stats.max))
               .attr("x2", x_4(mountain_2_stats.max))
-              .attr("y1", center-height/2)
-              .attr("y2", center+height/2)
+              .attr("y1", svg4_settings.center-svg4_settings.line_height/2)
+              .attr("y2", svg4_settings.center+svg4_settings.line_height/2)
               .attr("stroke", "black")
         }
 
@@ -1071,8 +1060,8 @@ var x_4 = d3.scaleLinear()
             .attr("class", "snowfall")
             .attr("x1", x_4(200))
             .attr("x2", x_4(200))
-            .attr("y1", center_draw - 180)
-            .attr("y2", center_draw + 50)
+            .attr("y1", svg4_settings.center - 180)
+            .attr("y2", svg4_settings.center + 50)
             .style("stroke", "blue")
             .style("stroke-width", 10)
         }
@@ -1084,7 +1073,7 @@ var x_4 = d3.scaleLinear()
             .transition()
             .duration(1000)
             .attr("x", x_4(200) )
-            .attr("y",  center - height_draw/2)
+            .attr("y",  svg4_settings.center - svg4_settings.line_height/2)
             .attr("height", 50)
             .attr("width", 175)
             .style("opacity", 0.2)

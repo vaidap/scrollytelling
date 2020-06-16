@@ -63,6 +63,7 @@ var scrollytell = {
 		height = settings.height;
 		line_height = settings.line_height;
 		center = settings.center;
+		x_domain = settings.x_domain;
 
 		// append svg object to container
 		var svg = d3.select(graph_selector).html('')
@@ -74,7 +75,7 @@ var scrollytell = {
 
 	    // Show the X scale
 		var x = d3.scaleLinear()
-		  .domain([0,24])
+		  .domain(x_domain)
 		  .range([0, width])
 
 	    return [svg, x];
