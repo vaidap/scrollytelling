@@ -90,6 +90,27 @@ var scrollytell = {
 		  .call(d3.axisBottom(x))
 	},
 
+	// Compute summary statistics used for the box
+	calculate_stats: function(data) {
+
+		var data_sorted = data.sort(d3.ascending)
+		var q1 = d3.quantile(data_sorted, .25)
+		var median = d3.quantile(data_sorted, .5)
+		var q3 = d3.quantile(data_sorted, .75)
+		var interQuantileRange = q3 - q1
+	    var min = Math.min(...data)
+	    var max = Math.max(...data)
+
+		return stats = {
+		  q1: q1,
+		  median: median,
+		  q3: q3,
+		  interQuantileRange: interQuantileRange,
+		  min: min,
+		  max: max
+		};
+	},
+
 	//TODO graph refers to svg while graph_id actually refers to the boxplot ID in it, need to refactor
 	//TODO add offset
 	add_boxplot: function(graph, graph_id, settings, data, x, offset=0) {

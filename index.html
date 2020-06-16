@@ -439,29 +439,7 @@ var svg2 = d3.select(".container-2 #graph").html('')
 // create dummy data
 var data =  [ 4, 5, 11, 12, 12, 13, 15, 16, 19, 22 ]
 
-// TODO move these to scrollytelli.js
-// Compute summary statistics used for the box
-function calculate_stats(data) {
-
-	var data_sorted = data.sort(d3.ascending)
-	var q1 = d3.quantile(data_sorted, .25)
-	var median = d3.quantile(data_sorted, .5)
-	var q3 = d3.quantile(data_sorted, .75)
-	var interQuantileRange = q3 - q1
-    var min = Math.min(...data)
-    var max = Math.max(...data)
-
-	return stats = {
-	  q1: q1,
-	  median: median,
-	  q3: q3,
-	  interQuantileRange: interQuantileRange,
-	  min: min,
-	  max: max
-	};
-}
-
-var svg3_stats = calculate_stats(data);
+var svg3_stats = scrollytell.calculate_stats(data);
 
 svg3_settings = {
 	margin: {top: 10, right: 30, bottom: 30, left: 40},
@@ -562,7 +540,7 @@ var update_datavis = function() {
     data.push(Number($(this).val()));
 });
 
-  var svg3_stats = calculate_stats(data);
+  var svg3_stats = scrollytell.calculate_stats(data);
 
   //reupdate range & ticks
   x.domain([svg3_stats.min, svg3_stats.max]);
@@ -834,8 +812,8 @@ var x_4 = values[1];
 var mountain_1 = [ 52, 85, 120, 125, 154, 140, 186, 206, 395, 420]; // NEEDS TO BE ORDERED
 var mountain_2 = [ 135, 145, 154, 162, 185, 252, 275, 278, 344, 382 ]; // NEEDS TO BE ORDERED
 
-var mountain_1_stats = calculate_stats(mountain_1);
-var mountain_2_stats = calculate_stats(mountain_2);
+var mountain_1_stats = scrollytell.calculate_stats(mountain_1);
+var mountain_2_stats = scrollytell.calculate_stats(mountain_2);
  
   var gs4 = d3.graphScroll()
       .offset(300) // sets the offset overall
