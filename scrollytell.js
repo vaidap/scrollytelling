@@ -55,7 +55,14 @@ var scrollytell = {
 
 	//TODO make margins editable as well
 	// graph_id refers to "svg3","svg4" etc
-	init_svg: function(graph_id, graph_selector, margin, width, height, line_height, center, data) {
+	init_svg: function(graph_id, graph_selector, settings, data) {
+
+		// for less words later
+		margin = settings.margin;
+		width = settings.width;
+		height = settings.height;
+		line_height = settings.line_height;
+		center = settings.center;
 
 		// append svg object to container
 		var svg = d3.select(graph_selector).html('')

@@ -462,17 +462,15 @@ function calculate_stats(data) {
 
 var svg3_stats = calculate_stats(data);
 
-// define margin of graph
-var margin_2 = {top: 10, right: 30, bottom: 30, left: 40},
-  width = 500 - margin.left - margin.right,
-  height = 300 - margin.top - margin.bottom;
+svg3_settings = {
+	margin: {top: 10, right: 30, bottom: 30, left: 40},
+	width: 500 - margin.left - margin.right,
+	height: 300 - margin.top - margin.bottom,
+	center: 200,
+	line_height: 50
+}
 
-
-// a few features for the box
-var center = 200;
-var line_height = 50;
-
-var values = scrollytell.init_svg("svg3", ".container-3 #graph", margin_2, width, height, line_height, center, svg3_stats);
+var values = scrollytell.init_svg("svg3", ".container-3 #graph", svg3_settings, svg3_stats);
 var svg3 = values[0];
 var x = values[1];
 
