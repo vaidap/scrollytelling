@@ -55,7 +55,7 @@ var scrollytell = {
 
 	//TODO make margins editable as well
 	// graph_id refers to "svg3","svg4" etc
-	init_svg: function(graph_id, graph_selector, settings, data) {
+	init_svg: function(graph_selector, settings) {
 
 		// for less words later
 		margin = settings.margin;
@@ -81,8 +81,24 @@ var scrollytell = {
 		  .attr("transform", "translate(0," + height + ")")
 		  .call(d3.axisBottom(x))
 
-	    // Show the main vertical line
-		svg
+	    return [svg, x];
+
+	},
+
+	//TODO graph refers to svg while graph_id actually refers to the boxplot ID in it, need to refactor
+	add_boxplot: function(graph, graph_id, settings, data, x) {
+
+		//TODO refactor this, maybe just rename all
+
+		// for less words later
+		margin = settings.margin;
+		width = settings.width;
+		height = settings.height;
+		line_height = settings.line_height;
+		center = settings.center;
+
+		// Show the main vertical line
+		graph
 		.append("line")
 		  .attr("class", "vert-line")
 		  .attr("id", graph_id + "-vert-line")
@@ -94,7 +110,7 @@ var scrollytell = {
 		  .attr("stroke-width", 3)
 
 		// Show the box
-		svg
+		graph
 		.append("rect")
 		  .attr("id", graph_id + "-rect")
 		  .attr("x", x(data.q1) )
@@ -105,7 +121,7 @@ var scrollytell = {
 		  .attr("stroke-width", 3)
 		  .style("fill", "#69b3a2")
 
-		svg.append("line")
+		graph.append("line")
 		  .attr("class", "min-line")
 		  .attr("id", graph_id + "-min")
 		  .attr("x1", x(data.min))
@@ -115,7 +131,7 @@ var scrollytell = {
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
-		svg.append("line")
+		graph.append("line")
 		  .attr("class", "median-line")
 		  .attr("id", graph_id + "-med")
 		  .attr("x1", x(data.median))
@@ -125,7 +141,7 @@ var scrollytell = {
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
-		svg.append("line")
+		graph.append("line")
 		  .attr("class", "max-line")
 		   .attr("id", graph_id + "-max")
 		  .attr("x1", x(data.max))
@@ -136,7 +152,7 @@ var scrollytell = {
 		  .attr("stroke-width", 3)
 
 
-		svg.append("line")
+		graph.append("line")
 		  .attr("class", "q1-line")
 		  .attr("id", graph_id + "-q1-line")
 		  .attr("x1", x(data.q1))
@@ -146,7 +162,7 @@ var scrollytell = {
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
-		svg.append("line")
+		graph.append("line")
 		  .attr("class", "q3-line")
 		  .attr("id", graph_id + "-q3-line")
 		  .attr("x1", x(data.q1))
@@ -156,10 +172,9 @@ var scrollytell = {
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
-	    return [svg, x];
-
 	},
 
+	// TODO this has to target the specific ID of the graph inside the svg
 	update_svg: function(graph, data, x, center, line_height) {
 
 	  graph.select("rect")
