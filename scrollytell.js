@@ -77,15 +77,19 @@ var scrollytell = {
 		  .domain([0,24])
 		  .range([0, width])
 
-		svg.append("g")
-		  .attr("transform", "translate(0," + height + ")")
-		  .call(d3.axisBottom(x))
-
 	    return [svg, x];
 
 	},
 
+	show_scale: function(graph, settings, x) {
+
+		graph.append("g")
+		  .attr("transform", "translate(0," + settings.height + ")")
+		  .call(d3.axisBottom(x))
+	},
+
 	//TODO graph refers to svg while graph_id actually refers to the boxplot ID in it, need to refactor
+	//TODO add offset
 	add_boxplot: function(graph, graph_id, settings, data, x) {
 
 		//TODO refactor this, maybe just rename all

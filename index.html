@@ -474,6 +474,7 @@ var values = scrollytell.init_svg(".container-3 #graph", svg3_settings);
 var svg3 = values[0];
 var x = values[1];
 
+scrollytell.show_scale(svg3, svg3_settings, x);
 scrollytell.add_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x);
 
 var height = 50 //TODO refactor, this is used for the rectangle actually
