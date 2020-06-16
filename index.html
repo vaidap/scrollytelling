@@ -888,127 +888,18 @@ var mountain_2_stats = calculate_stats(mountain_2);
             .attr("height", "100%")
             .attr("fill", "#ececed");
 
-          // Show the X scale
+            scrollytell.show_scale(svg4, svg4_settings, x_4)
 
-          svg4.append("g")
-            .attr("class", "scale")
-            .attr("transform", "translate(0," + svg4_settings.height + ")")
-            .call(d3.axisBottom(x_4))
-
-
-          // Show the main vertical line
-          svg4
-          .append("line")
-            .transition()
-            .duration(1000)
-            .attr("class", "vert-line")
-            .attr("class", "vert-line-1")
-            .attr("x1", x_4(mountain_1_stats.min))
-            .attr("x2", x_4(mountain_1_stats.max))
-            .attr("y1", svg4_settings.center - 100)
-            .attr("y2", svg4_settings.center - 100)
-            .attr("stroke", "black")
-
-          // Show the box
-          svg4
-          .append("rect")
-            .transition()
-            .duration(1000)
-            .attr("x", x_4(mountain_1_stats.q1) )
-            .attr("y",  svg4_settings.center - svg4_settings.line_height/2 - 100)
-            .attr("height", svg4_settings.line_height)
-            .attr("width", (x_4(mountain_1_stats.q3)-x_4(mountain_1_stats.q1)))
-            .attr("stroke", "black")
-            .style("fill", "#69b3a2")
-
-            svg4.append("line")
-              .transition()
-              .duration(1000)
-              .attr("class", "min-line")
-              .attr("x1", x_4(mountain_1_stats.min))
-              .attr("x2", x_4(mountain_1_stats.min))
-              .attr("y1", svg4_settings.center-svg4_settings.line_height/2 - 100)
-              .attr("y2", svg4_settings.center+svg4_settings.line_height/2 - 100)
-              .attr("stroke", "black")
-
-            svg4.append("line")
-              .transition()
-              .duration(1000)
-              .attr("class", "median-line")
-              .attr("x1", x_4(mountain_1_stats.median))
-              .attr("x2", x_4(mountain_1_stats.median))
-              .attr("y1", svg4_settings.center-svg4_settings.line_height/2 - 100)
-              .attr("y2", svg4_settings.center+svg4_settings.line_height/2 - 100)
-              .attr("stroke", "black")
-
-            svg4.append("line")
-              .transition()
-              .duration(1000)
-              .attr("class", "max-line")
-              .attr("x1", x_4(mountain_1_stats.max))
-              .attr("x2", x_4(mountain_1_stats.max))
-              .attr("y1", svg4_settings.center-svg4_settings.line_height/2 - 100)
-              .attr("y2", svg4_settings.center+svg4_settings.line_height/2 - 100)
-              .attr("stroke", "black")
+            // TODO update the highlighting id references to match this
+            scrollytell.add_boxplot(svg4, "mountain_1", svg4_settings, mountain_1_stats, x_4, offset=100);
 
         }
 
         else if (i == 3) {
 
-          // Show the main vertical line
-          svg4
-          .append("line")
-            .transition()
-            .duration(1000)
-            .attr("class", "vert-line")
-            .attr("class", "vert-line-2")
-            .attr("x1", x_4(mountain_2_stats.min))
-            .attr("x2", x_4(mountain_2_stats.max))
-            .attr("y1", svg4_settings.center)
-            .attr("y2", svg4_settings.center)
-            .attr("stroke", "black")
-
-          // Show the box
-          svg4
-          .append("rect")
-            .transition()
-            .duration(1000)
-            .attr("x", x_4(mountain_2_stats.q1) )
-            .attr("y",  svg4_settings.center - svg4_settings.line_height/2)
-            .attr("height", svg4_settings.line_height)
-            .attr("width", (x_4(mountain_2_stats.q3)-x_4(mountain_2_stats.q1)))
-            .attr("stroke", "black")
-            .style("fill", "#69b3a2")
-
-            svg4.append("line")
-              .transition()
-              .duration(1000)
-              .attr("class", "min-line")
-              .attr("x1", x_4(mountain_2_stats.min))
-              .attr("x2", x_4(mountain_2_stats.min))
-              .attr("y1", svg4_settings.center-svg4_settings.line_height/2)
-              .attr("y2", svg4_settings.center+svg4_settings.line_height/2)
-              .attr("stroke", "black")
-
-            svg4.append("line")
-              .transition()
-              .duration(1000)
-              .attr("class", "median-line")
-              .attr("x1", x_4(mountain_2_stats.median))
-              .attr("x2", x_4(mountain_2_stats.median))
-              .attr("y1", svg4_settings.center-svg4_settings.line_height/2)
-              .attr("y2", svg4_settings.center+svg4_settings.line_height/2)
-              .attr("stroke", "black")
-
-            svg4.append("line")
-              .transition()
-              .duration(1000)
-              .attr("class", "max-line")
-              .attr("x1", x_4(mountain_2_stats.max))
-              .attr("x2", x_4(mountain_2_stats.max))
-              .attr("y1", svg4_settings.center-svg4_settings.line_height/2)
-              .attr("y2", svg4_settings.center+svg4_settings.line_height/2)
-              .attr("stroke", "black")
+        // TODO update the highlighting id references to match this
+        scrollytell.add_boxplot(svg4, "mountain_2", svg4_settings, mountain_2_stats, x_4);
+        
         }
 
         else if (i == 4) {
@@ -1020,12 +911,12 @@ var mountain_2_stats = calculate_stats(mountain_2);
             svg4.select("g.scale")
               .style("fill", "none")
 
-            svg4.select("line.vert-line-1")
+            svg4.select("line#mountain_1-vert-line")
               .style("stroke", "blue")
               .style("stroke-width", 5)
 
 
-            svg4.select("line.vert-line-2")
+            svg4.select("line#mountain_2-vert-line")
               .style("stroke", "blue")
               .style("stroke-width", 5)
 
@@ -1033,23 +924,23 @@ var mountain_2_stats = calculate_stats(mountain_2);
         }
 
         else if (i == 6) {
-            svg4.select("line.vert-line-2")
+            svg4.select("line#mountain_2-vert-line")
               .style("stroke", "black")
               .style("stroke-width", 1)
         }
 
         else if (i == 7) {
-            svg4.select("line.vert-line-1")
+            svg4.select("line#mountain_1-vert-line")
               .style("stroke", "black")
               .style("stroke-width", 1)
 
-            svg4.select("line.vert-line-2")
+            svg4.select("line#mountain_2-vert-line")
               .style("stroke", "blue")
               .style("stroke-width", 5)
         }
 
         else if (i == 8) {
-            svg4.select("line.vert-line-2")
+            svg4.select("line#mountain_2-vert-line")
               .style("stroke", "black")
               .style("stroke-width", 1)
 

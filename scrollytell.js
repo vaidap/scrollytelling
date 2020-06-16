@@ -85,13 +85,14 @@ var scrollytell = {
 	show_scale: function(graph, settings, x) {
 
 		graph.append("g")
+		  .attr("class", "scale")
 		  .attr("transform", "translate(0," + settings.height + ")")
 		  .call(d3.axisBottom(x))
 	},
 
 	//TODO graph refers to svg while graph_id actually refers to the boxplot ID in it, need to refactor
 	//TODO add offset
-	add_boxplot: function(graph, graph_id, settings, data, x) {
+	add_boxplot: function(graph, graph_id, settings, data, x, offset=0) {
 
 		//TODO refactor this, maybe just rename all
 
@@ -108,9 +109,9 @@ var scrollytell = {
 		  .attr("class", "vert-line")
 		  .attr("id", graph_id + "-vert-line")
 		  .attr("x1", x(data.min))
-		  .attr("x2", x(data.min))
-		  .attr("y1", center )
-		  .attr("y2", center )
+		  .attr("x2", x(data.max))
+		  .attr("y1", center - offset)
+		  .attr("y2", center - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
@@ -119,7 +120,7 @@ var scrollytell = {
 		.append("rect")
 		  .attr("id", graph_id + "-rect")
 		  .attr("x", x(data.q1) )
-		  .attr("y",  center - line_height)
+		  .attr("y",  center - line_height/2 - offset)
 		  .attr("height", line_height)
 		  .attr("width", (x(data.q3)-x(data.q1)))
 		  .attr("stroke", "grey")
@@ -131,8 +132,8 @@ var scrollytell = {
 		  .attr("id", graph_id + "-min")
 		  .attr("x1", x(data.min))
 		  .attr("x2", x(data.min))
-		  .attr("y1", center-line_height/2)
-		  .attr("y2", center+line_height/2)
+		  .attr("y1", center-line_height/2 - offset)
+		  .attr("y2", center+line_height/2 - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
@@ -141,8 +142,8 @@ var scrollytell = {
 		  .attr("id", graph_id + "-med")
 		  .attr("x1", x(data.median))
 		  .attr("x2", x(data.median))
-		  .attr("y1", center-line_height/2)
-		  .attr("y2", center+line_height/2)
+		  .attr("y1", center-line_height/2 - offset)
+		  .attr("y2", center+line_height/2 - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
@@ -151,8 +152,8 @@ var scrollytell = {
 		   .attr("id", graph_id + "-max")
 		  .attr("x1", x(data.max))
 		  .attr("x2", x(data.max))
-		  .attr("y1", center-line_height/2)
-		  .attr("y2", center+line_height/2)
+		  .attr("y1", center-line_height/2 - offset)
+		  .attr("y2", center+line_height/2 - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
@@ -161,24 +162,25 @@ var scrollytell = {
 		  .attr("class", "q1-line")
 		  .attr("id", graph_id + "-q1-line")
 		  .attr("x1", x(data.q1))
-		  .attr("x2", x(data.q3))
-		  .attr("y1", center-line_height/2)
-		  .attr("y2", center+line_height/2)
+		  .attr("x2", x(data.q1))
+		  .attr("y1", center-line_height/2 - offset)
+		  .attr("y2", center+line_height/2 - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
 		graph.append("line")
 		  .attr("class", "q3-line")
 		  .attr("id", graph_id + "-q3-line")
-		  .attr("x1", x(data.q1))
+		  .attr("x1", x(data.q3))
 		  .attr("x2", x(data.q3))
-		  .attr("y1", center-line_height/2)
-		  .attr("y2", center+line_height/2)
+		  .attr("y1", center-line_height/2 - offset)
+		  .attr("y2", center+line_height/2 - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
 	},
 
+	// TODO the x, y defs are repeated in add_boxplot, maybe remove duplication
 	// TODO this has to target the specific ID of the graph inside the svg
 	update_svg: function(graph, data, x, center, line_height) {
 
