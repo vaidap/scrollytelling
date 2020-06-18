@@ -249,6 +249,22 @@ var scrollytell = {
 	    .attr("x1", x(data.q3))
 	    .attr("x2", x(data.q3))
 
+	},
+
+	//TODO issue if you scroll back up and back down, it doesn't highlight elements anymore
+	highlight: function(graph, element_id, state) {
+
+		if (state == true) {
+			graph.select(element_id)
+	          .style("stroke", "blue")
+	          .style("stroke-width", 5)
+		}
+		else if (state == false) {
+			graph.select(element_id)
+	          .style("stroke", "black")
+	          .style("stroke-width", 1)
+		}
+
 	}
 
 }

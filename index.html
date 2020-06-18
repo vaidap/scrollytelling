@@ -889,38 +889,23 @@ var mountain_2_stats = scrollytell.calculate_stats(mountain_2);
             svg4.select("g.scale")
               .style("fill", "none")
 
-            svg4.select("line#mountain_1-vert-line")
-              .style("stroke", "blue")
-              .style("stroke-width", 5)
 
-
-            svg4.select("line#mountain_2-vert-line")
-              .style("stroke", "blue")
-              .style("stroke-width", 5)
-
+            scrollytell.highlight(svg4, "#mountain_1-vert-line", true);
+            scrollytell.highlight(svg4, "#mountain_2-vert-line", true);
               
         }
 
         else if (i == 6) {
-            svg4.select("line#mountain_2-vert-line")
-              .style("stroke", "black")
-              .style("stroke-width", 1)
+            scrollytell.highlight(svg4, "#mountain_2-vert-line", false);
         }
 
         else if (i == 7) {
-            svg4.select("line#mountain_1-vert-line")
-              .style("stroke", "black")
-              .style("stroke-width", 1)
-
-            svg4.select("line#mountain_2-vert-line")
-              .style("stroke", "blue")
-              .style("stroke-width", 5)
+            scrollytell.highlight(svg4, "#mountain_1-vert-line", false);
+            scrollytell.highlight(svg4, "#mountain_2-vert-line", true);
         }
 
         else if (i == 8) {
-            svg4.select("line#mountain_2-vert-line")
-              .style("stroke", "black")
-              .style("stroke-width", 1)
+            scrollytell.highlight(svg4, "#mountain_2-vert-line", false);
 
           svg4
           .append("line")
