@@ -147,6 +147,18 @@ var learn = {
 		};
 	},
 
+	make_visible: function(graph, element, state) {
+
+		if (state == false) {
+			graph.select("." + element).transition().duration(1000).style("opacity", 0);
+		}
+		else if (state == true) {
+			graph.select("." + element).transition().duration(1000).style("opacity", 1);
+		}
+		
+
+	},
+
 	//TODO graph refers to svg while graph_id actually refers to the boxplot ID in it, need to refactor
 	//TODO add offset
 	add_boxplot: function(graph, graph_id, settings, data, x, graph_title="", offset=0) {
@@ -166,7 +178,7 @@ var learn = {
 		// Show the main vertical line
 		graph
 		.append("line")
-		  .attr("class", "vert-line")
+		  .attr("class", graph_id + " vert-line") //TODO the correct thing to do here is to group all of these elements with g, so they can be manipulated together
 		  .attr("id", graph_id + "-vert-line")
 		  .attr("x1", x(data.min))
 		  .attr("x2", x(data.max))
@@ -178,6 +190,7 @@ var learn = {
 		// Show the box
 		graph
 		.append("rect")
+		  .attr("class", graph_id + " rect") 
 		  .attr("id", graph_id + "-rect")
 		  .attr("x", x(data.q1) )
 		  .attr("y",  center - line_height/2 - offset)
@@ -188,7 +201,7 @@ var learn = {
 		  .style("fill", "#69b3a2")
 
 		graph.append("line")
-		  .attr("class", "min-line")
+		  .attr("class", graph_id + " min-line")
 		  .attr("id", graph_id + "-min")
 		  .attr("x1", x(data.min))
 		  .attr("x2", x(data.min))
@@ -198,7 +211,7 @@ var learn = {
 		  .attr("stroke-width", 3)
 
 		graph.append("line")
-		  .attr("class", "median-line")
+		  .attr("class", graph_id + " median-line")
 		  .attr("id", graph_id + "-med")
 		  .attr("x1", x(data.median))
 		  .attr("x2", x(data.median))
@@ -208,7 +221,7 @@ var learn = {
 		  .attr("stroke-width", 3)
 
 		graph.append("line")
-		  .attr("class", "max-line")
+		  .attr("class", graph_id + " max-line")
 		   .attr("id", graph_id + "-max")
 		  .attr("x1", x(data.max))
 		  .attr("x2", x(data.max))
@@ -219,7 +232,7 @@ var learn = {
 
 
 		graph.append("line")
-		  .attr("class", "q1-line")
+		  .attr("class", graph_id + " q1-line")
 		  .attr("id", graph_id + "-q1-line")
 		  .attr("x1", x(data.q1))
 		  .attr("x2", x(data.q1))
@@ -229,7 +242,7 @@ var learn = {
 		  .attr("stroke-width", 3)
 
 		graph.append("line")
-		  .attr("class", "q3-line")
+		  .attr("class", graph_id + " q3-line")
 		  .attr("id", graph_id + "-q3-line")
 		  .attr("x1", x(data.q3))
 		  .attr("x2", x(data.q3))

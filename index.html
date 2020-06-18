@@ -529,32 +529,24 @@ for (var i = 0; i < elements.length; i++) {
 update_datavis();
 
 
-// BOXPLOT CONSTRUCTION FROM MOCKUP ---------------------------------------
+// contruction section ---------------------------------------
 
-// set the dimensions and margins of the graph
-var margin_2 = {top: 10, right: 30, bottom: 30, left: 40},
-  width_2 = 500 - margin_2.left - margin_2.right,
-  height_2 = 300 - margin_2.top - margin_2.bottom;
+svg2_settings = {
+	margin: {top: 10, right: 30, bottom: 30, left: 40},
+	width: 500 - margin.left - margin.right,
+	height: 300 - margin.top - margin.bottom,
+	center: 200,
+	line_height: 50,
+	x_domain: [0, 400],
+	graph_title: "Distribution of snowfall",
+	graph_axis: "Snowfall (in cms)"
+}
 
-// Show the X scale
-var x_2 = d3.scaleLinear()
-  .domain([0,400])
-  .range([0, width_2])
+const_data = [45, 58, 88, 111, 125, 140, 155, 168, 170, 195, 211, 224, 235, 255, 260, 285, 320, 333, 380];
 
-// append the svg object to the body of the page
-var svg2 = d3.select(".container-2 #graph").html('')
-.append("svg")
-  .attr("width", width_2 + margin_2.left + margin_2.right)
-  .attr("height", height_2 + margin_2.top + margin_2.bottom)
-.append("g")
-  .attr("transform",
-        "translate(" + margin_2.left + "," + margin_2.top + ")");
-
-
-// END -------------------------------------------------------------------
-
-
-// construction scroll setup --------------------------------------
+var values_2 = learn.init_svg(".container-2 #graph", svg2_settings);
+var svg2 = values_2[0];
+var x_2 = values_2[1];
 
 svg2.selectAll("line.median-line").remove()
 
@@ -572,184 +564,55 @@ svg2.selectAll("line.median-line").remove()
 
         svg2.append("svg:image")
           .attr('x', -40)
-          .attr('y', 0)
+          .attr('y', 50)
           .attr('width', 500)
           .attr('height', 96)
           .attr("xlink:href", "images/" + const_squares_2[i] + ".jpg")
 
-        // show the x scale
-        svg2.append("g")
-          .attr("transform", "translate(0," + height_2 + ")")
-          .call(d3.axisBottom(x_2))
+        //TODO refactor so you can just specify for which graph you want to turn on the scale
+		learn.show_scale(svg2, svg2_settings, x_2);
+		
 
-        if (i == 0) {
-          svg2.selectAll("line.median-line").remove()
-        }
-    
-        else if (i == 1) {
-		  learn.set_timeline_section("part-const");
+		if (i == 0) {
+			//TODO change this so it's not constantly adding identical boxplots
+			//TODO change classes to ids for highlights
+			learn.add_boxplot(svg2, "const", svg2_settings, learn.calculate_stats(const_data), x_2, "");
+			svg2.selectAll(".const").style("opacity", 0);
 
-          svg2.selectAll("line.q1-line").remove()
-          svg2.selectAll("line.q3-line").remove()
-          svg2.selectAll("rect").remove()
+			learn.make_visible(svg2, "median-line", false);
+		}
 
-          svg2.append("line")
-            .transition()
-            .duration(1000)
-            .attr("class", "median-line")
-            .attr("x1", x_2(195))
-            .attr("x2", x_2(195))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
+		else if (i == 1) {
+			learn.set_timeline_section("part-const");
 
+			learn.make_visible(svg2, "q1-line", false);
+			learn.make_visible(svg2, "q3-line", false);
 
-        }
+			learn.make_visible(svg2, "median-line", true);
+		}
 
-        else if (i == 2) {
+		else if (i == 2) {
+			learn.make_visible(svg2, "rect", false);
 
-          svg2.selectAll("rect").remove()
+			learn.make_visible(svg2, "q1-line", true);
+			learn.make_visible(svg2, "q3-line", true);
+		}
 
-          svg2.append("line")
-            .transition()
-            .duration(1000)
-            .attr("class", "q1-line")
-            .attr("x1", x_2(125))
-            .attr("x2", x_2(125))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
+		else if (i == 3) {
+			learn.make_visible(svg2, "min-line", false);
+			learn.make_visible(svg2, "max-line", false);
+			learn.make_visible(svg2, "vert-line", false);
 
-          svg2.append("line")
-            .transition()
-            .duration(1000)
-            .attr("class", "q3-line")
-            .attr("x1", x_2(260))
-            .attr("x2", x_2(260))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
+			learn.make_visible(svg2, "rect", true);
+		}
+		else if (i == 4) {
+			learn.make_visible(svg2, "min-line", true);
+			learn.make_visible(svg2, "max-line", true);
+			learn.make_visible(svg2, "vert-line", true);
+		}
 
-        }
+		})
 
-        else if (i == 3) {
-
-          svg2.selectAll("line.min-line").remove()
-          svg2.selectAll("line.max-line").remove()
-          svg2.selectAll("line.vert-line").remove()
-
-          svg2.append("rect")
-            .transition()
-            .duration(1000)
-            .attr("x", x_2(125) )
-            .attr("y",  center - height/2)
-            .attr("height", height)
-            .attr("width", (x_2(260)-x_2(125)))
-            .attr("stroke", "black")
-            .style("fill", "#69b3a2")
-
-          // re-drawing as rectangle draws on top
-          // svg2.selectAll("line").remove()
-
-          svg2.append("line")
-            .attr("class", "median-line")
-            .attr("x1", x_2(195))
-            .attr("x2", x_2(195))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
-
-          svg2.append("line")
-            .attr("class", "q1-line")
-            .attr("x1", x_2(125))
-            .attr("x2", x_2(125))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
-
-          svg2.append("line")
-            .attr("class", "q3-line")
-            .attr("x1", x_2(260))
-            .attr("x2", x_2(260))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
-        }
-
-        else if (i == 4) {
-
-          //couldn't be bothered to delete all lines except vertical
-          // will do this if duplicates end up being an issue
-          svg2.select("rect").remove()
-
-          // Show the main vertical line
-          svg2.append("line")
-            .transition()
-            .duration(1000)
-            .attr("class", "vert-line")
-            .attr("x1", x_2(45))
-            .attr("x2", x_2(380))
-            .attr("y1", center )
-            .attr("y2", center )
-            .attr("stroke", "black")
-
-
-          svg2.append("rect")
-            .attr("x", x_2(125) )
-            .attr("y",  center - height/2)
-            .attr("height", height)
-            .attr("width", (x_2(260)-x_2(125)))
-            .attr("stroke", "black")
-            .style("fill", "#69b3a2")
-
-          svg2.append("line")
-            .attr("class", "median-line")
-            .attr("x1", x_2(195))
-            .attr("x2", x_2(195))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
-
-          svg2.append("line")
-            .transition()
-            .duration(1000)
-            .attr("class", "min-line")
-            .attr("x1", x_2(45))
-            .attr("x2", x_2(45))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
-
-          svg2.append("line")
-            .transition()
-            .duration(1000)
-            .attr("class", "max-line")
-            .attr("x1", x_2(380))
-            .attr("x2", x_2(380))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
-
-          svg2.append("line")
-            .attr("class", "q1-line")
-            .attr("x1", x_2(125))
-            .attr("x2", x_2(125))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
-
-          svg2.append("line")
-            .attr("class", "q3-line")
-            .attr("x1", x_2(260))
-            .attr("x2", x_2(260))
-            .attr("y1", center-height/2)
-            .attr("y2", center+height/2)
-            .attr("stroke", "black")
-
-        }
-
-
-      })
 // END ----------------------------------------------------------
 
 // answering questions section  -------------------------------------------
@@ -765,9 +628,9 @@ svg4_settings = {
 	graph_axis: "Snowfall (in cms)"
 }
 
-var values = learn.init_svg(".container-4 #graph", svg4_settings);
-var svg4 = values[0];
-var x_4 = values[1];
+var values_4 = learn.init_svg(".container-4 #graph", svg4_settings);
+var svg4 = values_4[0];
+var x_4 = values_4[1];
 
 var mountain_1 = [ 52, 85, 120, 125, 154, 140, 186, 206, 395, 420]; // NEEDS TO BE ORDERED
 var mountain_2 = [ 135, 145, 154, 162, 185, 252, 275, 278, 344, 382 ]; // NEEDS TO BE ORDERED
