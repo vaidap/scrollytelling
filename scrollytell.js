@@ -82,6 +82,37 @@ var scrollytell = {
 
 	},
 
+	// TODO change others to also use graph_id (so it's 0 for container-0 #graph etc)
+	init_story: function(graph_id, settings, timeline_section) {
+
+	  var svg = d3.select('.container-' + graph_id + ' #graph').html('')
+	    .append('svg')
+	    .attrs({width: settings.width, height: settings.height});
+
+	    svg.append("rect")
+	    .attr("width", "100%")
+	    .attr("height", "100%")
+	    .attr("fill", "white");
+	 
+	  return d3.graphScroll()
+	  	  .offset(300) // sets the offset overall
+	      .container(d3.select('.container-' + graph_id))
+	      .graph(d3.selectAll('.container-' + graph_id + ' #graph'))
+	      .eventId('uniqueId' + graph_id)  // namespace for scroll and resize events
+	      .sections(d3.selectAll('.container-' + graph_id + ' #sections > div'))
+	      .on('active', function(i){
+	        // transitions
+	        svg.append("svg:image")
+	        .attr('x', -9)
+	        .attr('y', -12)
+	        .attr('width', 500)
+	        .attr('height', 500)
+	        .attr("xlink:href", "images/" + settings.images[i] + ".png")
+
+			scrollytell.set_timeline_section(timeline_section);
+	      })
+	},
+
 	show_scale: function(graph, settings, x) {
 
 		graph.append("g")

@@ -306,35 +306,17 @@ function render(){
 
 // END -------------------------------------------------------------
 
-// Testing static images -------------------------------------------
+// Introduction setup -------------------------------------------
 
-  var svg0 = d3.select('.container-0 #graph').html('')
-    .append('svg')
-    .attrs({width: width, height: height});
 
-    svg0.append("rect")
-    .attr("width", "100%")
-    .attr("height", "100%")
-    .attr("fill", "white");
- 
-  var comic_squares = ["comic_1", "comic_1", "comic_2", "comic_3", "comic_4", "comic_5", "comic_2"]
-  var gs0 = d3.graphScroll()
-  	  .offset(300) // sets the offset overall
-      .container(d3.select('.container-0'))
-      .graph(d3.selectAll('.container-0 #graph'))
-      .eventId('uniqueId0')  // namespace for scroll and resize events
-      .sections(d3.selectAll('.container-0 #sections > div'))
-      .on('active', function(i){
-        // transitions
-        svg0.append("svg:image")
-        .attr('x', -9)
-        .attr('y', -12)
-        .attr('width', 500)
-        .attr('height', 500)
-        .attr("xlink:href", "images/" + comic_squares[i] + ".png")
+svg0_settings = {
+	margin: {top: 10, right: 30, bottom: 30, left: 40},
+	width: 600 - margin.left - margin.right,
+	height: 400 - margin.top - margin.bottom,
+	images: ["comic_1", "comic_1", "comic_2", "comic_3", "comic_4", "comic_5", "comic_2"]
+}
 
-		scrollytell.set_timeline_section("part-intro");
-      })
+var gs0 = scrollytell.init_story(0, svg0_settings, "part-intro");
 
 
 // END -------------------------------------------------------------
