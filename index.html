@@ -276,7 +276,7 @@
 
 <script src="d3v4+jetpack.js"></script>
 <script src="graph-scroll.js"></script>
-<script type="text/javascript" src="scrollytell.js"></script>
+<script type="text/javascript" src="learn.js"></script>
 <script>
 
 // BOXPLOT SETUP ----------------------------------------------------
@@ -316,7 +316,7 @@ svg0_settings = {
 	images: ["comic_1", "comic_1", "comic_2", "comic_3", "comic_4", "comic_5", "comic_2"]
 }
 
-var gs0 = scrollytell.init_story(0, svg0_settings, "part-intro");
+var gs0 = learn.init_story(0, svg0_settings, "part-intro");
 
 
 // END -------------------------------------------------------------
@@ -396,7 +396,7 @@ var gs0 = scrollytell.init_story(0, svg0_settings, "part-intro");
 // create dummy data
 var data =  [ 4, 5, 11, 12, 12, 13, 15, 16, 19, 22 ]
 
-var svg3_stats = scrollytell.calculate_stats(data);
+var svg3_stats = learn.calculate_stats(data);
 
 svg3_settings = {
 	margin: {top: 10, right: 30, bottom: 30, left: 40},
@@ -410,17 +410,17 @@ svg3_settings = {
 }
 
 // TODO rename x to x_3
-var values = scrollytell.init_svg(".container-3 #graph", svg3_settings);
+var values = learn.init_svg(".container-3 #graph", svg3_settings);
 var svg3 = values[0];
 var x = values[1];
 
-scrollytell.show_scale(svg3, svg3_settings, x);
-scrollytell.add_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x);
+learn.show_scale(svg3, svg3_settings, x);
+learn.add_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x);
 
 var height = 50 //TODO refactor, this is used for the rectangle actually
 
 // create tooltips
-// TODO refactor this into scrollytell.js
+// TODO refactor this into learn.js
 // TODO handle overlapping elements, by writing a function that gives priority for tooltip https://www.sitepoint.com/community/t/determine-if-mouse-is-over-an-element/4239/2
 // TODO handle z-index sorting for highlighting
 
@@ -499,7 +499,7 @@ var update_datavis = function() {
     data.push(Number($(this).val()));
 });
 
-  var svg3_stats = scrollytell.calculate_stats(data);
+  var svg3_stats = learn.calculate_stats(data);
 
   //reupdate range & ticks
   x.domain([svg3_stats.min, svg3_stats.max]);
@@ -517,7 +517,7 @@ var update_datavis = function() {
   d3.select("#max-stat").text(svg3_stats.max);
 
   // update visualisation
-scrollytell.update_svg(svg3, svg3_stats, x, center, line_height);
+learn.update_svg(svg3, svg3_stats, x, center, line_height);
 
 };
 
@@ -587,7 +587,7 @@ svg2.selectAll("line.median-line").remove()
         }
     
         else if (i == 1) {
-		  scrollytell.set_timeline_section("part-const");
+		  learn.set_timeline_section("part-const");
 
           svg2.selectAll("line.q1-line").remove()
           svg2.selectAll("line.q3-line").remove()
@@ -765,15 +765,15 @@ svg4_settings = {
 	graph_axis: "Snowfall (in cms)"
 }
 
-var values = scrollytell.init_svg(".container-4 #graph", svg4_settings);
+var values = learn.init_svg(".container-4 #graph", svg4_settings);
 var svg4 = values[0];
 var x_4 = values[1];
 
 var mountain_1 = [ 52, 85, 120, 125, 154, 140, 186, 206, 395, 420]; // NEEDS TO BE ORDERED
 var mountain_2 = [ 135, 145, 154, 162, 185, 252, 275, 278, 344, 382 ]; // NEEDS TO BE ORDERED
 
-var mountain_1_stats = scrollytell.calculate_stats(mountain_1);
-var mountain_2_stats = scrollytell.calculate_stats(mountain_2);
+var mountain_1_stats = learn.calculate_stats(mountain_1);
+var mountain_2_stats = learn.calculate_stats(mountain_2);
  
   var gs4 = d3.graphScroll()
       .offset(300) // sets the offset overall
@@ -801,7 +801,7 @@ var mountain_2_stats = scrollytell.calculate_stats(mountain_2);
         }
         else if (i == 1) {
 
-		  scrollytell.set_timeline_section("part-answer");
+		  learn.set_timeline_section("part-answer");
 
           svg4.append("rect")
             .attr('x', -40)
@@ -826,17 +826,17 @@ var mountain_2_stats = scrollytell.calculate_stats(mountain_2);
             .attr("height", "100%")
             .attr("fill", "#ececed");
 
-            scrollytell.show_scale(svg4, svg4_settings, x_4)
+            learn.show_scale(svg4, svg4_settings, x_4)
 
             // TODO update the highlighting id references to match this
-            scrollytell.add_boxplot(svg4, "mountain_1", svg4_settings, mountain_1_stats, x_4, "The Snowy Peak", offset=100);
+            learn.add_boxplot(svg4, "mountain_1", svg4_settings, mountain_1_stats, x_4, "The Snowy Peak", offset=100);
 
         }
 
         else if (i == 3) {
 
         // TODO update the highlighting id references to match this
-        scrollytell.add_boxplot(svg4, "mountain_2", svg4_settings, mountain_2_stats, x_4, "The Cursed Hill");
+        learn.add_boxplot(svg4, "mountain_2", svg4_settings, mountain_2_stats, x_4, "The Cursed Hill");
         
         }
 
@@ -850,22 +850,22 @@ var mountain_2_stats = scrollytell.calculate_stats(mountain_2);
               .style("fill", "none")
 
 
-            scrollytell.highlight(svg4, "#mountain_1-vert-line", true);
-            scrollytell.highlight(svg4, "#mountain_2-vert-line", true);
+            learn.highlight(svg4, "#mountain_1-vert-line", true);
+            learn.highlight(svg4, "#mountain_2-vert-line", true);
               
         }
 
         else if (i == 6) {
-            scrollytell.highlight(svg4, "#mountain_2-vert-line", false);
+            learn.highlight(svg4, "#mountain_2-vert-line", false);
         }
 
         else if (i == 7) {
-            scrollytell.highlight(svg4, "#mountain_1-vert-line", false);
-            scrollytell.highlight(svg4, "#mountain_2-vert-line", true);
+            learn.highlight(svg4, "#mountain_1-vert-line", false);
+            learn.highlight(svg4, "#mountain_2-vert-line", true);
         }
 
         else if (i == 8) {
-            scrollytell.highlight(svg4, "#mountain_2-vert-line", false);
+            learn.highlight(svg4, "#mountain_2-vert-line", false);
 
           svg4
           .append("line")
@@ -931,7 +931,7 @@ var mountain_2_stats = scrollytell.calculate_stats(mountain_2);
         // code to affect while scrolling
 
         if (i == 1) {
-			scrollytell.set_timeline_section("part-sand");
+			learn.set_timeline_section("part-sand");
         }
 
       })
@@ -941,23 +941,23 @@ var mountain_2_stats = scrollytell.calculate_stats(mountain_2);
 
 // BUG sometimes shows it as stroke 5 black-- might be due the deletion/recreation and duplicates?
 
-scrollytell.hover_text("const-median-hl", svg2, "line.median-line");
-scrollytell.hover_text("const-q1-hl", svg2, "line.q1-line");
-scrollytell.hover_text("const-q3-hl", svg2, "line.q3-line");
-scrollytell.hover_text("const-min-hl", svg2, "line.min-line");
-scrollytell.hover_text("const-max-hl", svg2, "line.max-line");
+learn.hover_text("const-median-hl", svg2, "line.median-line");
+learn.hover_text("const-q1-hl", svg2, "line.q1-line");
+learn.hover_text("const-q3-hl", svg2, "line.q3-line");
+learn.hover_text("const-min-hl", svg2, "line.min-line");
+learn.hover_text("const-max-hl", svg2, "line.max-line");
 
 // END ------------------------------------------------------
 
 
 // hover effects sandbox ------------------------------------
 
-scrollytell.hover_text("min-hl", svg3, "line.min-line");
-scrollytell.hover_text("max-hl", svg3, "line.max-line");
-scrollytell.hover_text("median-hl", svg3, "line.median-line");
-scrollytell.hover_text("iqr-hl", svg3, "rect");
-scrollytell.hover_text("q1-hl", svg3, "line.q1-line");
-scrollytell.hover_text("q3-hl", svg3, "line.q3-line");
+learn.hover_text("min-hl", svg3, "line.min-line");
+learn.hover_text("max-hl", svg3, "line.max-line");
+learn.hover_text("median-hl", svg3, "line.median-line");
+learn.hover_text("iqr-hl", svg3, "rect");
+learn.hover_text("q1-hl", svg3, "line.q1-line");
+learn.hover_text("q3-hl", svg3, "line.q3-line");
 
 // END ----------------------------------------------------------
 
