@@ -322,31 +322,6 @@ var gs0 = scrollytell.init_story(0, svg0_settings, "part-intro");
 // END -------------------------------------------------------------
 
 
-// BOXPLOT CONSTRUCTION FROM MOCKUP ---------------------------------------
-
-// set the dimensions and margins of the graph
-var margin_2 = {top: 10, right: 30, bottom: 30, left: 40},
-  width_2 = 500 - margin_2.left - margin_2.right,
-  height_2 = 300 - margin_2.top - margin_2.bottom;
-
-// Show the X scale
-var x_2 = d3.scaleLinear()
-  .domain([0,400])
-  .range([0, width_2])
-
-// append the svg object to the body of the page
-var svg2 = d3.select(".container-2 #graph").html('')
-.append("svg")
-  .attr("width", width_2 + margin_2.left + margin_2.right)
-  .attr("height", height_2 + margin_2.top + margin_2.bottom)
-.append("g")
-  .attr("transform",
-        "translate(" + margin_2.left + "," + margin_2.top + ")");
-
-
-// END -------------------------------------------------------------------
-
-
 // BASIC VERTICAL BOXPLOT -------------------------------------------------
 
 //   var svg2 = d3.select('.container-2 #graph').html('')
@@ -429,7 +404,9 @@ svg3_settings = {
 	height: 300 - margin.top - margin.bottom,
 	center: 200,
 	line_height: 50,
-	x_domain: [0, 24]
+	x_domain: [0, 24],
+	graph_title: "Distribution of snowfall",
+	graph_axis: "Snowfall (in cms)"
 }
 
 // TODO rename x to x_3
@@ -576,6 +553,30 @@ scrollytell.hover_text("q3-hl", svg3, "line.q3-line");
 
 // END ----------------------------------------------------------
 
+
+// BOXPLOT CONSTRUCTION FROM MOCKUP ---------------------------------------
+
+// set the dimensions and margins of the graph
+var margin_2 = {top: 10, right: 30, bottom: 30, left: 40},
+  width_2 = 500 - margin_2.left - margin_2.right,
+  height_2 = 300 - margin_2.top - margin_2.bottom;
+
+// Show the X scale
+var x_2 = d3.scaleLinear()
+  .domain([0,400])
+  .range([0, width_2])
+
+// append the svg object to the body of the page
+var svg2 = d3.select(".container-2 #graph").html('')
+.append("svg")
+  .attr("width", width_2 + margin_2.left + margin_2.right)
+  .attr("height", height_2 + margin_2.top + margin_2.bottom)
+.append("g")
+  .attr("transform",
+        "translate(" + margin_2.left + "," + margin_2.top + ")");
+
+
+// END -------------------------------------------------------------------
 
 
 // construction scroll setup --------------------------------------
@@ -784,7 +785,9 @@ svg4_settings = {
 	height: 300 - margin.top - margin.bottom,
 	center: 200,
 	line_height: 50,
-	x_domain: [0, 450]
+	x_domain: [0, 450],
+	graph_title: "Distribution of snowfall",
+	graph_axis: "Snowfall (in cms)"
 }
 
 var values = scrollytell.init_svg(".container-4 #graph", svg4_settings);
@@ -851,14 +854,14 @@ var mountain_2_stats = scrollytell.calculate_stats(mountain_2);
             scrollytell.show_scale(svg4, svg4_settings, x_4)
 
             // TODO update the highlighting id references to match this
-            scrollytell.add_boxplot(svg4, "mountain_1", svg4_settings, mountain_1_stats, x_4, offset=100);
+            scrollytell.add_boxplot(svg4, "mountain_1", svg4_settings, mountain_1_stats, x_4, "The Snowy Peak", offset=100);
 
         }
 
         else if (i == 3) {
 
         // TODO update the highlighting id references to match this
-        scrollytell.add_boxplot(svg4, "mountain_2", svg4_settings, mountain_2_stats, x_4);
+        scrollytell.add_boxplot(svg4, "mountain_2", svg4_settings, mountain_2_stats, x_4, "The Cursed Hill");
         
         }
 

@@ -115,10 +115,15 @@ var scrollytell = {
 
 	show_scale: function(graph, settings, x) {
 
+		height = settings.height - 15; // to have space for legend
+		
 		graph.append("g")
 		  .attr("class", "scale")
-		  .attr("transform", "translate(0," + settings.height + ")")
+		  .attr("transform", "translate(0," + height + ")")
 		  .call(d3.axisBottom(x))
+
+		graph.append("text").attr("x", settings.width/2.5).attr("y", settings.height + 25).text(settings.graph_axis).style("font-size", "14px");
+		graph.append("text").attr("x", settings.width/3).attr("y", 25).text(settings.graph_title).style("font-size", "18px").style("text-decoration", "underline");
 	},
 
 	// Compute summary statistics used for the box
@@ -144,7 +149,7 @@ var scrollytell = {
 
 	//TODO graph refers to svg while graph_id actually refers to the boxplot ID in it, need to refactor
 	//TODO add offset
-	add_boxplot: function(graph, graph_id, settings, data, x, offset=0) {
+	add_boxplot: function(graph, graph_id, settings, data, x, graph_title="", offset=0) {
 
 		//TODO refactor this, maybe just rename all
 
@@ -154,6 +159,9 @@ var scrollytell = {
 		height = settings.height;
 		line_height = settings.line_height;
 		center = settings.center;
+
+		// TODO add an id to these, and make text editable, in show_scale as well
+		graph.append("text").attr("x", 0).attr("y", center - offset - 35).text(graph_title).style("font-size", "16px");
 
 		// Show the main vertical line
 		graph
