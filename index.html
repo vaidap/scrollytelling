@@ -529,31 +529,6 @@ for (var i = 0; i < elements.length; i++) {
 update_datavis();
 
 
-// hover effects construction -------------------------------
-
-// BUG sometimes shows it as stroke 5 black-- might be due the deletion/recreation and duplicates?
-
-scrollytell.hover_text("const-median-hl", svg2, "line.median-line");
-scrollytell.hover_text("const-q1-hl", svg2, "line.q1-line");
-scrollytell.hover_text("const-q3-hl", svg2, "line.q3-line");
-scrollytell.hover_text("const-min-hl", svg2, "line.min-line");
-scrollytell.hover_text("const-max-hl", svg2, "line.max-line");
-
-// END ------------------------------------------------------
-
-
-// hover effects sandbox ------------------------------------
-
-scrollytell.hover_text("min-hl", svg3, "line.min-line");
-scrollytell.hover_text("max-hl", svg3, "line.max-line");
-scrollytell.hover_text("median-hl", svg3, "line.median-line");
-scrollytell.hover_text("iqr-hl", svg3, "rect");
-scrollytell.hover_text("q1-hl", svg3, "line.q1-line");
-scrollytell.hover_text("q3-hl", svg3, "line.q3-line");
-
-// END ----------------------------------------------------------
-
-
 // BOXPLOT CONSTRUCTION FROM MOCKUP ---------------------------------------
 
 // set the dimensions and margins of the graph
@@ -960,6 +935,30 @@ var mountain_2_stats = scrollytell.calculate_stats(mountain_2);
         }
 
       })
+// END ----------------------------------------------------------
+
+// Hover effects -------------------------------
+
+// BUG sometimes shows it as stroke 5 black-- might be due the deletion/recreation and duplicates?
+
+scrollytell.hover_text("const-median-hl", svg2, "line.median-line");
+scrollytell.hover_text("const-q1-hl", svg2, "line.q1-line");
+scrollytell.hover_text("const-q3-hl", svg2, "line.q3-line");
+scrollytell.hover_text("const-min-hl", svg2, "line.min-line");
+scrollytell.hover_text("const-max-hl", svg2, "line.max-line");
+
+// END ------------------------------------------------------
+
+
+// hover effects sandbox ------------------------------------
+
+scrollytell.hover_text("min-hl", svg3, "line.min-line");
+scrollytell.hover_text("max-hl", svg3, "line.max-line");
+scrollytell.hover_text("median-hl", svg3, "line.median-line");
+scrollytell.hover_text("iqr-hl", svg3, "rect");
+scrollytell.hover_text("q1-hl", svg3, "line.q1-line");
+scrollytell.hover_text("q3-hl", svg3, "line.q3-line");
+
 // END ----------------------------------------------------------
 
   d3.select('#source')
