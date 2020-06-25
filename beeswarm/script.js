@@ -1,4 +1,5 @@
-// Code goes here
+// from here https://stackoverflow.com/questions/42631671/how-to-change-the-size-of-dots-in-beeswarm-plots-in-d3-js
+// need to run python -m http.server as it's using a CSV right now
 
 var w = 1000, h = 280;
 
@@ -12,16 +13,16 @@ var xAxis = d3.axisBottom(xScale)
 	.ticks(10, ".0s")
 	.tickSizeOuter(0);
 
-var colors = d3.scaleOrdinal()
-	.domain(["asia", "africa", "northAmerica", "europe", "southAmerica", "oceania"])
-	.range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33']);
+// var colors = d3.scaleOrdinal()
+// 	.domain(["asia", "africa", "northAmerica", "europe", "southAmerica", "oceania"])
+// 	.range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33']);
 
-d3.select("#africaColor").style("color", colors("africa"));
-d3.select("#namericaColor").style("color", colors("northAmerica"));
-d3.select("#samericaColor").style("color", colors("southAmerica"));
-d3.select("#asiaColor").style("color", colors("asia"));
-d3.select("#europeColor").style("color", colors("europe"));
-d3.select("#oceaniaColor").style("color", colors("oceania"));
+// d3.select("#africaColor").style("color", colors("africa"));
+// d3.select("#namericaColor").style("color", colors("northAmerica"));
+// d3.select("#samericaColor").style("color", colors("southAmerica"));
+// d3.select("#asiaColor").style("color", colors("asia"));
+// d3.select("#europeColor").style("color", colors("europe"));
+// d3.select("#oceaniaColor").style("color", colors("oceania"));
 
 var formatNumber = d3.format(",");
 
@@ -44,12 +45,13 @@ chartState.variable = "totalEmission";
 chartState.scale = "scaleLinear";
 chartState.legend = "Total emissions, in kilotonnes";
 
-d3.csv("co2bee.csv", function(error, data) {
-	if (error) throw error;
+// d3.csv("co2bee.csv", function(error, data) {
+// 	if (error) throw error;
 
+	var data = [5, 25, 3, 8, 34, 18];
 	var dataSet = data;
 
-	xScale.domain(d3.extent(data, function(d) { return +d.totalEmission; }));
+	xScale.domain(d3.extent(dataSet));
 
 	svg.append("g")
 			.attr("class", "x axis")
@@ -68,33 +70,33 @@ d3.csv("co2bee.csv", function(error, data) {
 
 	redraw(chartState.variable);
 
-	d3.selectAll(".button1").on("click", function(){
-		var thisClicked = this.value;
-		chartState.variable = thisClicked;
-		if (thisClicked == "totalEmission"){
-			chartState.legend = "Total emissions, in kilotonnes";
-		}
-		if (thisClicked == "emissionPerCap"){
-			chartState.legend = "Per Capita emissions, in metric tons";
-		}
-		redraw(chartState.variable);
-	});
+	// d3.selectAll(".button1").on("click", function(){
+	// 	var thisClicked = this.value;
+	// 	chartState.variable = thisClicked;
+	// 	if (thisClicked == "totalEmission"){
+	// 		chartState.legend = "Total emissions, in kilotonnes";
+	// 	}
+	// 	if (thisClicked == "emissionPerCap"){
+	// 		chartState.legend = "Per Capita emissions, in metric tons";
+	// 	}
+	// 	redraw(chartState.variable);
+	// });
 
-	d3.selectAll(".button2").on("click", function(){
-		var thisClicked = this.value;
-		chartState.scale = thisClicked;
-		redraw(chartState.variable);
-	});
+	// d3.selectAll(".button2").on("click", function(){
+	// 	var thisClicked = this.value;
+	// 	chartState.scale = thisClicked;
+	// 	redraw(chartState.variable);
+	// });
 
-	d3.selectAll("input").on("change", filter);
+	// d3.selectAll("input").on("change", filter);
 
 	function redraw(variable){
 
-		if (chartState.scale == "scaleLinear"){ xScale = d3.scaleLinear().range([ padding[3], w - padding[1] ]);}
+		// if (chartState.scale == "scaleLinear"){ xScale = d3.scaleLinear().range([ padding[3], w - padding[1] ]);}
 
-		if (chartState.scale == "scaleLog"){ xScale = d3.scaleLog().range([ padding[3], w - padding[1] ]);}
+		// if (chartState.scale == "scaleLog"){ xScale = d3.scaleLog().range([ padding[3], w - padding[1] ]);}
 
-		xScale.domain(d3.extent(dataSet, function(d) { return +d[variable]; }));
+		xScale.domain(d3.extent(dataSet));
 
 		var xAxis = d3.axisBottom(xScale)
 			.ticks(10, ".0s")
@@ -103,42 +105,45 @@ d3.csv("co2bee.csv", function(error, data) {
 		d3.transition(svg).select(".x.axis").transition().duration(1000)
 				.call(xAxis);
 
-		var simulation = d3.forceSimulation(dataSet)
-			.force("x", d3.forceX(function(d) { return xScale(+d[variable]); }).strength(2))
+		var simulation = d3.forceSimulation()
+			.force("x", d3.forceX(xScale(dataSet)).strength(2))
+			// .force("x", d3.forceX(dataSet).strength(2))
 	    	.force("y", d3.forceY((h / 2)-padding[2]/2))
 	    	.force("collide", d3.forceCollide(r * 1.333))
 	    	.stop();
 
 		for (var i = 0; i < dataSet.length; ++i) simulation.tick();
 
-		var countriesCircles = svg.selectAll(".countries")
-			.data(dataSet, function(d) { return d.countryCode});
+		// var countriesCircles = svg.selectAll(".countries")
+		// 	.data(dataSet, function(d) { return d.countryCode});
 
-		countriesCircles.exit()
-			.transition()
-	    	.duration(1000)
-	    	.attr("cx", 0)
-			.attr("cy", (h / 2)-padding[2]/2)
-			.remove();
+		// countriesCircles.exit()
+		// 	.transition()
+	 //    	.duration(1000)
+	 //    	.attr("cx", 0)
+		// 	.attr("cy", (h / 2)-padding[2]/2)
+		// 	.remove();
 
-		countriesCircles.enter()
-			.append("circle")
-			.attr("class", "countries")
-			.attr("cx", 0)
-			.attr("cy", (h / 2)-padding[2]/2)
-			.attr("r", r)
-			.attr("fill", function(d){ return colors(d.continent)})
-			.merge(countriesCircles)
-			.transition()
-	    	.duration(2000)
-	    	.attr("cx", function(d) { return d.x; })
-	    	.attr("cy", function(d) { return d.y; });
+		// countriesCircles.enter()
+		// 	.append("circle")
+		// 	.attr("class", "countries")
+		// 	.attr("cx", 0)
+		// 	.attr("cy", (h / 2)-padding[2]/2)
+		// 	.attr("r", r)
+		// 	// .attr("fill", function(d){ return colors(d.continent)})
+		// 	.attr("fill", "blue")
+		// 	.merge(countriesCircles)
+		// 	.transition()
+	 //    	.duration(2000)
+	 //    	.attr("cx", function(d) { return d.x; })
+	 //    	.attr("cy", function(d) { return d.y; });
 
 		legend.text(chartState.legend);
 
 	    d3.selectAll(".countries").on("mousemove", function(d) {
-			tt.html("Country: <strong>" + d.countryName + "</strong><br>"
-			+ chartState.legend.slice(0, chartState.legend.indexOf(",")) + ": <strong>" + formatNumber(d[variable]) + "</strong>" + chartState.legend.slice(chartState.legend.lastIndexOf(" ")))
+	    	tt.html("testing")
+			// tt.html("Country: <strong>" + d.countryName + "</strong><br>"
+			// + chartState.legend.slice(0, chartState.legend.indexOf(",")) + ": <strong>" + formatNumber(d[variable]) + "</strong>" + chartState.legend.slice(chartState.legend.lastIndexOf(" ")))
 				.style('top', d3.event.pageY - 12 + 'px')
 				.style('left', d3.event.pageX + 25 + 'px')
 				.style("opacity", 0.9);
@@ -166,42 +171,42 @@ d3.csv("co2bee.csv", function(error, data) {
 	//end of redraw
 	}
 
-	function filter(){
+	// function filter(){
 
-		function getCheckedBoxes(chkboxName) {
-		  var checkboxes = document.getElementsByName(chkboxName);
-		  var checkboxesChecked = [];
-		  for (var i=0; i<checkboxes.length; i++) {
-		     if (checkboxes[i].checked) {
-		        checkboxesChecked.push(checkboxes[i].defaultValue);
-		     }
-		  }
-		  return checkboxesChecked.length > 0 ? checkboxesChecked : null;
-		}
+	// 	function getCheckedBoxes(chkboxName) {
+	// 	  var checkboxes = document.getElementsByName(chkboxName);
+	// 	  var checkboxesChecked = [];
+	// 	  for (var i=0; i<checkboxes.length; i++) {
+	// 	     if (checkboxes[i].checked) {
+	// 	        checkboxesChecked.push(checkboxes[i].defaultValue);
+	// 	     }
+	// 	  }
+	// 	  return checkboxesChecked.length > 0 ? checkboxesChecked : null;
+	// 	}
 
-		var checkedBoxes = getCheckedBoxes("continent");
+	// 	var checkedBoxes = getCheckedBoxes("continent");
 		
-		var newData = [];
+	// 	var newData = [];
 
-		if (checkedBoxes == null){ 
-			dataSet = newData; 
-			redraw(); 
-			return;
-		};
+	// 	if (checkedBoxes == null){ 
+	// 		dataSet = newData; 
+	// 		redraw(); 
+	// 		return;
+	// 	};
 
-		for (var i = 0; i < checkedBoxes.length; i++){
-			var newArray = data.filter(function(d){
-				return d.continent == checkedBoxes[i];
-			});
-			Array.prototype.push.apply(newData, newArray);
-		}
+	// 	for (var i = 0; i < checkedBoxes.length; i++){
+	// 		var newArray = data.filter(function(d){
+	// 			return d.continent == checkedBoxes[i];
+	// 		});
+	// 		Array.prototype.push.apply(newData, newArray);
+	// 	}
 
-		dataSet = newData;
+	// 	dataSet = newData;
 
-		redraw(chartState.variable);
+	// 	redraw(chartState.variable);
 
-	//end of filter
-	}
+	// //end of filter
+	// }
 
 //end of d3.csv
-});
+// });
