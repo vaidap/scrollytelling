@@ -406,7 +406,8 @@ svg3_settings = {
 	line_height: 50,
 	x_domain: [0, 24],
 	graph_title: "Distribution of snowfall",
-	graph_axis: "Snowfall (in cms)"
+	graph_axis: "Snowfall (in cms)",
+  orientation: "horizontal"
 }
 
 // TODO rename x to x_3
@@ -534,12 +535,13 @@ update_datavis();
 svg2_settings = {
 	margin: {top: 10, right: 30, bottom: 30, left: 40},
 	width: 500 - margin.left - margin.right,
-	height: 300 - margin.top - margin.bottom,
+	height: 500 - margin.top - margin.bottom,
 	center: 200,
 	line_height: 50,
 	x_domain: [0, 400],
 	graph_title: "Distribution of snowfall",
-	graph_axis: "Snowfall (in cms)"
+	graph_axis: "Snowfall (in cms)",
+  orientation: "vertical" // TODO this is testing
 }
 
 const_data = [45, 58, 88, 111, 125, 140, 155, 168, 170, 195, 211, 224, 235, 255, 260, 285, 320, 333, 380];
@@ -568,6 +570,7 @@ svg2.selectAll("line.median-line").remove()
           .attr('width', 500)
           .attr('height', 96)
           .attr("xlink:href", "images/" + const_squares_2[i] + ".jpg")
+          .attr("opacity", 0) // TODO testing
 
         //TODO refactor so you can just specify for which graph you want to turn on the scale
 		learn.show_scale(svg2, svg2_settings, x_2);
@@ -625,7 +628,8 @@ svg4_settings = {
 	line_height: 50,
 	x_domain: [0, 450],
 	graph_title: "Distribution of snowfall",
-	graph_axis: "Snowfall (in cms)"
+	graph_axis: "Snowfall (in cms)",
+  orientation: "horizontal"
 }
 
 var values_4 = learn.init_svg(".container-4 #graph", svg4_settings);
