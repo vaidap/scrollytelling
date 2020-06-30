@@ -251,7 +251,16 @@ var learn = {
 		  .attr("stroke-width", 3)
 
 
-		learn.update_boxplot(graph, graph_id, settings, data, x);
+		if (settings.orientation == "vertical") {
+			graph.append("text").attr("x", 250).attr("y", x(data.min)).text("Minimum").style("font-size", "16px").attr("id", graph_id + "-min-text").attr("class", graph_id + " min-text text");
+			graph.append("text").attr("x", 250).attr("y", x(data.max)).text("Maximum").style("font-size", "16px").attr("id", graph_id + "-max-text").attr("class", graph_id + " max-text text");
+			graph.append("text").attr("x", 250).attr("y", x(data.median)).text("Median").style("font-size", "16px").attr("id", graph_id + "-med-text").attr("class", graph_id + " med-text text");
+			graph.append("text").attr("x", 250).attr("y", x(data.q1)).text("1st Quartile").style("font-size", "16px").attr("id", graph_id + "-q1-text").attr("class", graph_id + " q1-text text");
+			graph.append("text").attr("x", 250).attr("y", x(data.q3)).text("3rd Quartile").style("font-size", "16px").attr("id", graph_id + "-q3-text").attr("class", graph_id + " q3-text text");
+		}
+
+
+		learn.update_boxplot(graph, graph_id, settings, data, x, offset);
 
 	},
 
@@ -333,6 +342,12 @@ var learn = {
 
 		}
 		else if (settings.orientation == "vertical") {
+
+			graph.select("#" + graph_id + "-min-text").transition().duration(1000).attr("y", x(data.min));
+			graph.select("#" + graph_id + "-max-text").transition().duration(1000).attr("y", x(data.max));
+			graph.select("#" + graph_id + "-med-text").transition().duration(1000).attr("y", x(data.median));
+			graph.select("#" + graph_id + "-q1-text").transition().duration(1000).attr("y", x(data.q1));
+			graph.select("#" + graph_id + "-q3-text").transition().duration(1000).attr("y", x(data.q3));
 
 			graph
 			.select("#" + graph_id + "-vert-line")
