@@ -250,10 +250,28 @@ var learn = {
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
-		if (settings.orientation == "horizontal") {
+
+		learn.update_boxplot(graph, graph_id, settings, data, x);
+
+	},
+
+	// TODO the x, y defs are repeated in add_boxplot, maybe remove duplication
+	// TODO this has to target the specific ID of the graph inside the svg
+	update_boxplot: function(graph, graph_id, settings, data, x, offset=0) {
+
+		// for less words later
+		margin = settings.margin;
+		width = settings.width;
+		height = settings.height;
+		line_height = settings.line_height;
+		center = settings.center;
+
+	    if (settings.orientation == "horizontal") {
 
 			graph
 			.select("#" + graph_id + "-vert-line")
+			  .transition()
+	   		  .duration(1000)
 			  .attr("x1", x(data.min))
 			  .attr("x2", x(data.max))
 			  .attr("y1", center - offset)
@@ -261,6 +279,8 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-rect")
+				.transition()
+	   		    .duration(1000)
 				.attr("x", x(data.q1) )
 			    .attr("y",  center - line_height/2 - offset)
 			    .attr("height", line_height)
@@ -268,6 +288,8 @@ var learn = {
 
 		    graph
 			.select("#" + graph_id + "-min")
+			  .transition()
+	   		  .duration(1000)
 			  .attr("x1", x(data.min))
 			  .attr("x2", x(data.min))
 			  .attr("y1", center-line_height/2 - offset)
@@ -275,6 +297,8 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-med")
+			  .transition()
+	   		  .duration(1000)
 			  .attr("x1", x(data.median))
 			  .attr("x2", x(data.median))
 			  .attr("y1", center-line_height/2 - offset)
@@ -282,6 +306,8 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-max")
+			  .transition()
+	   		  .duration(1000)
 			  .attr("x1", x(data.max))
 			  .attr("x2", x(data.max))
 			  .attr("y1", center-line_height/2 - offset)
@@ -289,6 +315,8 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-q1-line")
+			  .transition()
+	   		  .duration(1000)
 			  .attr("x1", x(data.q1))
 			  .attr("x2", x(data.q1))
 			  .attr("y1", center-line_height/2 - offset)
@@ -296,6 +324,8 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-q3-line")
+			  .transition()
+	   		  .duration(1000)
 			  .attr("x1", x(data.q3))
 			  .attr("x2", x(data.q3))
 			  .attr("y1", center-line_height/2 - offset)
@@ -306,6 +336,8 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-vert-line")
+			  .transition()
+	   		  .duration(1000)
 			  .attr("x1", center - offset)
 			  .attr("x2", center - offset)
 			  .attr("y1", x(data.min))
@@ -313,6 +345,8 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-rect")
+				.transition()
+	   		    .duration(1000)
 				.attr("x", center - line_height/2 - offset)
 			    .attr("y", x(data.q1))
 			    .attr("height", (x(data.q3)-x(data.q1)) )
@@ -320,6 +354,8 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-min")
+		      .transition()
+	   		  .duration(1000)
 			  .attr("x1", center-line_height/2 - offset)
 			  .attr("x2", center+line_height/2 - offset)
 			  .attr("y1", x(data.min))
@@ -327,6 +363,8 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-med")
+			  .transition()
+	   		  .duration(1000)
 			  .attr("x1", center-line_height/2 - offset)
 			  .attr("x2", center+line_height/2 - offset)
 			  .attr("y1", x(data.median))
@@ -334,6 +372,8 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-max")
+			  .transition()
+	   		  .duration(1000)
 			  .attr("x1", center-line_height/2 - offset)
 			  .attr("x2", center+line_height/2 - offset)
 			  .attr("y1", x(data.max))
@@ -341,6 +381,8 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-q1-line")
+			  .transition()
+	   		  .duration(1000)
 			  .attr("x1", center-line_height/2 - offset)
 			  .attr("x2", center+line_height/2 - offset)
 			  .attr("y1", x(data.q1))
@@ -348,62 +390,14 @@ var learn = {
 
 			graph
 			.select("#" + graph_id + "-q3-line")
+			  .transition()
+	   		  .duration(1000)
 			  .attr("x1", center-line_height/2 - offset)
 			  .attr("x2", center+line_height/2 - offset)
 			  .attr("y1", x(data.q3))
 			  .attr("y2", x(data.q3))
 
 		}
-
-	},
-
-	// TODO the x, y defs are repeated in add_boxplot, maybe remove duplication
-	// TODO this has to target the specific ID of the graph inside the svg
-	update_svg: function(graph, data, x, center, line_height) {
-
-	  graph.select("rect")
-	    .transition()
-	    .duration(1000)
-	    .attr("x", x(data.q1))
-	    .attr("y",  center - line_height/2)
-	    .attr("height", line_height)
-	    .attr("width", (x(data.q3)-x(data.q1)))
-
-	  graph.select("line.vert-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.min))
-	    .attr("x2", x(data.max))
-
-	  graph.select("line.min-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.min))
-	    .attr("x2", x(data.min))
-
-	  graph.select("line.median-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.median))
-	    .attr("x2", x(data.median))
-
-	  graph.select("line.max-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.max))
-	    .attr("x2", x(data.max))
-
-	  graph.select("line.q1-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.q1))
-	    .attr("x2", x(data.q1))
-
-	  graph.select("line.q3-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.q3))
-	    .attr("x2", x(data.q3))
 
 	},
 

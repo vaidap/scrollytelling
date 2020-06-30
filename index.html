@@ -518,7 +518,7 @@ var update_datavis = function() {
   d3.select("#max-stat").text(svg3_stats.max);
 
   // update visualisation
-learn.update_svg(svg3, svg3_stats, x, center, line_height);
+learn.update_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x);
 
 };
 
@@ -550,7 +550,7 @@ var values_2 = learn.init_svg(".container-2 #graph", svg2_settings);
 var svg2 = values_2[0];
 var x_2 = values_2[1];
 
-svg2.selectAll("line.median-line").remove()
+// svg2.selectAll("line.median-line").remove()
 
 
   var path = svg2.append('path')
@@ -574,15 +574,14 @@ svg2.selectAll("line.median-line").remove()
 
         //TODO refactor so you can just specify for which graph you want to turn on the scale
 		learn.show_scale(svg2, svg2_settings, x_2);
-		
+    learn.add_boxplot(svg2, "const", svg2_settings, learn.calculate_stats(const_data), x_2, "");
 
 		if (i == 0) {
-			//TODO change this so it's not constantly adding identical boxplots
 			//TODO change classes to ids for highlights
-			learn.add_boxplot(svg2, "const", svg2_settings, learn.calculate_stats(const_data), x_2, "");
+			//TODO adjust size of div so it doesn't scroll too fast on final div
 			svg2.selectAll(".const").style("opacity", 0);
 
-			learn.make_visible(svg2, "median-line", false);
+      //learn.make_visible(svg2, "median-line", false);
 		}
 
 		else if (i == 1) {
