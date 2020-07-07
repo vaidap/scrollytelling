@@ -438,7 +438,7 @@ var update_datavis = function() {
   var svg3_stats = learn.calculate_stats(data);
 
   //reupdate range & ticks
-  x_3.domain([svg3_stats.max, svg3_stats.min]);
+  x_3.domain([24, 0]);
   svg3.select("g")
     .transition()
     .duration(1000)
