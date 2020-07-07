@@ -23,9 +23,26 @@
 }
 
 </style>
-<svg width="960" height="200"></svg>
+<svg width="500" height="500"></svg>
 <script src="https://d3js.org/d3.v4.0.0-alpha.39.min.js"></script>
 <script>
+
+var data =
+[
+      {
+        "id": "2006",
+        "value": 25,
+    },{
+        "id": "2007",
+        "value": 7,
+    },{
+        "id": "2008",
+        "value": 15,
+    },{
+        "id": "2009",
+        "value": 18,
+    }
+  ]
 
 var svg = d3.select("svg"),
     margin = {top: 40, right: 40, bottom: 40, left: 40},
@@ -40,8 +57,8 @@ var x = d3.scaleLinear()
 var g = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("flare.csv", type, function(error, data) {
-  if (error) throw error;
+// d3.csv("flare.csv", type, function(error, data) {
+//   if (error) throw error;
 
   x.domain(d3.extent(data, function(d) { return d.value; }));
 
@@ -76,12 +93,6 @@ d3.csv("flare.csv", type, function(error, data) {
 
   cell.append("title")
       .text(function(d) { return d.data.id + "\n" + formatValue(d.data.value); });
-});
-
-function type(d) {
-  if (!d.value) return;
-  d.value = +d.value;
-  return d;
-}
+// });
 
 </script>
