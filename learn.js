@@ -70,19 +70,22 @@ var learn = {
 					.append("svg")
 	 			    .attr("width", width + margin.left + margin.right)
 	                .attr("height", height + margin.top + margin.bottom)
+	                // .style("background-color", "#f4f4f4")
 	                .append("g")
 	                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	    if (settings.orientation == "horizontal") {
+	    	start_range = 0;
 	    	end_range = width;
 	    }
 	    else if (settings.orientation == "vertical") {
-	    	end_range = height;
+	    	start_range = 80;
+	    	end_range = height - 40;
 	    }
 	    // Show the X scale
 		var x = d3.scaleLinear()
 		  .domain(x_domain)
-		  .range([0, end_range])
+		  .range([start_range, end_range])
 
 	    return [svg, x];
 
@@ -140,10 +143,10 @@ var learn = {
 			
 			graph.append("g")
 			  .attr("class", "scale")
-			  // .attr("transform", "translate(" + width + ", 0)")
+			  .attr("transform", "translate(" + 50 + ", 0)")
 			  .call(d3.axisLeft(x))
 
-			graph.append("text").attr("x", settings.width/2.5).attr("y", settings.height + 25).text(settings.graph_axis).style("font-size", "14px");
+			graph.append("text").attr("x", 30).attr("y", settings.height - 5).text(settings.graph_axis).style("font-size", "14px");
 			graph.append("text").attr("x", settings.width/3).attr("y", 25).text(settings.graph_title).style("font-size", "18px").style("text-decoration", "underline");
 	    }
 
@@ -252,11 +255,11 @@ var learn = {
 
 
 		if (settings.orientation == "vertical") {
-			graph.append("text").attr("x", 250).attr("y", x(data.min)).text("Minimum").style("font-size", "16px").attr("id", graph_id + "-min-text").attr("class", graph_id + " min-text text");
-			graph.append("text").attr("x", 250).attr("y", x(data.max)).text("Maximum").style("font-size", "16px").attr("id", graph_id + "-max-text").attr("class", graph_id + " max-text text");
-			graph.append("text").attr("x", 250).attr("y", x(data.median)).text("Median").style("font-size", "16px").attr("id", graph_id + "-med-text").attr("class", graph_id + " med-text text");
-			graph.append("text").attr("x", 250).attr("y", x(data.q1)).text("1st Quartile").style("font-size", "16px").attr("id", graph_id + "-q1-text").attr("class", graph_id + " q1-text text");
-			graph.append("text").attr("x", 250).attr("y", x(data.q3)).text("3rd Quartile").style("font-size", "16px").attr("id", graph_id + "-q3-text").attr("class", graph_id + " q3-text text");
+			graph.append("text").attr("x", 240).attr("y", x(data.min)).text("Minimum").style("font-size", "16px").attr("id", graph_id + "-min-text").attr("class", graph_id + " min-text text");
+			graph.append("text").attr("x", 240).attr("y", x(data.max)).text("Maximum").style("font-size", "16px").attr("id", graph_id + "-max-text").attr("class", graph_id + " max-text text");
+			graph.append("text").attr("x", 240).attr("y", x(data.median)).text("Median").style("font-size", "16px").attr("id", graph_id + "-med-text").attr("class", graph_id + " med-text text");
+			graph.append("text").attr("x", 240).attr("y", x(data.q1)).text("1st Quartile").style("font-size", "16px").attr("id", graph_id + "-q1-text").attr("class", graph_id + " q1-text text");
+			graph.append("text").attr("x", 240).attr("y", x(data.q3)).text("3rd Quartile").style("font-size", "16px").attr("id", graph_id + "-q3-text").attr("class", graph_id + " q3-text text");
 		}
 
 
@@ -358,13 +361,15 @@ var learn = {
 			  .attr("y1", x(data.min))
 			  .attr("y2", x(data.max))
 
+			console.log(graph_id + " q1: " + x(data.q1) + " q3: " + x(data.q3));
+
 			graph
 			.select("#" + graph_id + "-rect")
 				.transition()
 	   		    .duration(1000)
 				.attr("x", center - line_height/2 - offset)
-			    .attr("y", x(data.q1))
-			    .attr("height", (x(data.q3)-x(data.q1)) )
+			    .attr("y", x(data.q3)) // normally q1, see above
+			    .attr("height", (x(data.q1)-x(data.q3))) // normally q3 - q1, bigger y is lower when using scale, so bigger number is actually x(q1)
 			    .attr("width", line_height)
 
 			graph

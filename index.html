@@ -77,7 +77,7 @@
 
 
     <div>
-      The median values obtained by <span class="bolded">splitting the lower and higher halves</span> are called the <span class="hl-word const-q1-hl">lower quartile</span> and <span class="hl-word const-q3-hl">higher quartile</span>.
+      The median values obtained by <span class="bolded">splitting the lower and higher halves</span> are called the <span class="hl-word const-q1-hl">first quartile</span> and <span class="hl-word const-q3-hl">third quartile</span>.
     </div>
 
     <div>
@@ -333,10 +333,10 @@ var svg3_stats = learn.calculate_stats(data);
 svg3_settings = {
 	margin: {top: 10, right: 30, bottom: 30, left: 40},
 	width: 500 - margin.left - margin.right,
-	height: 300 - margin.top - margin.bottom,
+	height: 500 - margin.top - margin.bottom,
 	center: 200,
 	line_height: 50,
-	x_domain: [0, 24],
+	x_domain: [24, 0],
 	graph_title: "Distribution of snowfall",
 	graph_axis: "Snowfall (in cms)",
   orientation: "vertical"
@@ -345,10 +345,10 @@ svg3_settings = {
 // TODO rename x to x_3
 var values = learn.init_svg(".container-3 #graph", svg3_settings);
 var svg3 = values[0];
-var x = values[1];
+var x_3 = values[1];
 
-learn.show_scale(svg3, svg3_settings, x);
-learn.add_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x);
+learn.show_scale(svg3, svg3_settings, x_3);
+learn.add_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x_3);
 
 var height = 50 //TODO refactor, this is used for the rectangle actually
 
@@ -420,6 +420,8 @@ add_tooltip(svg3, "#svg3-max");
 // TODO refactor visualisations to create all elements at the same time, then toggle visibility instead of creating in steps
 // TODO make variables for colours, stroke-weight
 
+// TODO refactor this table update section
+
 // TABLE UPDATE
 
 var elements = document.getElementsByClassName("dataval");
@@ -435,11 +437,11 @@ var update_datavis = function() {
   var svg3_stats = learn.calculate_stats(data);
 
   //reupdate range & ticks
-  x.domain([svg3_stats.min, svg3_stats.max]);
+  x_3.domain([svg3_stats.max, svg3_stats.min]);
   svg3.select("g")
     .transition()
     .duration(1000)
-    .call(d3.axisBottom(x))
+    .call(d3.axisLeft(x_3))
 
   // update displayed statistics
   d3.select("#q1-stat").text(svg3_stats.q1);
@@ -450,7 +452,7 @@ var update_datavis = function() {
   d3.select("#max-stat").text(svg3_stats.max);
 
   // update visualisation
-learn.update_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x);
+learn.update_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x_3);
 
 };
 
@@ -470,7 +472,7 @@ svg2_settings = {
 	height: 500 - margin.top - margin.bottom,
 	center: 200,
 	line_height: 50,
-	x_domain: [0, 400],
+	x_domain: [400, 0], // inverted so high numbers are higher
 	graph_title: "Distribution of snowfall",
 	graph_axis: "Snowfall (in cms)",
   orientation: "vertical" // TODO this is testing
@@ -504,16 +506,16 @@ var x_2 = values_2[1];
           .attr("xlink:href", "images/" + const_squares_2[i] + ".jpg")
           .attr("opacity", 0) // TODO testing
 
-        //TODO refactor so you can just specify for which graph you want to turn on the scale
-		learn.show_scale(svg2, svg2_settings, x_2);
-    learn.add_boxplot(svg2, "const", svg2_settings, learn.calculate_stats(const_data), x_2, "");
+    	console.log(i);
 
 		if (i == 0) {
+
 			//TODO change classes to ids for highlights
-			//TODO adjust size of div so it doesn't scroll too fast on final div
+			//TODO refactor so you can just specify for which graph you want to turn on the scale
+			learn.show_scale(svg2, svg2_settings, x_2);
+			learn.add_boxplot(svg2, "const", svg2_settings, learn.calculate_stats(const_data), x_2, "");
 			svg2.selectAll(".const").style("opacity", 0);
 
-      //learn.make_visible(svg2, "median-line", false);
 		}
 
 		else if (i == 1) {
@@ -521,28 +523,39 @@ var x_2 = values_2[1];
 
 			learn.make_visible(svg2, "q1-line", false);
 			learn.make_visible(svg2, "q3-line", false);
+			learn.make_visible(svg2, "q1-text", false);
+			learn.make_visible(svg2, "q3-text", false);
 
 			learn.make_visible(svg2, "median-line", true);
+			learn.make_visible(svg2, "med-text", true);
 		}
 
 		else if (i == 2) {
 			learn.make_visible(svg2, "rect", false);
+			learn.make_visible(svg2, "rect-text", false);
 
 			learn.make_visible(svg2, "q1-line", true);
 			learn.make_visible(svg2, "q3-line", true);
+			learn.make_visible(svg2, "q1-text", true);
+			learn.make_visible(svg2, "q3-text", true);
 		}
 
 		else if (i == 3) {
 			learn.make_visible(svg2, "min-line", false);
 			learn.make_visible(svg2, "max-line", false);
 			learn.make_visible(svg2, "vert-line", false);
+			learn.make_visible(svg2, "min-text", false);
+			learn.make_visible(svg2, "max-text", false);
 
 			learn.make_visible(svg2, "rect", true);
+			learn.make_visible(svg2, "rect-text", true);
 		}
 		else if (i == 4) {
 			learn.make_visible(svg2, "min-line", true);
 			learn.make_visible(svg2, "max-line", true);
 			learn.make_visible(svg2, "vert-line", true);
+			learn.make_visible(svg2, "min-text", true);
+			learn.make_visible(svg2, "max-text", true);
 		}
 
 		})
