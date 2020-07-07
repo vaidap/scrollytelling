@@ -254,7 +254,7 @@ var learn = {
 		  .attr("stroke-width", 3)
 
 
-		if (settings.orientation == "vertical") {
+		if (settings.orientation == "vertical" && settings.labels == true) {
 			graph.append("text").attr("x", 240).attr("y", x(data.min)).text("Minimum").style("font-size", "16px").attr("id", graph_id + "-min-text").attr("class", graph_id + " min-text text");
 			graph.append("text").attr("x", 240).attr("y", x(data.max)).text("Maximum").style("font-size", "16px").attr("id", graph_id + "-max-text").attr("class", graph_id + " max-text text");
 			graph.append("text").attr("x", 240).attr("y", x(data.median)).text("Median").style("font-size", "16px").attr("id", graph_id + "-med-text").attr("class", graph_id + " med-text text");
@@ -346,11 +346,13 @@ var learn = {
 		}
 		else if (settings.orientation == "vertical") {
 
-			graph.select("#" + graph_id + "-min-text").transition().duration(1000).attr("y", x(data.min));
-			graph.select("#" + graph_id + "-max-text").transition().duration(1000).attr("y", x(data.max));
-			graph.select("#" + graph_id + "-med-text").transition().duration(1000).attr("y", x(data.median));
-			graph.select("#" + graph_id + "-q1-text").transition().duration(1000).attr("y", x(data.q1));
-			graph.select("#" + graph_id + "-q3-text").transition().duration(1000).attr("y", x(data.q3));
+			if (settings.labels == true) {
+				graph.select("#" + graph_id + "-min-text").transition().duration(1000).attr("y", x(data.min));
+				graph.select("#" + graph_id + "-max-text").transition().duration(1000).attr("y", x(data.max));
+				graph.select("#" + graph_id + "-med-text").transition().duration(1000).attr("y", x(data.median));
+				graph.select("#" + graph_id + "-q1-text").transition().duration(1000).attr("y", x(data.q1));
+				graph.select("#" + graph_id + "-q3-text").transition().duration(1000).attr("y", x(data.q3));
+			}
 
 			graph
 			.select("#" + graph_id + "-vert-line")

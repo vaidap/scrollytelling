@@ -339,7 +339,8 @@ svg3_settings = {
 	x_domain: [24, 0],
 	graph_title: "Distribution of snowfall",
 	graph_axis: "Snowfall (in cms)",
-  orientation: "vertical"
+  	orientation: "vertical",
+  	labels: true
 }
 
 // TODO rename x to x_3
@@ -475,7 +476,8 @@ svg2_settings = {
 	x_domain: [400, 0], // inverted so high numbers are higher
 	graph_title: "Distribution of snowfall",
 	graph_axis: "Snowfall (in cms)",
-  orientation: "vertical" // TODO this is testing
+  	orientation: "vertical",
+  	labels: true
 }
 
 const_data = [45, 58, 88, 111, 125, 140, 155, 168, 170, 195, 211, 224, 235, 255, 260, 285, 320, 333, 380];
@@ -573,7 +575,8 @@ svg4_settings = {
 	x_domain: [0, 450],
 	graph_title: "Distribution of snowfall",
 	graph_axis: "Snowfall (in cms)",
-  orientation: "horizontal"
+  	orientation: "horizontal",
+  	labels: false
 }
 
 var values_4 = learn.init_svg(".container-4 #graph", svg4_settings);
