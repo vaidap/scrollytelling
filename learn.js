@@ -70,13 +70,22 @@ var learn = {
 					.append("svg")
 	 			    .attr("width", width + margin.left + margin.right)
 	                .attr("height", height + margin.top + margin.bottom)
+	                // .style("background-color", "#f4f4f4")
 	                .append("g")
 	                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+	    if (settings.orientation == "horizontal") {
+	    	start_range = 0;
+	    	end_range = width;
+	    }
+	    else if (settings.orientation == "vertical") {
+	    	start_range = 80;
+	    	end_range = height - 40;
+	    }
 	    // Show the X scale
 		var x = d3.scaleLinear()
 		  .domain(x_domain)
-		  .range([0, width])
+		  .range([start_range, end_range])
 
 	    return [svg, x];
 
@@ -115,15 +124,33 @@ var learn = {
 
 	show_scale: function(graph, settings, x) {
 
-		height = settings.height - 15; // to have space for legend
-		
-		graph.append("g")
-		  .attr("class", "scale")
-		  .attr("transform", "translate(0," + height + ")")
-		  .call(d3.axisBottom(x))
+		if (settings.orientation == "horizontal") {
 
-		graph.append("text").attr("x", settings.width/2.5).attr("y", settings.height + 25).text(settings.graph_axis).style("font-size", "14px");
-		graph.append("text").attr("x", settings.width/3).attr("y", 25).text(settings.graph_title).style("font-size", "18px").style("text-decoration", "underline");
+			height = settings.height - 15; // to have space for legend
+			
+			graph.append("g")
+			  .attr("class", "scale")
+			  .attr("transform", "translate(0," + height + ")")
+			  .call(d3.axisBottom(x))
+
+			graph.append("text").attr("x", settings.width/2.5).attr("y", settings.height + 25).text(settings.graph_axis).style("font-size", "14px");
+			graph.append("text").attr("x", settings.width/3).attr("y", 25).text(settings.graph_title).style("font-size", "18px").style("text-decoration", "underline");
+
+	    }
+	    else if (settings.orientation == "vertical") {
+
+			width = settings.width + 15; // to have space for legend
+			
+			graph.append("g")
+			  .attr("class", "scale")
+			  .attr("transform", "translate(" + 50 + ", 0)")
+			  .call(d3.axisLeft(x))
+
+			graph.append("text").attr("x", 30).attr("y", settings.height - 5).text(settings.graph_axis).style("font-size", "14px");
+			graph.append("text").attr("x", settings.width/3).attr("y", 25).text(settings.graph_title).style("font-size", "18px").style("text-decoration", "underline");
+	    }
+
+
 	},
 
 	// Compute summary statistics used for the box
@@ -173,17 +200,20 @@ var learn = {
 		center = settings.center;
 
 		// TODO add an id to these, and make text editable, in show_scale as well
-		graph.append("text").attr("x", 0).attr("y", center - offset - 35).text(graph_title).style("font-size", "16px");
+		if (settings.orientation == "horizontal") {
+			graph.append("text").attr("x", 0).attr("y", center - offset - 35).text(graph_title).style("font-size", "16px");
+		}
+		else if (settings.orientation == "vertical") {
+			graph.append("text").attr("x", center - 40 - offset * 1.3).attr("y", 60).text(graph_title).style("font-size", "16px");
+		}
+
+		// TODO make the naming of classes and ids consistent
 
 		// Show the main vertical line
 		graph
 		.append("line")
 		  .attr("class", graph_id + " vert-line") //TODO the correct thing to do here is to group all of these elements with g, so they can be manipulated together
 		  .attr("id", graph_id + "-vert-line")
-		  .attr("x1", x(data.min))
-		  .attr("x2", x(data.max))
-		  .attr("y1", center - offset)
-		  .attr("y2", center - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
@@ -192,41 +222,26 @@ var learn = {
 		.append("rect")
 		  .attr("class", graph_id + " rect") 
 		  .attr("id", graph_id + "-rect")
-		  .attr("x", x(data.q1) )
-		  .attr("y",  center - line_height/2 - offset)
-		  .attr("height", line_height)
-		  .attr("width", (x(data.q3)-x(data.q1)))
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 		  .style("fill", "#69b3a2")
 
+
 		graph.append("line")
 		  .attr("class", graph_id + " min-line")
 		  .attr("id", graph_id + "-min")
-		  .attr("x1", x(data.min))
-		  .attr("x2", x(data.min))
-		  .attr("y1", center-line_height/2 - offset)
-		  .attr("y2", center+line_height/2 - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
 		graph.append("line")
 		  .attr("class", graph_id + " median-line")
 		  .attr("id", graph_id + "-med")
-		  .attr("x1", x(data.median))
-		  .attr("x2", x(data.median))
-		  .attr("y1", center-line_height/2 - offset)
-		  .attr("y2", center+line_height/2 - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
 		graph.append("line")
 		  .attr("class", graph_id + " max-line")
 		   .attr("id", graph_id + "-max")
-		  .attr("x1", x(data.max))
-		  .attr("x2", x(data.max))
-		  .attr("y1", center-line_height/2 - offset)
-		  .attr("y2", center+line_height/2 - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
@@ -234,72 +249,182 @@ var learn = {
 		graph.append("line")
 		  .attr("class", graph_id + " q1-line")
 		  .attr("id", graph_id + "-q1-line")
-		  .attr("x1", x(data.q1))
-		  .attr("x2", x(data.q1))
-		  .attr("y1", center-line_height/2 - offset)
-		  .attr("y2", center+line_height/2 - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
 
 		graph.append("line")
 		  .attr("class", graph_id + " q3-line")
 		  .attr("id", graph_id + "-q3-line")
-		  .attr("x1", x(data.q3))
-		  .attr("x2", x(data.q3))
-		  .attr("y1", center-line_height/2 - offset)
-		  .attr("y2", center+line_height/2 - offset)
 		  .attr("stroke", "grey")
 		  .attr("stroke-width", 3)
+
+
+		if (settings.orientation == "vertical" && settings.labels == true) {
+			graph.append("text").attr("x", 240).attr("y", x(data.min)).text("Minimum").style("font-size", "16px").attr("id", graph_id + "-min-text").attr("class", graph_id + " min-text text");
+			graph.append("text").attr("x", 240).attr("y", x(data.max)).text("Maximum").style("font-size", "16px").attr("id", graph_id + "-max-text").attr("class", graph_id + " max-text text");
+			graph.append("text").attr("x", 240).attr("y", x(data.median)).text("Median").style("font-size", "16px").attr("id", graph_id + "-med-text").attr("class", graph_id + " med-text text");
+			graph.append("text").attr("x", 240).attr("y", x(data.q1)).text("1st Quartile").style("font-size", "16px").attr("id", graph_id + "-q1-text").attr("class", graph_id + " q1-text text");
+			graph.append("text").attr("x", 240).attr("y", x(data.q3)).text("3rd Quartile").style("font-size", "16px").attr("id", graph_id + "-q3-text").attr("class", graph_id + " q3-text text");
+		}
+
+
+		learn.update_boxplot(graph, graph_id, settings, data, x, offset);
 
 	},
 
 	// TODO the x, y defs are repeated in add_boxplot, maybe remove duplication
 	// TODO this has to target the specific ID of the graph inside the svg
-	update_svg: function(graph, data, x, center, line_height) {
+	update_boxplot: function(graph, graph_id, settings, data, x, offset=0) {
 
-	  graph.select("rect")
-	    .transition()
-	    .duration(1000)
-	    .attr("x", x(data.q1))
-	    .attr("y",  center - line_height/2)
-	    .attr("height", line_height)
-	    .attr("width", (x(data.q3)-x(data.q1)))
+		// for less words later
+		margin = settings.margin;
+		width = settings.width;
+		height = settings.height;
+		line_height = settings.line_height;
+		center = settings.center;
 
-	  graph.select("line.vert-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.min))
-	    .attr("x2", x(data.max))
+	    if (settings.orientation == "horizontal") {
 
-	  graph.select("line.min-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.min))
-	    .attr("x2", x(data.min))
+			graph
+			.select("#" + graph_id + "-vert-line")
+			  .transition()
+	   		  .duration(1000)
+			  .attr("x1", x(data.min))
+			  .attr("x2", x(data.max))
+			  .attr("y1", center - offset)
+			  .attr("y2", center - offset)
 
-	  graph.select("line.median-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.median))
-	    .attr("x2", x(data.median))
+			graph
+			.select("#" + graph_id + "-rect")
+				.transition()
+	   		    .duration(1000)
+				.attr("x", x(data.q1) )
+			    .attr("y",  center - line_height/2 - offset)
+			    .attr("height", line_height)
+			    .attr("width", (x(data.q3)-x(data.q1)))
 
-	  graph.select("line.max-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.max))
-	    .attr("x2", x(data.max))
+		    graph
+			.select("#" + graph_id + "-min")
+			  .transition()
+	   		  .duration(1000)
+			  .attr("x1", x(data.min))
+			  .attr("x2", x(data.min))
+			  .attr("y1", center-line_height/2 - offset)
+			  .attr("y2", center+line_height/2 - offset)
 
-	  graph.select("line.q1-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.q1))
-	    .attr("x2", x(data.q1))
+			graph
+			.select("#" + graph_id + "-med")
+			  .transition()
+	   		  .duration(1000)
+			  .attr("x1", x(data.median))
+			  .attr("x2", x(data.median))
+			  .attr("y1", center-line_height/2 - offset)
+			  .attr("y2", center+line_height/2 - offset)
 
-	  graph.select("line.q3-line")
-	    .transition()
-	    .duration(1000)
-	    .attr("x1", x(data.q3))
-	    .attr("x2", x(data.q3))
+			graph
+			.select("#" + graph_id + "-max")
+			  .transition()
+	   		  .duration(1000)
+			  .attr("x1", x(data.max))
+			  .attr("x2", x(data.max))
+			  .attr("y1", center-line_height/2 - offset)
+			  .attr("y2", center+line_height/2 - offset)
+
+			graph
+			.select("#" + graph_id + "-q1-line")
+			  .transition()
+	   		  .duration(1000)
+			  .attr("x1", x(data.q1))
+			  .attr("x2", x(data.q1))
+			  .attr("y1", center-line_height/2 - offset)
+			  .attr("y2", center+line_height/2 - offset)
+
+			graph
+			.select("#" + graph_id + "-q3-line")
+			  .transition()
+	   		  .duration(1000)
+			  .attr("x1", x(data.q3))
+			  .attr("x2", x(data.q3))
+			  .attr("y1", center-line_height/2 - offset)
+			  .attr("y2", center+line_height/2 - offset)
+
+		}
+		else if (settings.orientation == "vertical") {
+
+			if (settings.labels == true) {
+				graph.select("#" + graph_id + "-min-text").transition().duration(1000).attr("y", x(data.min));
+				graph.select("#" + graph_id + "-max-text").transition().duration(1000).attr("y", x(data.max));
+				graph.select("#" + graph_id + "-med-text").transition().duration(1000).attr("y", x(data.median));
+				graph.select("#" + graph_id + "-q1-text").transition().duration(1000).attr("y", x(data.q1));
+				graph.select("#" + graph_id + "-q3-text").transition().duration(1000).attr("y", x(data.q3));
+			}
+
+			graph
+			.select("#" + graph_id + "-vert-line")
+			  .transition()
+	   		  .duration(1000)
+			  .attr("x1", center - offset)
+			  .attr("x2", center - offset)
+			  .attr("y1", x(data.min))
+			  .attr("y2", x(data.max))
+
+			console.log(graph_id + " q1: " + x(data.q1) + " q3: " + x(data.q3));
+
+			graph
+			.select("#" + graph_id + "-rect")
+				.transition()
+	   		    .duration(1000)
+				.attr("x", center - line_height/2 - offset)
+			    .attr("y", x(data.q3)) // normally q1, see above
+			    .attr("height", (x(data.q1)-x(data.q3))) // normally q3 - q1, bigger y is lower when using scale, so bigger number is actually x(q1)
+			    .attr("width", line_height)
+
+			graph
+			.select("#" + graph_id + "-min")
+		      .transition()
+	   		  .duration(1000)
+			  .attr("x1", center-line_height/2 - offset)
+			  .attr("x2", center+line_height/2 - offset)
+			  .attr("y1", x(data.min))
+			  .attr("y2", x(data.min))
+
+			graph
+			.select("#" + graph_id + "-med")
+			  .transition()
+	   		  .duration(1000)
+			  .attr("x1", center-line_height/2 - offset)
+			  .attr("x2", center+line_height/2 - offset)
+			  .attr("y1", x(data.median))
+			  .attr("y2", x(data.median))
+
+			graph
+			.select("#" + graph_id + "-max")
+			  .transition()
+	   		  .duration(1000)
+			  .attr("x1", center-line_height/2 - offset)
+			  .attr("x2", center+line_height/2 - offset)
+			  .attr("y1", x(data.max))
+			  .attr("y2", x(data.max))
+
+			graph
+			.select("#" + graph_id + "-q1-line")
+			  .transition()
+	   		  .duration(1000)
+			  .attr("x1", center-line_height/2 - offset)
+			  .attr("x2", center+line_height/2 - offset)
+			  .attr("y1", x(data.q1))
+			  .attr("y2", x(data.q1))
+
+			graph
+			.select("#" + graph_id + "-q3-line")
+			  .transition()
+	   		  .duration(1000)
+			  .attr("x1", center-line_height/2 - offset)
+			  .attr("x2", center+line_height/2 - offset)
+			  .attr("y1", x(data.q3))
+			  .attr("y2", x(data.q3))
+
+		}
 
 	},
 
