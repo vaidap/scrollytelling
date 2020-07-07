@@ -200,7 +200,12 @@ var learn = {
 		center = settings.center;
 
 		// TODO add an id to these, and make text editable, in show_scale as well
-		graph.append("text").attr("x", 0).attr("y", center - offset - 35).text(graph_title).style("font-size", "16px");
+		if (settings.orientation == "horizontal") {
+			graph.append("text").attr("x", 0).attr("y", center - offset - 35).text(graph_title).style("font-size", "16px");
+		}
+		else if (settings.orientation == "vertical") {
+			graph.append("text").attr("x", center - 40 - offset * 1.3).attr("y", 60).text(graph_title).style("font-size", "16px");
+		}
 
 		// TODO make the naming of classes and ids consistent
 

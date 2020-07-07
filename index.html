@@ -569,13 +569,13 @@ var x_2 = values_2[1];
 svg4_settings = {
 	margin: {top: 10, right: 30, bottom: 30, left: 40},
 	width: 500 - margin.left - margin.right,
-	height: 300 - margin.top - margin.bottom,
+	height: 500 - margin.top - margin.bottom,
 	center: 200,
 	line_height: 50,
-	x_domain: [0, 450],
+	x_domain: [450, 0],
 	graph_title: "Distribution of snowfall",
 	graph_axis: "Snowfall (in cms)",
-  	orientation: "horizontal",
+  	orientation: "vertical",
   	labels: false
 }
 
@@ -649,6 +649,7 @@ var mountain_2_stats = learn.calculate_stats(mountain_2);
 
         else if (i == 3) {
 
+       	// TODO if you scroll too quickly the boxplots do not appear
         // TODO update the highlighting id references to match this
         learn.add_boxplot(svg4, "mountain_2", svg4_settings, mountain_2_stats, x_4, "The Cursed Hill");
         
@@ -686,10 +687,10 @@ var mountain_2_stats = learn.calculate_stats(mountain_2);
             .transition()
             .duration(1000)
             .attr("class", "snowfall")
-            .attr("x1", x_4(200))
-            .attr("x2", x_4(200))
-            .attr("y1", svg4_settings.center - 180)
-            .attr("y2", svg4_settings.center + 50)
+            .attr("x1", svg4_settings.center - 150)
+            .attr("x2", svg4_settings.center + 60)
+            .attr("y1", x_4(200))
+            .attr("y2", x_4(200))
             .style("stroke", "blue")
             .style("stroke-width", 10)
         }
@@ -700,10 +701,10 @@ var mountain_2_stats = learn.calculate_stats(mountain_2);
           .append("rect")
             .transition()
             .duration(1000)
-            .attr("x", x_4(200) )
-            .attr("y",  svg4_settings.center - svg4_settings.line_height/2)
-            .attr("height", 50)
-            .attr("width", 175)
+            .attr("x", svg4_settings.center - svg4_settings.line_height/2)
+            .attr("y", x_4(382))
+            .attr("height", 140)
+            .attr("width", 50)
             .style("opacity", 0.2)
             .attr("stroke", "blue")
             .style("fill", "blue")
