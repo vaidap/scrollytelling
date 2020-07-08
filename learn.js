@@ -260,11 +260,11 @@ var learn = {
 
 
 		if (settings.orientation == "vertical" && settings.labels == true) {
-			graph.append("text").attr("x", 240).attr("y", x(data.min)).text("Minimum").style("font-size", "16px").attr("id", graph_id + "-min-text").attr("class", graph_id + " min-text text");
-			graph.append("text").attr("x", 240).attr("y", x(data.max)).text("Maximum").style("font-size", "16px").attr("id", graph_id + "-max-text").attr("class", graph_id + " max-text text");
-			graph.append("text").attr("x", 240).attr("y", x(data.median)).text("Median").style("font-size", "16px").attr("id", graph_id + "-med-text").attr("class", graph_id + " med-text text");
-			graph.append("text").attr("x", 240).attr("y", x(data.q1)).text("1st Quartile").style("font-size", "16px").attr("id", graph_id + "-q1-text").attr("class", graph_id + " q1-text text");
-			graph.append("text").attr("x", 240).attr("y", x(data.q3)).text("3rd Quartile").style("font-size", "16px").attr("id", graph_id + "-q3-text").attr("class", graph_id + " q3-text text");
+			graph.append("text").attr("x", 240 - offset).attr("y", x(data.min)).text("Minimum").style("font-size", "16px").attr("id", graph_id + "-min-text").attr("class", graph_id + " min-text text");
+			graph.append("text").attr("x", 240 - offset).attr("y", x(data.max)).text("Maximum").style("font-size", "16px").attr("id", graph_id + "-max-text").attr("class", graph_id + " max-text text");
+			graph.append("text").attr("x", 240 - offset).attr("y", x(data.median)).text("Median").style("font-size", "16px").attr("id", graph_id + "-med-text").attr("class", graph_id + " med-text text");
+			graph.append("text").attr("x", 240 - offset).attr("y", x(data.q1)).text("1st Quartile").style("font-size", "16px").attr("id", graph_id + "-q1-text").attr("class", graph_id + " q1-text text");
+			graph.append("text").attr("x", 240 - offset).attr("y", x(data.q3)).text("3rd Quartile").style("font-size", "16px").attr("id", graph_id + "-q3-text").attr("class", graph_id + " q3-text text");
 		}
 
 
