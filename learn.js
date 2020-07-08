@@ -428,6 +428,58 @@ var learn = {
 
 	},
 
+	add_beeswarm: function(graph, graph_id, settings, data, x, graph_title="", offset=0) {
+
+		margin = settings.margin;
+		width = settings.width;
+		height = settings.height;
+		line_height = settings.line_height;
+		center = settings.center;
+
+		var formatValue = d3.format(",d");
+
+		var g = graph.append("g")
+		    .attr("transform", "translate(" + offset + ", 0)");
+
+		  var simulation = d3.forceSimulation(data)
+		      .force("x", d3.forceY(function(d) { return x(d.value); }).strength(5))
+		      .force("y", d3.forceX(height / 2))
+		      .force("collide", d3.forceCollide(6))
+		      .stop();
+
+		  for (var i = 0; i < 120; ++i) simulation.tick();
+
+		  var cell = g.append("g")
+		      .attr("class", "cells")
+		    .selectAll("g").data(d3.voronoi()
+		        .extent([[-margin.left, -margin.top], [width + margin.right, height + margin.top]])
+		        .x(function(d) { return d.x; })
+		        .y(function(d) { return d.y; })
+		      .polygons(data)).enter().append("g");
+
+		  cell.append("circle")
+		      .attr("r", 5)
+		      .attr("cx", function(d) { return d.data.x; })
+		      .attr("cy", function(d) { return d.data.y; });
+
+		  cell.append("path")
+		      .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
+
+		  cell.append("title")
+		      .text(function(d) { return d.data.id + " " + formatValue(d.data.value); });
+
+	},
+
+	array_to_object: function(array) {
+
+		var data = [];
+		for(var i=0; i<array.length; i++)  {
+		    data.push({id: "Value:", value: array[i]});
+		}
+
+		return data;
+	},
+
 	//TODO issue if you scroll back up and back down, it doesn't highlight elements anymore
 	highlight: function(graph, element_id, state) {
 
