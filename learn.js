@@ -156,13 +156,14 @@ var learn = {
 	// Compute summary statistics used for the box
 	calculate_stats: function(data) {
 
-		var data_sorted = data.sort(d3.ascending)
+		var data_sorted = Array.from(data) // turns out just doing b = a does a shallow copy, so all of the operations below act on original array as well!
+		data_sorted = data_sorted.sort(d3.ascending)
 		var q1 = d3.quantile(data_sorted, .25)
 		var median = d3.quantile(data_sorted, .5)
 		var q3 = d3.quantile(data_sorted, .75)
 		var interQuantileRange = q3 - q1
-	    var min = Math.min(...data)
-	    var max = Math.max(...data)
+	    var min = Math.min(...data_sorted)
+	    var max = Math.max(...data_sorted)
 
 		return stats = {
 		  q1: q1,
@@ -468,6 +469,19 @@ var learn = {
 		  cell.append("title")
 		      .text(function(d) { return d.data.id + " " + formatValue(d.data.value); });
 
+	},
+
+	update_beeswarm: function(graph, graph_id, settings, data, x, offset=0) {
+
+		graph.selectAll("circle")
+			.data(data)
+			.transition(1000)
+			// .attr("cx", function(d) {
+			// 	return -130;
+			// })
+			.attr("cy", function(d) {
+				return x(d.value);
+			})
 	},
 
 	array_to_object: function(array) {
