@@ -439,49 +439,101 @@ var learn = {
 
 		var formatValue = d3.format(",d");
 
-		var g = graph.append("g")
-		    .attr("transform", "translate(" + offset + ", 0)");
+	    var simulation = d3.forceSimulation(data)
+			.force("x", d3.forceX(width / 2))
+	    	.force("y", d3.forceY(function(d) { return x(d.value); }).strength(2))
+	    	.force("collide", d3.forceCollide(6))
+	    	.stop();
 
-		  var simulation = d3.forceSimulation(data)
-		      .force("x", d3.forceY(function(d) { return x(d.value); }).strength(5))
-		      .force("y", d3.forceX(height / 2))
-		      .force("collide", d3.forceCollide(6))
-		      .stop();
+		for (var i = 0; i < data.length; ++i) simulation.tick();
 
-		  for (var i = 0; i < 120; ++i) simulation.tick();
+		var countriesCircles = graph.selectAll(".countries")
+			.data(data);
 
-		  var cell = g.append("g")
-		      .attr("class", "cells")
-		    .selectAll("g").data(d3.voronoi()
-		        .extent([[-margin.left, -margin.top], [width + margin.right, height + margin.top]])
-		        .x(function(d) { return d.x; })
-		        .y(function(d) { return d.y; })
-		      .polygons(data)).enter().append("g");
+		countriesCircles.exit()
+			.transition()
+	    	.duration(1000)
+	    	.attr("cx", 0)
+			.attr("cy", height / 2)
+			.remove();
 
-		  cell.append("circle")
-		      .attr("r", 5)
-		      .attr("cx", function(d) { return d.data.x; })
-		      .attr("cy", function(d) { return d.data.y; });
+		countriesCircles.enter()
+			.append("circle")
+			.attr("class", "countries")
+			.attr("cx", 0)
+			.attr("cy", height / 2)
+			.attr("r", 5)
+			.merge(countriesCircles)
+			.transition()
+	    	.duration(2000)
+	    	.attr("cx", function(d) { return d.x; })
+	    	.attr("cy", function(d) { return d.y; });
 
-		  cell.append("path")
-		      .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
+		// var g = graph.append("g")
+		//     .attr("transform", "translate(" + offset + ", 0)");
 
-		  cell.append("title")
-		      .text(function(d) { return d.data.id + " " + formatValue(d.data.value); });
+		//   var simulation = d3.forceSimulation(data)
+		//       .force("x", d3.forceY(function(d) { return x(d.value); }).strength(5))
+		//       .force("y", d3.forceX(height / 2))
+		//       .force("collide", d3.forceCollide(6))
+		//       .stop();
+
+		//   for (var i = 0; i < 120; ++i) simulation.tick();
+
+		//   var cell = g.append("g")
+		//       .attr("class", "cells")
+		//     .selectAll("g").data(d3.voronoi()
+		//         .extent([[-margin.left, -margin.top], [width + margin.right, height + margin.top]])
+		//         .x(function(d) { return d.x; })
+		//         .y(function(d) { return d.y; })
+		//       .polygons(data)).enter().append("g");
+
+		//   cell.append("circle")
+		//       .attr("r", 5)
+		//       .attr("cx", function(d) { return d.data.x; })
+		//       .attr("cy", function(d) { return d.data.y; });
+
+		//   cell.append("path")
+		//       .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
+
+		//   cell.append("title")
+		//       .text(function(d) { return d.data.id + " " + formatValue(d.data.value); });
 
 	},
 
 	update_beeswarm: function(graph, graph_id, settings, data, x, offset=0) {
 
-		graph.selectAll("circle")
-			.data(data)
-			.transition(1000)
-			// .attr("cx", function(d) {
-			// 	return -130;
-			// })
-			.attr("cy", function(d) {
-				return x(d.value);
-			})
+		margin = settings.margin;
+		width = settings.width;
+		height = settings.height;
+		line_height = settings.line_height;
+		center = settings.center;
+
+		// var simulation = d3.forceSimulation(data)
+	 //      .force("x", d3.forceY(function(d) { return x(d.value); }).strength(5))
+	 //      .force("y", d3.forceX(height / 2))
+	 //      .force("collide", d3.forceCollide(6))
+	 //      .stop();
+
+	 //    for (var i = 0; i < 120; ++i) simulation.tick();
+
+	 //    graph.select(".cells")
+		//     .selectAll("g").data(d3.voronoi()
+		//         .extent([[-margin.left, -margin.top], [width + margin.right, height + margin.top]])
+		//         .x(function(d) { return d.x; })
+		//         .y(function(d) { return d.y; })
+		//       .polygons(data));
+
+
+		// graph.selectAll("circle")
+		// 	// .data(data)
+		// 	.transition(1000)
+		// 	// .attr("cx", function(d) {
+		// 	// 	return -130;
+		// 	// })
+		// 	.attr("cy", function(d) {
+		// 		return x(d.data.y);
+		// 	})
 	},
 
 	array_to_object: function(array) {

@@ -458,7 +458,8 @@ var update_datavis = function() {
   // update visualisation
 learn.update_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x_3);
 
-learn.update_beeswarm(svg3,"sandbox-beeswarm", svg3_settings, learn.array_to_object(data), x_3, offset=-130);
+learn.add_beeswarm(svg3, "sandbox-beeswarm", svg3_settings, learn.array_to_object(data), x_3, "", offset=-130);
+// learn.update_beeswarm(svg3,"sandbox-beeswarm", svg3_settings, learn.array_to_object(data), x_3, offset=-130);
 
 };
 
