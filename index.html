@@ -458,7 +458,7 @@ var update_datavis = function() {
   // update visualisation
 learn.update_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x_3);
 
-learn.add_beeswarm(svg3, "sandbox-beeswarm", svg3_settings, learn.array_to_object(data), x_3, "", offset=-130);
+learn.add_beeswarm(svg3, "sandbox-beeswarm", svg3_settings, learn.array_to_object(data), x_3, "", offset=-100);
 // learn.update_beeswarm(svg3,"sandbox-beeswarm", svg3_settings, learn.array_to_object(data), x_3, offset=-130);
 
 };
@@ -573,13 +573,13 @@ var x_2 = values_2[1];
 
 bee_const_data = learn.array_to_object(const_data);
 
-learn.add_beeswarm(svg2, "const-beeswarm", svg2_settings, bee_const_data, x_2, "", offset=-130);
+learn.add_beeswarm(svg2, "const-beeswarm", svg2_settings, bee_const_data, x_2, "", offset=-100);
 
 // sandbox beeswarm data -------------------------
 
 bee_sandbox_data = learn.array_to_object(data);
 
-learn.add_beeswarm(svg3, "sandbox-beeswarm", svg3_settings, bee_sandbox_data, x_3, "", offset=-130);
+learn.add_beeswarm(svg3, "sandbox-beeswarm", svg3_settings, bee_sandbox_data, x_3, "", offset=-100);
 
 // END ----------------------------------------------------------
 

@@ -439,9 +439,21 @@ var learn = {
 
 		var formatValue = d3.format(",d");
 
+		// var g = graph.append("g")
+		// 	  .attr("class", "scale")
+		// 	  .attr("transform", "translate(0," + height + ")")
+
+	 //  	var svg = d3.select(graph_selector).html('')
+		// 	.append("svg")
+		// 	    .attr("width", width + margin.left + margin.right)
+  //           .attr("height", height + margin.top + margin.bottom)
+  //           // .style("background-color", "#f4f4f4")
+  //           .append("g")
+  //           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 	    var simulation = d3.forceSimulation(data)
 			.force("x", d3.forceX(width / 2))
-	    	.force("y", d3.forceY(function(d) { return x(d.value); }).strength(2))
+	    	.force("y", d3.forceY(function(d) { return x(d.value); }).strength(1.6)) // for some reason in sandbox it's not well-aligned to axis so setting strength to this specific value is a quickfix
 	    	.force("collide", d3.forceCollide(6))
 	    	.stop();
 
@@ -466,7 +478,7 @@ var learn = {
 			.merge(countriesCircles)
 			.transition()
 	    	.duration(2000)
-	    	.attr("cx", function(d) { return d.x; })
+	    	.attr("cx", function(d) { return d.x + offset; })
 	    	.attr("cy", function(d) { return d.y; });
 
 		// var g = graph.append("g")
