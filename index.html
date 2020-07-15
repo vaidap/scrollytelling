@@ -353,70 +353,14 @@ learn.add_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x_3);
 
 var height = 50 //TODO refactor, this is used for the rectangle actually
 
-// create tooltips
-// TODO refactor this into learn.js
+// CREATE TOOLTIPS
+
 // TODO handle overlapping elements, by writing a function that gives priority for tooltip https://www.sitepoint.com/community/t/determine-if-mouse-is-over-an-element/4239/2
 // TODO handle z-index sorting for highlighting
 
-
-var tooltip = d3.select("body")
-	.append("div")
-	.style("position", "absolute")
-	.style("z-index", "10")
-	.style("visibility", "hidden")
-	.style("color","blue")
-	.style("font-size", "18px")
-	.style("background-color", "white")
-    .style("border", "solid")
-    .style("border-color","blue")
-    .style("border-width", "2px")
-    .style("border-radius", "5px")
-    .style("padding", "5px")
-    .text("a simple tooltip");
-
-var mouseover = function(d) {
-	tooltip
-	  .style("visibility", "visible");
-    d3.select(this)
-	  .attr("stroke", "blue")
-	  .style("stroke-width", 5)
-
-	if (this.id == "svg3-rect") {
-		tooltip.text("Interquartile Range: " + svg3_stats.interQuantileRange + " (" + svg3_stats.q1 + " to " + svg3_stats.q3 + ")")
-	}
-	else if (this.id == "svg3-min") {
-		tooltip.text("Minimum: " + svg3_stats.min)
-	}
-	else if (this.id == "svg3-max") {
-		tooltip.text("Maximum: " + svg3_stats.max)
-	}
-  }
-
-var mousemove = function(d) {
-	tooltip
-	  .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
-	}
-
-var mouseleave = function(d) {
-	tooltip
-	  .style("visibility", "hidden");
-    d3.select(this)
-	  .attr("stroke", "grey")
-	  .style("stroke-width", 3)
-  }
-
-//TODO this doesn't add actual handling of tooltip, which is above
-function add_tooltip(graph, element_id) {
-
-	graph.select(element_id)
-		.on("mouseover", mouseover)
-	    .on("mousemove", mousemove)
-	    .on("mouseleave", mouseleave)
-}	
-
-add_tooltip(svg3, "#svg3-rect");
-add_tooltip(svg3, "#svg3-min");
-add_tooltip(svg3, "#svg3-max");
+learn.add_tooltip(svg3, "#svg3-max", "Maximum: " + svg3_stats.max);
+learn.add_tooltip(svg3, "#svg3-min", "Minimum: " + svg3_stats.min);
+learn.add_tooltip(svg3, "#svg3-rect", "Interquartile Range: " + svg3_stats.interQuantileRange + " (" + svg3_stats.q1 + " to " + svg3_stats.q3 + ")");
 
 // TODO refactor visualisations to create all elements at the same time, then toggle visibility instead of creating in steps
 // TODO make variables for colours, stroke-weight

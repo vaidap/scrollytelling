@@ -573,6 +573,53 @@ var learn = {
 	          .style("stroke-width", 1)
 		}
 
+	},
+
+	add_tooltip: function(graph, element_id, value) {
+
+	var tooltip = d3.select("body")
+		.append("div")
+		.style("position", "absolute")
+		.style("z-index", "10")
+		.style("visibility", "hidden")
+		.style("color","blue")
+		.style("font-size", "18px")
+		.style("background-color", "white")
+	    .style("border", "solid")
+	    .style("border-color","blue")
+	    .style("border-width", "2px")
+	    .style("border-radius", "5px")
+	    .style("padding", "5px")
+	    .text("a simple tooltip");
+
+	var mouseover = function(d) {
+		tooltip
+		  .style("visibility", "visible");
+	    d3.select(this)
+		  .attr("stroke", "blue")
+		  .style("stroke-width", 5)
+
+		tooltip.text(value)
+	  }
+
+	var mousemove = function(d) {
+		tooltip
+		  .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
+	}
+
+	var mouseleave = function(d) {
+		tooltip
+		  .style("visibility", "hidden");
+	    d3.select(this)
+		  .attr("stroke", "grey")
+		  .style("stroke-width", 3)
+	  }
+
+
+	graph.select(element_id)
+		.on("mouseover", mouseover)
+	    .on("mousemove", mousemove)
+	    .on("mouseleave", mouseleave)
 	}
 
 }
