@@ -353,15 +353,6 @@ learn.add_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x_3);
 
 var height = 50 //TODO refactor, this is used for the rectangle actually
 
-// CREATE TOOLTIPS
-
-// TODO handle overlapping elements, by writing a function that gives priority for tooltip https://www.sitepoint.com/community/t/determine-if-mouse-is-over-an-element/4239/2
-// TODO handle z-index sorting for highlighting
-
-learn.add_tooltip(svg3, "#svg3-max", "Maximum: " + svg3_stats.max);
-learn.add_tooltip(svg3, "#svg3-min", "Minimum: " + svg3_stats.min);
-learn.add_tooltip(svg3, "#svg3-rect", "Interquartile Range: " + svg3_stats.interQuantileRange + " (" + svg3_stats.q1 + " to " + svg3_stats.q3 + ")");
-
 // TODO refactor visualisations to create all elements at the same time, then toggle visibility instead of creating in steps
 // TODO make variables for colours, stroke-weight
 
@@ -405,6 +396,10 @@ learn.update_boxplot(svg3, "svg3", svg3_settings, svg3_stats, x_3);
 learn.add_beeswarm(svg3, "sandbox-beeswarm", svg3_settings, learn.array_to_object(data), x_3, "", offset=-100);
 // learn.update_beeswarm(svg3,"sandbox-beeswarm", svg3_settings, learn.array_to_object(data), x_3, offset=-130);
 
+learn.add_tooltip(svg3, "#svg3-max", "Maximum: " + svg3_stats.max);
+learn.add_tooltip(svg3, "#svg3-min", "Minimum: " + svg3_stats.min);
+learn.add_tooltip(svg3, "#svg3-rect", "Interquartile Range: " + svg3_stats.interQuantileRange + " (" + svg3_stats.q1 + " to " + svg3_stats.q3 + ")");
+
 };
 
 for (var i = 0; i < elements.length; i++) {
@@ -431,6 +426,7 @@ svg2_settings = {
 }
 
 const_data = [45, 58, 88, 111, 125, 140, 155, 168, 170, 195, 211, 224, 235, 255, 260, 285, 320, 333, 380];
+svg2_stats = learn.calculate_stats(const_data);
 
 var values_2 = learn.init_svg(".container-2 #graph", svg2_settings);
 var svg2 = values_2[0];
@@ -458,14 +454,12 @@ var x_2 = values_2[1];
           .attr("xlink:href", "images/" + const_squares_2[i] + ".jpg")
           .attr("opacity", 0) // TODO testing
 
-    	console.log(i);
-
 		if (i == 0) {
 
 			//TODO change classes to ids for highlights
 			//TODO refactor so you can just specify for which graph you want to turn on the scale
 			learn.show_scale(svg2, svg2_settings, x_2);
-			learn.add_boxplot(svg2, "const", svg2_settings, learn.calculate_stats(const_data), x_2, "");
+			learn.add_boxplot(svg2, "const", svg2_settings, svg2_stats, x_2, "");
 			svg2.selectAll(".const").style("opacity", 0);
 
 		}
@@ -736,6 +730,24 @@ learn.hover_text("median-hl", svg3, "line.median-line");
 learn.hover_text("iqr-hl", svg3, "rect");
 learn.hover_text("q1-hl", svg3, "line.q1-line");
 learn.hover_text("q3-hl", svg3, "line.q3-line");
+
+// END ----------------------------------------------------------
+
+
+// tooltips -----------------------------------------------------
+
+// TODO handle overlapping elements, by writing a function that gives priority for tooltip https://www.sitepoint.com/community/t/determine-if-mouse-is-over-an-element/4239/2
+// TODO handle z-index sorting for highlighting
+
+svg2.select(".max-line").attr("stroke", "blue"); // because it's getting regenerated or? does this need selectAll? check how it works in opacity and hover
+
+learn.add_tooltip(svg2, "const-max", "Maximum: " + svg2_stats.max);
+learn.add_tooltip(svg2, "#const-min", "Minimum: " + svg2_stats.min);
+learn.add_tooltip(svg2, "#const-rect", "Interquartile Range: " + svg2_stats.interQuantileRange + " (" + svg2_stats.q1 + " to " + svg2_stats.q3 + ")");
+
+learn.add_tooltip(svg3, "#svg3-max", "Maximum: " + svg3_stats.max);
+learn.add_tooltip(svg3, "#svg3-min", "Minimum: " + svg3_stats.min);
+learn.add_tooltip(svg3, "#svg3-rect", "Interquartile Range: " + svg3_stats.interQuantileRange + " (" + svg3_stats.q1 + " to " + svg3_stats.q3 + ")");
 
 // END ----------------------------------------------------------
 
