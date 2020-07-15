@@ -369,8 +369,6 @@ var learn = {
 			  .attr("y1", x(data.min))
 			  .attr("y2", x(data.max))
 
-			console.log(graph_id + " q1: " + x(data.q1) + " q3: " + x(data.q3));
-
 			graph
 			.select("#" + graph_id + "-rect")
 				.transition()

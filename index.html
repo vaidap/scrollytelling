@@ -369,11 +369,8 @@ var update_datavis = function() {
   $("table#test-table tr td input.dataval").each(function() {  
     data.push(Number($(this).val()));
 });
-  console.log("after taking from html")
-  console.log(data)
 
   svg3_stats = learn.calculate_stats(data);
-  console.log(data)
 
   //reupdate range & ticks
   x_3.domain([24, 0]);
