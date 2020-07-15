@@ -495,6 +495,12 @@ var x_2 = values_2[1];
 
 			learn.make_visible(svg2, "rect", true);
 			learn.make_visible(svg2, "rect-text", true);
+
+			// TOOLTIPS
+
+			learn.add_tooltip(svg2, ".min-line", "Minimum: " + svg2_stats.min);
+			learn.add_tooltip(svg2, ".maxn-line", "Maximum: " + svg2_stats.max);
+			learn.add_tooltip(svg2, "rect", "Interquartile Range: " + svg2_stats.interQuantileRange + " (" + svg2_stats.q1 + " to " + svg2_stats.q3 + ")");
 		}
 		else if (i == 4) {
 			learn.make_visible(svg2, "min-line", true);
@@ -738,12 +744,6 @@ learn.hover_text("q3-hl", svg3, "line.q3-line");
 
 // TODO handle overlapping elements, by writing a function that gives priority for tooltip https://www.sitepoint.com/community/t/determine-if-mouse-is-over-an-element/4239/2
 // TODO handle z-index sorting for highlighting
-
-svg2.select(".max-line").attr("stroke", "blue"); // because it's getting regenerated or? does this need selectAll? check how it works in opacity and hover
-
-learn.add_tooltip(svg2, "const-max", "Maximum: " + svg2_stats.max);
-learn.add_tooltip(svg2, "#const-min", "Minimum: " + svg2_stats.min);
-learn.add_tooltip(svg2, "#const-rect", "Interquartile Range: " + svg2_stats.interQuantileRange + " (" + svg2_stats.q1 + " to " + svg2_stats.q3 + ")");
 
 learn.add_tooltip(svg3, "#svg3-max", "Maximum: " + svg3_stats.max);
 learn.add_tooltip(svg3, "#svg3-min", "Minimum: " + svg3_stats.min);
