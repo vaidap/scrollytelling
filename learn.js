@@ -451,8 +451,9 @@ var learn = {
   //           .append("g")
   //           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  		// console.log(center - offset); // TODO fix offset
 	    var simulation = d3.forceSimulation(data)
-			.force("x", d3.forceX(width / 2))
+			.force("x", d3.forceX(width / 1.8)) // default is 2, this makes it look a bit nicer bc offset doesn't seem to work for sandbox
 	    	.force("y", d3.forceY(function(d) { return x(d.value); }).strength(1.6)) // for some reason in sandbox it's not well-aligned to axis so setting strength to this specific value is a quickfix
 	    	.force("collide", d3.forceCollide(6))
 	    	.stop();
