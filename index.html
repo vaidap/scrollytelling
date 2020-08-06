@@ -441,15 +441,15 @@ var x_2 = values_2[1];
       .sections(d3.selectAll('.container-2 #sections > div'))
       .on('active', function(i){ // JUMP
 
-        var const_squares_2 = ["const_1", "const_2", "const_3", "const_3", "const_4"]
+        // var const_squares_2 = ["const_1", "const_2", "const_3", "const_3", "const_4"]
 
-        svg2.append("svg:image")
-          .attr('x', -40)
-          .attr('y', 50)
-          .attr('width', 500)
-          .attr('height', 96)
-          .attr("xlink:href", "images/" + const_squares_2[i] + ".jpg")
-          .attr("opacity", 0) // TODO testing
+        // svg2.append("svg:image")
+        //   .attr('x', -40)
+        //   .attr('y', 50)
+        //   .attr('width', 500)
+        //   .attr('height', 96)
+        //   .attr("xlink:href", "images/" + const_squares_2[i] + ".jpg")
+        //   .attr("opacity", 0) // TODO testing
 
 		if (i == 0) {
 
@@ -458,6 +458,12 @@ var x_2 = values_2[1];
 			learn.show_scale(svg2, svg2_settings, x_2);
 			learn.add_boxplot(svg2, "const", svg2_settings, svg2_stats, x_2, "");
 			svg2.selectAll(".const").style("opacity", 0);
+
+			// TOOLTIPS
+
+			learn.add_tooltip(svg2, ".min-line", "Minimum: " + svg2_stats.min);
+			learn.add_tooltip(svg2, ".max-line", "Maximum: " + svg2_stats.max);
+			learn.add_tooltip(svg2, "rect", "Interquartile Range: " + svg2_stats.interQuantileRange + " (" + svg2_stats.q1 + " to " + svg2_stats.q3 + ")");
 
 		}
 
@@ -493,11 +499,6 @@ var x_2 = values_2[1];
 			learn.make_visible(svg2, "rect", true);
 			learn.make_visible(svg2, "rect-text", true);
 
-			// TOOLTIPS
-
-			learn.add_tooltip(svg2, ".min-line", "Minimum: " + svg2_stats.min);
-			learn.add_tooltip(svg2, ".maxn-line", "Maximum: " + svg2_stats.max);
-			learn.add_tooltip(svg2, "rect", "Interquartile Range: " + svg2_stats.interQuantileRange + " (" + svg2_stats.q1 + " to " + svg2_stats.q3 + ")");
 		}
 		else if (i == 4) {
 			learn.make_visible(svg2, "min-line", true);
@@ -754,10 +755,6 @@ learn.hover_text("q3-hl", svg3, "line.q3-line");
 learn.add_tooltip(svg3, "#svg3-max", "Maximum: " + svg3_stats.max);
 learn.add_tooltip(svg3, "#svg3-min", "Minimum: " + svg3_stats.min);
 learn.add_tooltip(svg3, "#svg3-rect", "Interquartile Range: " + svg3_stats.interQuantileRange + " (" + svg3_stats.q1 + " to " + svg3_stats.q3 + ")");
-
-learn.add_tooltip(svg2, "#svg2-max", "Maximum: " + svg2_stats.max);
-learn.add_tooltip(svg2, "#svg2-min", "Minimum: " + svg2_stats.min);
-learn.add_tooltip(svg2, "#svg2-rect", "Interquartile Range: " + svg2_stats.interQuantileRange + " (" + svg2_stats.q1 + " to " + svg2_stats.q3 + ")");
 
 // END ----------------------------------------------------------
 
