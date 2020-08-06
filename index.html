@@ -68,24 +68,24 @@
 
     <div>
       <h3 id="const-link">Construction</h3>
-      As a first step, let's learn how to construct a boxplot from snowfall data from one mountain. To start, we can <span class="bolded">order the values in the data by ascending order</span>.
+      As a first step, let's learn how to construct a boxplot from snowfall data from one mountain. To start, we can <span class="bolded">plot the snowfall data for all years</span>.
     </div>
 
     <div>
-      By <span class="bolded">splitting the data into two equal groups</span>, we obtain the middle value, called the <span class="hl-word const-median-hl">median</span>. <span class="blue-note">(By the way, you can hover over blue elements to highlight them in the visualisation. Try it with "median" in the previous sentence!)</span>
+      By <span class="bolded">splitting the data into two groups with equal number of data points</span>, we obtain the middle value, called the <span class="hl-word const-median-hl">median</span>. <span class="blue-note">(By the way, you can hover over blue elements to highlight them in the visualisation. Try it with "median" in the previous sentence!)</span>
     </div>
 
 
     <div>
-      The median values obtained by <span class="bolded">splitting the lower and higher halves</span> are called the <span class="hl-word const-q1-hl">first quartile</span> and <span class="hl-word const-q3-hl">third quartile</span>.
+      The median values obtained by <span class="bolded">splitting the lower and higher halves into equal groups themselves</span> are called the <span class="hl-word const-q1-hl">first quartile</span> and <span class="hl-word const-q3-hl">third quartile</span>. The quartiles split the data into... quarters.
     </div>
 
     <div>
-      We link these three values with a <span class="bolded">box</span>, which is called the <span class="hl-word const-iqr-hl">interquartile range</span>.
+      We link these three values with a <span class="bolded">box</span>, which is called the <span class="hl-word const-iqr-hl">interquartile range</span>. It contains half of the data points.
     </div>
 
     <div class="last-div">
-      Finally, we plot the <span class="hl-word const-min-hl">minimum</span> and <span class="hl-word const-max-hl">maximum</span>, which make the "whiskers" of our graph. This completes our boxplot!
+      Finally, we plot the <span class="hl-word const-min-hl">minimum</span> and <span class="hl-word const-max-hl">maximum</span>, which make the "whiskers" of our "box-and-whisker" plot, or boxplot!
     </div>
   </div>
 
@@ -234,7 +234,7 @@
 
     <div>
 	  <h3>Answering questions</h3>
-      Great! We know understand how boxplots work. But how do we use boxplots to make a decision?
+      Great! We now understand how boxplots work. But how do we use boxplots to make a decision?
     </div>
 
     <div>
@@ -262,10 +262,11 @@
     We can look for the mountain with a <span class="bolded">smaller variance</span>, and the <span class ="bolded">greatest chance</span> to receive snowfall more than a certain value, say, <span class="bolded">200cm</span>.
    </div>
     <div>
-    That would be mountain 2!
+    That would be mountain 2! Since its <span class="hl-word answer-median-hl">median</span> is above 200cm, it gets more than 200cm of snow more than half the time. <br><br>This is the case for mountain 1 only a quarter of the time.<br>
    </div>
    <div style="min-height: 400px;">
     Amazing, we've learnt a lot. Now I can't wait for the Easter Holidays!
+    <h3>The End</h3>
    </div>
   </div>
 
@@ -739,6 +740,8 @@ learn.hover_text("const-q3-hl", svg2, "line.q3-line");
 learn.hover_text("const-iqr-hl", svg2, "rect");
 learn.hover_text("const-min-hl", svg2, "line.min-line");
 learn.hover_text("const-max-hl", svg2, "line.max-line");
+
+learn.hover_text("answer-median-hl", svg4, "#mountain_2-med");
 
 // END ------------------------------------------------------
 
