@@ -605,6 +605,10 @@ var mountain_2_stats = learn.calculate_stats(mountain_2);
             // TODO update the highlighting id references to match this
             learn.add_boxplot(svg4, "mountain_1", svg4_settings, mountain_1_stats, x_4, "The Snowy Peak", offset=100);
 
+            learn.add_tooltip(svg4, "#mountain_1-max", "Maximum: " + mountain_1_stats.max);
+			learn.add_tooltip(svg4, "#mountain_1-min", "Minimum: " + mountain_1_stats.min);
+			learn.add_tooltip(svg4, "#mountain_1-rect", "Interquartile Range: " + mountain_1_stats.interQuantileRange + " (" + mountain_1_stats.q1 + " to " + mountain_1_stats.q3 + ")");
+
         }
 
         else if (i == 3) {
@@ -612,6 +616,10 @@ var mountain_2_stats = learn.calculate_stats(mountain_2);
        	// TODO if you scroll too quickly the boxplots do not appear
         // TODO update the highlighting id references to match this
         learn.add_boxplot(svg4, "mountain_2", svg4_settings, mountain_2_stats, x_4, "The Cursed Hill");
+
+        learn.add_tooltip(svg4, "#mountain_2-max", "Maximum: " + mountain_2_stats.max);
+		learn.add_tooltip(svg4, "#mountain_2-min", "Minimum: " + mountain_2_stats.min);
+		learn.add_tooltip(svg4, "#mountain_2-rect", "Interquartile Range: " + mountain_2_stats.interQuantileRange + " (" + mountain_2_stats.q1 + " to " + mountain_2_stats.q3 + ")");
         
         }
 
@@ -746,6 +754,10 @@ learn.hover_text("q3-hl", svg3, "line.q3-line");
 learn.add_tooltip(svg3, "#svg3-max", "Maximum: " + svg3_stats.max);
 learn.add_tooltip(svg3, "#svg3-min", "Minimum: " + svg3_stats.min);
 learn.add_tooltip(svg3, "#svg3-rect", "Interquartile Range: " + svg3_stats.interQuantileRange + " (" + svg3_stats.q1 + " to " + svg3_stats.q3 + ")");
+
+learn.add_tooltip(svg2, "#svg2-max", "Maximum: " + svg2_stats.max);
+learn.add_tooltip(svg2, "#svg2-min", "Minimum: " + svg2_stats.min);
+learn.add_tooltip(svg2, "#svg2-rect", "Interquartile Range: " + svg2_stats.interQuantileRange + " (" + svg2_stats.q1 + " to " + svg2_stats.q3 + ")");
 
 // END ----------------------------------------------------------
 
